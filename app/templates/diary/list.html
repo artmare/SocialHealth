@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block title %}Мой дневник — SocialHealth{% endblock %}
+
+{% block styles %}
+<style>
+    .diary-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .diary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .diary-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn-new {
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--accent), #6d28d9);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-new:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(124,58,237,0.35);
+    }
+
+    .entry-card {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        transition: transform 0.2s, border-color 0.2s;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .entry-card:hover {
+        border-color: rgba(124,58,237,0.3);
+        transform: translateY(-2px);
+    }
+
+    .entry-indicator {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        font-weight: 700;
+        flex-shrink: 0;
+        color: white;
+    }
+
+    .entry-indicator.low    { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .entry-indicator.medium { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .entry-indicator.high   { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+
+    .entry-body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .entry-date {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+    }
+
+    .entry-preview {
+        font-size: 0.95rem;
+        color: var(--text);
+        line-height: 1.5;
+        margin-bottom: 10px;
+        word-break: break-word;
+    }
+
+    .entry-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .tag {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        background: rgba(124,58,237,0.15);
+        color: var(--accent-light);
+        border: 1px solid rgba(124,58,237,0.2);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+    }
+
+    .empty-state h2 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+        color: var(--text);
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+        font-size: 0.9rem;
+    }
+
+    .pagination a {
+        color: var(--accent-light);
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        background: rgba(124,58,237,0.15);
+        transition: background 0.2s;
+    }
+
+    .pagination a:hover {
+        background: rgba(124,58,237,0.3);
+    }
+
+    .pagination a.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .pagination span {
+        color: var(--text-muted);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="diary-wrapper">
+    <div class="diary-header">
+        <h1>Мой дневник эмоций</h1>
+        <a href="{{ url_for('diary.new') }}" class="btn-new">+ Новая запись</a>
+    </div>
+
+    {% if not entries %}
+        <div class="empty-state">
+            <h2>Пока нет записей</h2>
+            <p>Создайте первую запись, чтобы начать отслеживать свои переживания.</p>
+        </div>
+    {% endif %}
+
+    {% for entry in entries %}
+        <a href="{{ url_for('diary.detail', entry_id=entry.id) }}" style="text-decoration:none; display:block;">
+            <div class="entry-card">
+                <div class="entry-indicator {% if entry.anxiety_level <= 3 %}low{% elif entry.anxiety_level <= 6 %}medium{% else %}high{% endif %}">
+                    {{ entry.anxiety_level }}
+                </div>
+                <div class="entry-body">
+                    <div class="entry-date">{{ entry.date.strftime('%d %B %Y') }}</div>
+                    <div class="entry-preview">{{ entry.text[:100] }}{% if entry.text|length > 100 %}...{% endif %}</div>
+                    {% if entry.emotions %}
+                        <div class="entry-tags">
+                            {% for emotion in entry.emotions %}
+                                <span class="tag">{{ emotion }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+
+    {% if total_pages > 1 %}
+        <div class="pagination">
+            <a href="{{ url_for('diary.index', page=page-1) }}" class="{% if page <= 1 %}disabled{% endif %}">&#8592; Назад</a>
+            <span>Страница {{ page }} из {{ total_pages }}</span>
+            <a href="{{ url_for('diary.index', page=page+1) }}" class="{% if page >= total_pages %}disabled{% endif %}">Далее &#8594;</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

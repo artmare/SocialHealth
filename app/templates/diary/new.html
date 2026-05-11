@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+{% block title %}Новая запись — SocialHealth{% endblock %}
+
+{% block styles %}
+<style>
+    .diary-wrapper {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .diary-card {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        padding: 32px;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .diary-card h1 {
+        font-size: 1.5rem;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .form-section {
+        margin-bottom: 28px;
+    }
+
+    .form-section label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 12px;
+    }
+
+    .slider-row input[type="range"] {
+        flex: 1;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 4px;
+        outline: none;
+    }
+
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), #6d28d9);
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(124,58,237,0.4);
+    }
+
+    .slider-value {
+        font-size: 2rem;
+        font-weight: 700;
+        min-width: 48px;
+        text-align: center;
+        background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .emoji-scale {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.4rem;
+        padding: 0 4px;
+        margin-top: 4px;
+    }
+
+    .emotion-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    @media (min-width: 480px) {
+        .emotion-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .emotion-btn {
+        padding: 10px 8px;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        background: rgba(0,0,0,0.2);
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .emotion-btn:hover {
+        border-color: var(--accent);
+        color: var(--text);
+    }
+
+    .emotion-btn.selected {
+        background: rgba(124,58,237,0.25);
+        border-color: var(--accent);
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 140px;
+        padding: 14px;
+        background: rgba(0,0,0,0.25);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        color: var(--text);
+        font-size: 0.95rem;
+        resize: vertical;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+    }
+
+    .char-counter {
+        text-align: right;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 6px;
+    }
+
+    .char-counter.over { color: var(--danger); }
+
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--accent), #6d28d9);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124,58,237,0.35);
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: wait;
+        transform: none;
+    }
+
+    .anxiety-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        padding: 0 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="diary-wrapper">
+    <div class="diary-card">
+        <h1>Новая запись в дневнике</h1>
+        <form method="POST" action="{{ url_for('diary.create') }}" id="entryForm">
+            <div class="form-section">
+                <label>Уровень тревоги</label>
+                <div class="slider-row">
+                    <input type="range" id="anxietySlider" name="anxiety_level" min="1" max="10" value="5">
+                    <div class="slider-value" id="sliderValue">5</div>
+                </div>
+                <div class="emoji-scale">
+                    <span id="emoji1">&#128522;</span>
+                    <span id="emoji2">&#128528;</span>
+                    <span id="emoji3">&#128543;</span>
+                    <span id="emoji4">&#128552;</span>
+                    <span id="emoji5">&#128561;</span>
+                </div>
+                <div class="anxiety-labels">
+                    <span>Спокойно</span>
+                    <span>Паника</span>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label>Что вы чувствуете? (можно выбрать несколько)</label>
+                <div class="emotion-grid">
+                    <button type="button" class="emotion-btn" data-value="Страх">Страх</button>
+                    <button type="button" class="emotion-btn" data-value="Стыд">Стыд</button>
+                    <button type="button" class="emotion-btn" data-value="Одиночество">Одиночество</button>
+                    <button type="button" class="emotion-btn" data-value="Раздражение">Раздражение</button>
+                    <button type="button" class="emotion-btn" data-value="Грусть">Грусть</button>
+                    <button type="button" class="emotion-btn" data-value="Вина">Вина</button>
+                    <button type="button" class="emotion-btn" data-value="Беспомощность">Беспомощность</button>
+                    <button type="button" class="emotion-btn" data-value="Напряжение">Напряжение</button>
+                    <button type="button" class="emotion-btn" data-value="Неуверенность">Неуверенность</button>
+                    <button type="button" class="emotion-btn" data-value="Смущение">Смущение</button>
+                    <button type="button" class="emotion-btn" data-value="Паника">Паника</button>
+                    <button type="button" class="emotion-btn" data-value="Подавленность">Подавленность</button>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <label for="textField">Опишите, что вас беспокоит сегодня</label>
+                <textarea id="textField" name="text" maxlength="2000"
+                    placeholder="Опишите, что вас беспокоит сегодня..."></textarea>
+                <div class="char-counter" id="charCounter">0 / 2000</div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Сохранить запись</button>
+        </form>
+    </div>
+</div>
+
+<script>
+(function() {
+    const slider = document.getElementById('anxietySlider');
+    const valueDisplay = document.getElementById('sliderValue');
+    const emojis = [
+        document.getElementById('emoji1'),
+        document.getElementById('emoji2'),
+        document.getElementById('emoji3'),
+        document.getElementById('emoji4'),
+        document.getElementById('emoji5')
+    ];
+    const emojiMap = [
+        { min: 1, max: 2, idx: 0 },
+        { min: 3, max: 4, idx: 1 },
+        { min: 5, max: 6, idx: 2 },
+        { min: 7, max: 8, idx: 3 },
+        { min: 9, max: 10, idx: 4 }
+    ];
+
+    function updateSlider() {
+        const v = parseInt(slider.value, 10);
+        valueDisplay.textContent = v;
+        emojis.forEach(e => e.style.opacity = '0.3');
+        const match = emojiMap.find(r => v >= r.min && v <= r.max);
+        if (match) emojis[match.idx].style.opacity = '1';
+    }
+
+    slider.addEventListener('input', updateSlider);
+    updateSlider();
+
+    // Emotion buttons toggle
+    document.querySelectorAll('.emotion-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('selected');
+            updateHiddenEmotions();
+        });
+    });
+
+    function updateHiddenEmotions() {
+        // Remove existing hidden inputs
+        document.querySelectorAll('input[name="emotions"]').forEach(i => i.remove());
+        document.querySelectorAll('.emotion-btn.selected').forEach(btn => {
+            const inp = document.createElement('input');
+            inp.type = 'hidden';
+            inp.name = 'emotions';
+            inp.value = btn.dataset.value;
+            document.getElementById('entryForm').appendChild(inp);
+        });
+    }
+
+    // Character counter
+    const textField = document.getElementById('textField');
+    const counter = document.getElementById('charCounter');
+    textField.addEventListener('input', () => {
+        const len = textField.value.length;
+        counter.textContent = len + ' / 2000';
+        counter.classList.toggle('over', len > 2000);
+    });
+
+    // Loading state
+    const form = document.getElementById('entryForm');
+    const submitBtn = document.getElementById('submitBtn');
+    form.addEventListener('submit', () => {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Сохранение...';
+    });
+})();
+</script>
+{% endblock %}

@@ -50,6 +50,7 @@
             font-weight: 700;
             background: linear-gradient(90deg, var(--accent-light), var(--accent));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
@@ -195,9 +196,8 @@
             .main { margin-left: 250px; }
             .overlay { display: none !important; }
         }
-
-        {% block styles %}{% endblock %}
     </style>
+    {% block styles %}{% endblock %}
 </head>
 <body>
     <nav class="navbar">
