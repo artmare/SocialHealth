@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация — SocialHealth{% endblock %}
+
+{% block styles %}
+<style>
+    .auth-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .auth-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 40px;
+        width: 100%;
+        max-width: 420px;
+        animation: fadeIn 0.7s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-card h1 {
+        font-size: 1.75rem;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .auth-card p {
+        color: var(--text-muted);
+        text-align: center;
+        margin-bottom: 28px;
+        font-size: 0.9rem;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(0,0,0,0.25);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+    }
+
+    .form-group .error {
+        color: var(--danger);
+        font-size: 0.8rem;
+        margin-top: 4px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--accent), #6d28d9);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin-top: 8px;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35);
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .auth-footer a {
+        color: var(--accent-light);
+        text-decoration: none;
+    }
+
+    .auth-footer a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1>Создать аккаунт</h1>
+        <p>Начните свой путь преодоления социальной тревожности</p>
+        <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(placeholder="Ваше имя") }}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(placeholder="you@example.com") }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(placeholder="Минимум 8 символов") }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(placeholder="Повторите пароль") }}
+                {% if form.confirm_password.errors %}
+                    {% for error in form.confirm_password.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                {% endif %}
+            </div>
+            <button type="submit" class="btn-primary">{{ form.submit.label.text }}</button>
+        </form>
+        <div class="auth-footer">
+            Уже есть аккаунт? <a href="{{ url_for('auth.login') }}">Войти</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

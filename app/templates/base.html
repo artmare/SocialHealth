@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SocialHealth{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0f0c29;
+            --bg-mid: #302b63;
+            --bg-light: #24243e;
+            --accent: #7c3aed;
+            --accent-light: #a78bfa;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --info: #3b82f6;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-mid) 50%, var(--bg-light) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            background: rgba(15, 12, 41, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .hamburger {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .sos-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .sos-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 56px; left: 0; bottom: 0;
+            width: 250px;
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(8px);
+            border-right: 1px solid rgba(255,255,255,0.06);
+            padding: 20px 0;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 900;
+        }
+
+        .sidebar.open { transform: translateX(0); }
+
+        .sidebar ul { list-style: none; }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .sidebar li a:hover {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--text);
+        }
+
+        .sidebar li a span { font-size: 1.1rem; }
+
+        .main {
+            margin-top: 56px;
+            padding: 20px;
+            flex: 1;
+            min-height: calc(100vh - 56px);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 850;
+        }
+
+        .overlay.show { display: block; }
+
+        .flash-container {
+            position: fixed;
+            top: 68px;
+            right: 16px;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 320px;
+        }
+
+        .flash {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            animation: slideIn 0.4s ease;
+            border-left: 4px solid;
+        }
+
+        .flash.success { background: rgba(34, 197, 94, 0.15); border-color: var(--success); }
+        .flash.error   { background: rgba(239, 68, 68, 0.15); border-color: var(--danger); }
+        .flash.info    { background: rgba(59, 130, 246, 0.15); border-color: var(--info); }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .footer {
+            padding: 16px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        @media (min-width: 768px) {
+            .hamburger { display: none; }
+            .nav-links { display: flex; }
+            .sidebar {
+                transform: translateX(0);
+                top: 56px;
+            }
+            .main { margin-left: 250px; }
+            .overlay { display: none !important; }
+        }
+
+        {% block styles %}{% endblock %}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('dashboard.index') }}" class="logo">SocialHealth</a>
+        <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('dashboard.index') }}">Дашборд</a></li>
+            <li><a href="{{ url_for('diary.index') }}">Дневник</a></li>
+            <li><a href="{{ url_for('tasks.index') }}">Задания</a></li>
+            <li><a href="{{ url_for('progress.index') }}">Прогресс</a></li>
+            <li><a href="{{ url_for('tips.index') }}">Советы</a></li>
+        </ul>
+        <a href="{{ url_for('sos.index') }}" class="sos-btn">SOS</a>
+    </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{{ url_for('dashboard.index') }}"><span>&#127968;</span> Дашборд</a></li>
+            <li><a href="{{ url_for('diary.index') }}"><span>&#128211;</span> Дневник тревоги</a></li>
+            <li><a href="{{ url_for('tasks.index') }}"><span>&#9989;</span> Задания</a></li>
+            <li><a href="{{ url_for('progress.index') }}"><span>&#128200;</span> Прогресс</a></li>
+            <li><a href="{{ url_for('tips.index') }}"><span>&#128161;</span> Советы</a></li>
+            <li><a href="{{ url_for('sos.index') }}"><span>&#128680;</span> SOS</a></li>
+            <li><a href="{{ url_for('profile.index') }}"><span>&#128100;</span> Профиль</a></li>
+        </ul>
+    </aside>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        SocialHealth не является медицинским сервисом. При серьёзных симптомах обратитесь к специалисту.
+    </footer>
+
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

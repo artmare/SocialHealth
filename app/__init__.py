@@ -13,7 +13,7 @@ def create_app(config_name="development"):
     limiter.init_app(app)
     csrf.init_app(app)
 
-    from app.api.auth import auth_bp
+    from app.routes.auth import auth_bp
     from app.views.diary import diary_bp
     from app.api.tasks import tasks_bp
     from app.views.dashboard import dashboard_bp

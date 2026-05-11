@@ -5,6 +5,13 @@ class BaseConfig:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "dev-jwt-secret")
     JWT_ACCESS_TOKEN_EXPIRES = 3600
+    JWT_REFRESH_TOKEN_EXPIRES = 2592000
+    JWT_TOKEN_LOCATION = ["cookies", "headers"]
+    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
+    JWT_REFRESH_COOKIE_NAME = "refresh_token_cookie"
+    JWT_COOKIE_SECURE = False
+    JWT_COOKIE_SAMESITE = "Lax"
+    JWT_COOKIE_CSRF_PROTECT = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = True
     RATELIMIT_STORAGE_URI = "memory://"
