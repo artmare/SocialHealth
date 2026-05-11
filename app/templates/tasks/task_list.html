@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}История заданий — SocialHealth{% endblock %}
+
+{% block styles %}
+<style>
+    .tasks-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .stats-bar {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 14px;
+        padding: 16px 24px;
+        margin-bottom: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stats-bar h1 {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+
+    .stats-numbers {
+        display: flex;
+        gap: 20px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .stats-numbers span { color: var(--text); font-weight: 600; }
+
+    .task-row {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: border-color 0.2s;
+    }
+
+    .task-row:hover { border-color: rgba(124,58,237,0.25); }
+
+    .difficulty-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .dot-easy   { background: #22c55e; }
+    .dot-medium { background: #f59e0b; }
+    .dot-hard   { background: #ef4444; }
+
+    .task-info { flex: 1; min-width: 0; }
+
+    .task-title-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .task-title-row strong {
+        font-size: 0.95rem;
+    }
+
+    .task-meta {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+    }
+
+    .task-status {
+        flex-shrink: 0;
+        font-size: 1.2rem;
+    }
+
+    .task-xp {
+        font-size: 0.85rem;
+        color: var(--accent-light);
+        font-weight: 600;
+        flex-shrink: 0;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+        font-size: 0.9rem;
+    }
+
+    .pagination a {
+        color: var(--accent-light);
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        background: rgba(124,58,237,0.15);
+        transition: background 0.2s;
+    }
+
+    .pagination a:hover { background: rgba(124,58,237,0.3); }
+    .pagination a.disabled { opacity: 0.4; pointer-events: none; }
+    .pagination span { color: var(--text-muted); }
+
+    .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        color: var(--text-muted);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="tasks-wrapper">
+    <div class="stats-bar">
+        <h1>История заданий</h1>
+        <div class="stats-numbers">
+            <div>Всего выполнено: <span>{{ completed_count or 0 }}</span></div>
+            <div>Заработано XP: <span>{{ total_xp_earned or 0 }}</span></div>
+        </div>
+    </div>
+
+    {% if not entries %}
+        <div class="empty-state">
+            <p>Пока нет заданий. Перейдите к заданию дня, чтобы начать.</p>
+        </div>
+    {% endif %}
+
+    {% for ut in entries %}
+        <div class="task-row">
+            <div class="difficulty-dot dot-{{ ut.task.difficulty }}"></div>
+            <div class="task-info">
+                <div class="task-title-row">
+                    <strong>{{ ut.task.title }}</strong>
+                    <span style="font-size:0.75rem;color:var(--text-muted);">
+                        {% if ut.task.category == 'breathing' %}&#128067;{%
+                        elif ut.task.category == 'cognition' %}&#129504;{%
+                        elif ut.task.category == 'social' %}&#129309;{%
+                        elif ut.task.category == 'body' %}&#129496;{%
+                        else %}&#9997;{% endif %}
+                        {{ ut.task.category }}
+                    </span>
+                </div>
+                <div class="task-meta">
+                    {% if ut.assigned_at %}{{ ut.assigned_at.strftime('%d %B %Y') }}{% endif %}
+                    {% if ut.completed_at %}— выполнено {{ ut.completed_at.strftime('%d %B %Y') }}{% endif %}
+                </div>
+            </div>
+            <div class="task-status">
+                {% if ut.completed %}&#9989;{% else %}&#9711;{% endif %}
+            </div>
+            <div class="task-xp">+{{ ut.task.xp_reward }}</div>
+        </div>
+    {% endfor %}
+
+    {% if total_pages > 1 %}
+        <div class="pagination">
+            <a href="{{ url_for('tasks.index', page=page-1) }}" class="{% if page <= 1 %}disabled{% endif %}">&#8592; Назад</a>
+            <span>Страница {{ page }} из {{ total_pages }}</span>
+            <a href="{{ url_for('tasks.index', page=page+1) }}" class="{% if page >= total_pages %}disabled{% endif %}">Далее &#8594;</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

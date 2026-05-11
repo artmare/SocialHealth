@@ -15,7 +15,7 @@ def create_app(config_name="development"):
 
     from app.routes.auth import auth_bp
     from app.routes.diary import diary_bp
-    from app.api.tasks import tasks_bp
+    from app.routes.tasks import tasks_bp
     from app.views.dashboard import dashboard_bp
     from app.views.progress import progress_bp
     from app.views.sos import sos_bp

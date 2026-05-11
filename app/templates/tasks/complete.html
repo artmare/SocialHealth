@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Выполнение задания — SocialHealth{% endblock %}
+
+{% block styles %}
+<style>
+    .tasks-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .complete-card {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        padding: 32px;
+        animation: fadeIn 0.6s ease-out;
+        text-align: center;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .complete-card h1 {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+    }
+
+    .task-name {
+        font-size: 1.1rem;
+        color: var(--accent-light);
+        margin-bottom: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 14px;
+        background: rgba(0,0,0,0.25);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        color: var(--text);
+        font-size: 0.95rem;
+        resize: vertical;
+        outline: none;
+    }
+
+    textarea:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--accent), #6d28d9);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124,58,237,0.35);
+    }
+
+    .result-block {
+        margin-top: 24px;
+        padding: 24px;
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.2);
+        border-radius: 16px;
+    }
+
+    .xp-anim {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: xpPop 0.8s ease-out;
+    }
+
+    @keyframes xpPop {
+        0%   { transform: scale(0.5); opacity: 0; }
+        50%  { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .level-up {
+        margin-top: 16px;
+        font-size: 1.2rem;
+        color: #a78bfa;
+        animation: levelPulse 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes levelPulse {
+        from { transform: scale(1); }
+        to   { transform: scale(1.05); }
+    }
+
+    .stats {
+        margin-top: 12px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="tasks-wrapper">
+    <div class="complete-card">
+        <h1>Выполнение задания</h1>
+        <div class="task-name">{{ task.title }}</div>
+
+        {% if not result %}
+            <form method="POST" action="{{ url_for('tasks.complete', task_id=task.id) }}">
+                <div class="form-group">
+                    <label for="feedback">Как прошло? Поделитесь впечатлениями</label>
+                    <textarea id="feedback" name="feedback"
+                        placeholder="Было страшно, но я справился..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Подтвердить выполнение</button>
+            </form>
+        {% else %}
+            <div class="result-block">
+                <div class="xp-anim">+{{ result.xp_earned }} XP!</div>
+                <div class="stats">
+                    Всего XP: {{ result.total_xp }} | Уровень: {{ result.new_level }} | Стрик: {{ result.streak }}
+                </div>
+                {% if result.leveled_up %}
+                    <div class="level-up">&#127881; Новый уровень! Уровень {{ result.new_level }} &#127881;</div>
+                {% endif %}
+            </div>
+            <a href="{{ url_for('tasks.index') }}" style="display:inline-block;margin-top:20px;color:var(--accent-light);text-decoration:none;">
+                &#8592; К истории заданий
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
