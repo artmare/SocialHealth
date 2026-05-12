@@ -1,0 +1,471 @@
+/* =========================================================
+   SocialHealth — SOS module styles
+   Спокойная палитра, без раздражающих цветов.
+   ========================================================= */
+
+:root {
+    --sos-bg-1: #0f0c29;
+    --sos-bg-2: #302b63;
+    --sos-bg-3: #24243e;
+    --sos-text: #e8eaf2;
+    --sos-text-muted: #aab0c5;
+    --sos-blue-dark: #2b3a67;
+    --sos-blue-light: #7fb8e8;
+    --sos-accent: #8b9dc3;
+    --sos-card-bg: rgba(255, 255, 255, 0.05);
+    --sos-card-border: rgba(255, 255, 255, 0.1);
+    --sos-emergency: #ef4444;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--sos-bg-1) 0%, var(--sos-bg-2) 50%, var(--sos-bg-3) 100%);
+    color: var(--sos-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+}
+
+.sos-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================== INDEX ============================== */
+
+.sos-title {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+
+.sos-subtitle {
+    text-align: center;
+    color: var(--sos-text-muted);
+    font-size: 1.05rem;
+    margin-bottom: 36px;
+}
+
+.sos-card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 720px) {
+    .sos-card-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.sos-card {
+    display: block;
+    background: var(--sos-card-bg);
+    border: 1px solid var(--sos-card-border);
+    border-radius: 18px;
+    padding: 28px 22px;
+    color: var(--sos-text);
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    animation: fadeIn 0.5s ease both;
+}
+
+.sos-card:hover,
+.sos-card:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--sos-blue-light);
+    background: rgba(127, 184, 232, 0.08);
+    outline: none;
+}
+
+.sos-card .icon {
+    font-size: 3rem;
+    line-height: 1;
+    display: block;
+    margin-bottom: 14px;
+}
+
+.sos-card .name {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.sos-card .desc {
+    font-size: 0.92rem;
+    color: var(--sos-text-muted);
+    line-height: 1.4;
+}
+
+.sos-card .phone {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 14px;
+    letter-spacing: 0.02em;
+    color: var(--sos-blue-light);
+}
+
+.sos-foot {
+    margin-top: auto;
+    padding-top: 30px;
+    text-align: center;
+    color: var(--sos-text-muted);
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+.sos-foot .danger {
+    color: var(--sos-emergency);
+    font-weight: 600;
+}
+
+.sos-foot a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* ============================== BACK LINK ============================== */
+
+.sos-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--sos-text-muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+    margin-bottom: 20px;
+}
+.sos-back:hover { background: rgba(255,255,255,0.06); color: var(--sos-text); }
+
+/* ============================== BREATHING ============================== */
+
+.breath-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 20px 0;
+}
+
+.breath-circle-wrap {
+    width: 320px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+@media (max-width: 480px) {
+    .breath-circle-wrap { width: 240px; height: 240px; }
+}
+
+.breath-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--sos-blue-dark), #1a2548 70%);
+    box-shadow: 0 0 60px rgba(127, 184, 232, 0.15);
+    color: var(--sos-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: width 0.25s linear, height 0.25s linear, background 0.25s linear,
+                box-shadow 0.25s linear;
+    will-change: width, height, background, box-shadow;
+    user-select: none;
+}
+
+@media (max-width: 480px) {
+    .breath-circle { width: 150px; height: 150px; font-size: 1.1rem; }
+}
+
+/* Фазы (применяются JS-ом — меняют размер и цвет плавно через transition) */
+.breath-circle.phase-inhale {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle at 30% 30%, var(--sos-blue-light), #4a7ec0 70%);
+    box-shadow: 0 0 100px rgba(127, 184, 232, 0.45);
+}
+@media (max-width: 480px) {
+    .breath-circle.phase-inhale { width: 220px; height: 220px; }
+}
+
+.breath-circle.phase-hold {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle at 30% 30%, var(--sos-blue-light), #4a7ec0 70%);
+    box-shadow: 0 0 100px rgba(127, 184, 232, 0.45);
+    animation: pulse 1.4s ease-in-out infinite;
+}
+@media (max-width: 480px) {
+    .breath-circle.phase-hold { width: 220px; height: 220px; }
+}
+
+.breath-circle.phase-exhale {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle at 30% 30%, var(--sos-blue-dark), #1a2548 70%);
+    box-shadow: 0 0 60px rgba(127, 184, 232, 0.15);
+}
+@media (max-width: 480px) {
+    .breath-circle.phase-exhale { width: 150px; height: 150px; }
+}
+
+.breath-info {
+    text-align: center;
+}
+
+.breath-phase {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    min-height: 1.8rem;
+}
+
+.breath-count {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--sos-blue-light);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+    min-height: 2.5rem;
+}
+
+.breath-cycle {
+    color: var(--sos-text-muted);
+    font-size: 0.9rem;
+}
+
+.breath-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.btn-sos {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--sos-card-border);
+    color: var(--sos-text);
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, border-color 0.2s;
+    font-family: inherit;
+}
+.btn-sos:hover {
+    background: rgba(127,184,232,0.12);
+    border-color: var(--sos-blue-light);
+}
+.btn-sos:active { transform: translateY(1px); }
+.btn-sos.primary {
+    background: linear-gradient(135deg, #4a7ec0, var(--sos-blue-light));
+    border-color: transparent;
+    color: #fff;
+}
+.btn-sos.primary:hover { filter: brightness(1.08); }
+
+.btn-sos:disabled,
+.btn-sos[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sound-toggle {
+    margin-top: 10px;
+    color: var(--sos-text-muted);
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* ============================== GROUNDING ============================== */
+
+.ground-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ground-progress {
+    margin: 14px 0 22px;
+}
+
+.ground-progress-label {
+    font-size: 0.85rem;
+    color: var(--sos-text-muted);
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.ground-progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.ground-progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--sos-blue-dark), var(--sos-blue-light));
+    transition: width 0.4s ease;
+}
+
+.ground-step {
+    background: var(--sos-card-bg);
+    border: 1px solid var(--sos-card-border);
+    border-radius: 16px;
+    padding: 28px 22px;
+    animation: slideInRight 0.4s ease;
+}
+
+.ground-step h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 18px;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.ground-step .step-icon {
+    font-size: 2.4rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.ground-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.ground-inputs input[type="text"] {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--sos-card-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--sos-text);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, background 0.2s;
+}
+.ground-inputs input[type="text"]:focus {
+    outline: none;
+    border-color: var(--sos-blue-light);
+    background: rgba(127,184,232,0.06);
+}
+.ground-inputs input::placeholder { color: rgba(170,176,197,0.6); }
+
+.ground-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ground-nav .group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.ground-finish {
+    text-align: center;
+    background: var(--sos-card-bg);
+    border: 1px solid var(--sos-card-border);
+    border-radius: 16px;
+    padding: 36px 24px;
+    animation: fadeIn 0.4s ease;
+}
+
+.ground-finish h2 {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+.ground-finish .hint {
+    color: var(--sos-text-muted);
+    margin-bottom: 22px;
+}
+
+.feel-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+}
+@media (max-width: 480px) {
+    .feel-buttons { grid-template-columns: 1fr; }
+}
+
+.feel-buttons .btn-sos { padding: 14px; font-size: 1rem; }
+
+.help-line {
+    display: none;
+    margin-top: 18px;
+    padding: 18px;
+    background: rgba(127, 184, 232, 0.08);
+    border: 1px solid rgba(127, 184, 232, 0.25);
+    border-radius: 12px;
+}
+.help-line.show { display: block; animation: fadeIn 0.3s ease; }
+.help-line .phone {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--sos-blue-light);
+    display: block;
+    margin: 6px 0;
+}
+.help-line a { color: var(--sos-blue-light); text-decoration: none; }
+
+/* ============================== ANIMATIONS ============================== */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(28px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1.0); opacity: 1; }
+    50%      { transform: scale(1.03); opacity: 0.93; }
+}
+
+/* Чисто декларативные keyframes (опционально могут использоваться вместо JS-классов) */
+@keyframes breathe-in  { from { transform: scale(1); } to { transform: scale(1.5); } }
+@keyframes breathe-hold{ 0%,100% { transform: scale(1.5); } 50% { transform: scale(1.53); } }
+@keyframes breathe-out { from { transform: scale(1.5); } to { transform: scale(1); } }
+
+/* ============================== ACCESSIBILITY ============================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+    }
+    .breath-circle.phase-hold { animation: none; }
+}

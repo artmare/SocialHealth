@@ -197,6 +197,28 @@
             .overlay { display: none !important; }
         }
     </style>
+    <style>
+        /* Мобильная плавающая кнопка SOS — всегда доступна */
+        .sos-floating {
+            display: none;
+            position: fixed;
+            right: 16px;
+            bottom: 20px;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: #fff !important;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 14px 22px;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.45);
+            z-index: 9999;
+            letter-spacing: 0.05em;
+        }
+        .sos-floating:hover { filter: brightness(1.1); }
+        @media (max-width: 767px) {
+            .sos-floating { display: inline-flex; align-items: center; gap: 6px; }
+        }
+    </style>
     {% block styles %}{% endblock %}
 </head>
 <body>
@@ -234,6 +256,8 @@
     <footer class="footer">
         SocialHealth не является медицинским сервисом. При серьёзных симптомах обратитесь к специалисту.
     </footer>
+
+    <a href="{{ url_for('sos.index') }}" class="sos-floating" aria-label="Открыть SOS-режим">🚨 SOS</a>
 
     <div class="flash-container">
         {% with messages = get_flashed_messages(with_categories=true) %}

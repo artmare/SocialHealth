@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>SOS — SocialHealth</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sos.css') }}">
+</head>
+<body>
+    <main class="sos-wrap">
+        <h1 class="sos-title">Всё будет хорошо. Ты в безопасности.</h1>
+        <p class="sos-subtitle">Выбери технику, которая поможет прямо сейчас:</p>
+
+        <nav class="sos-card-grid" aria-label="Техники самопомощи">
+            <a class="sos-card" href="{{ url_for('sos.breathing') }}">
+                <span class="icon" aria-hidden="true">🫁</span>
+                <div class="name">Дыхание 4-7-8</div>
+                <div class="desc">Управляемое дыхание для быстрого успокоения</div>
+            </a>
+
+            <a class="sos-card" href="{{ url_for('sos.grounding') }}">
+                <span class="icon" aria-hidden="true">🌍</span>
+                <div class="name">Заземление 5-4-3-2-1</div>
+                <div class="desc">Вернись в настоящий момент через органы чувств</div>
+            </a>
+
+            <a class="sos-card" href="tel:88002000122">
+                <span class="icon" aria-hidden="true">📞</span>
+                <div class="name">Позвонить специалисту</div>
+                <div class="desc">Телефон доверия — бесплатно, анонимно, 24/7</div>
+                <div class="phone">8-800-2000-122</div>
+            </a>
+        </nav>
+
+        <footer class="sos-foot">
+            <p>
+                Если вам или кому-то рядом угрожает опасность —
+                <a href="tel:112" class="danger">звоните 112</a>
+            </p>
+            <p>SocialHealth не является медицинским сервисом</p>
+        </footer>
+    </main>
+</body>
+</html>

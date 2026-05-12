@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Дыхание 4-7-8 — SOS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sos.css') }}">
+</head>
+<body>
+    <main class="sos-wrap">
+        <a class="sos-back" href="{{ url_for('sos.index') }}">← Назад</a>
+
+        <h1 class="sos-title" style="font-size: 1.4rem; margin-bottom: 4px;">Дыхание 4-7-8</h1>
+        <p class="sos-subtitle" style="margin-bottom: 0;">Следуй за кругом. Вдох носом, выдох ртом.</p>
+
+        <div class="breath-stage">
+            <div class="breath-circle-wrap" aria-hidden="true">
+                <div id="breathCircle" class="breath-circle phase-exhale"></div>
+            </div>
+
+            <div class="breath-info" aria-live="polite">
+                <div id="breathPhase" class="breath-phase">Готов?</div>
+                <div id="breathCount" class="breath-count">4</div>
+                <div id="breathCycle" class="breath-cycle">Цикл 1 из ∞</div>
+            </div>
+
+            <div class="breath-controls">
+                <button type="button" id="breathToggle" class="btn-sos primary">Старт</button>
+                <button type="button" id="breathReset" class="btn-sos">Сбросить</button>
+            </div>
+
+            <label class="sound-toggle">
+                <input type="checkbox" id="breathSound">
+                Тихий сигнал при смене фазы
+            </label>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/sos.js') }}"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-from flask import Flask, redirect, url_for
-from flask_jwt_extended import verify_jwt_in_request
+from flask import Flask, jsonify, redirect, request, url_for
+
 
 
 from config import config_map
@@ -22,7 +22,7 @@ def create_app(config_name="development"):
     from app.routes.tasks import tasks_bp
     from app.routes.dashboard import dashboard_bp
     from app.routes.progress import progress_bp
-    from app.views.sos import sos_bp
+    from app.routes.sos import sos_bp
     from app.views.profile import profile_bp
     from app.views.tips import tips_bp
     from app.routes.api import api_bp
@@ -38,13 +38,37 @@ def create_app(config_name="development"):
     app.register_blueprint(tips_bp, url_prefix="/tips")
     app.register_blueprint(api_bp, url_prefix="/api")
 
-    @app.get("/")
-    def root():
-        try:
-            verify_jwt_in_request(optional=False)
-            return redirect(url_for("dashboard.index"))
-        except Exception:
-            return redirect(url_for("auth.login"))
+    def _auth_failure(reason):
+        # HTML-навигация (GET с Accept: text/html и не /api/) → редирект на логин;
+        # всё остальное (API, AJAX, POST/PUT/DELETE, /auth/refresh и т.п.) → 401 JSON.
+        wants_html = (
+            request.method == "GET"
+            and not request.path.startswith("/api/")
+            and "text/html" in (request.accept_mimetypes.best or "")
+        )
+        if not wants_html:
+            return jsonify(error="unauthorized", reason=str(reason)), 401
+        return redirect(url_for("auth.login"))
+
+    @jwt.unauthorized_loader
+    def _on_missing(reason):
+        return _auth_failure(reason)
+
+    @jwt.invalid_token_loader
+    def _on_invalid(reason):
+        return _auth_failure(reason)
+
+    @jwt.expired_token_loader
+    def _on_expired(_jwt_header, _jwt_data):
+        return _auth_failure("token expired")
+
+
+
+
+
+
+
+
 
     with app.app_context():
         from app import models

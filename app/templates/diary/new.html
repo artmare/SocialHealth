@@ -190,6 +190,7 @@
     <div class="diary-card">
         <h1>Новая запись в дневнике</h1>
         <form method="POST" action="{{ url_for('diary.create') }}" id="entryForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="form-section">
                 <label>Уровень тревоги</label>
                 <div class="slider-row">

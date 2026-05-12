@@ -136,6 +136,7 @@
 
         {% if not result %}
             <form method="POST" action="{{ url_for('tasks.complete', task_id=task.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <label for="feedback">Как прошло? Поделитесь впечатлениями</label>
                     <textarea id="feedback" name="feedback"
