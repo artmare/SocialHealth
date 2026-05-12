@@ -1,0 +1,407 @@
+{% extends 'base.html' %}
+
+{% block title %}Прогресс — SocialHealth{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary: #4A90D9;
+        --accent2: #7C3AED;
+        --ok: #10B981;
+        --bad: #EF4444;
+    }
+
+    .prog-wrapper { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim { animation: fadeInUp 0.5s ease both; }
+    .anim-1 { animation-delay: 0.05s; }
+    .anim-2 { animation-delay: 0.15s; }
+    .anim-3 { animation-delay: 0.25s; }
+    .anim-4 { animation-delay: 0.35s; }
+    .anim-5 { animation-delay: 0.45s; }
+
+    .page-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 18px; }
+
+    .panel {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .panel h2 { font-size: 1.05rem; margin-bottom: 14px; }
+
+    /* Block 1 — week comparison */
+    .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+        text-align: center;
+    }
+    @media (max-width: 600px) {
+        .compare { grid-template-columns: 1fr; }
+    }
+    .compare .col {
+        background: rgba(255,255,255,0.04);
+        border-radius: 10px;
+        padding: 14px;
+    }
+    .compare .label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .compare .val   { font-size: 1.6rem; font-weight: 700; margin-top: 4px; }
+
+    .trend-pill {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+    .trend-improving { background: rgba(16,185,129,0.15); color: var(--ok); }
+    .trend-worsening { background: rgba(239,68,68,0.15); color: var(--bad); }
+    .trend-stable    { background: rgba(148,163,184,0.15); color: var(--text-muted); }
+
+    /* Charts */
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .controls button {
+        background: rgba(255,255,255,0.08);
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .controls button:hover { background: rgba(124,58,237,0.25); }
+    .controls button.active { background: linear-gradient(135deg, var(--primary), var(--accent2)); color: white; border-color: transparent; }
+
+    .chart-wrap { position: relative; height: 320px; width: 100%; }
+    .chart-wrap-sm { position: relative; height: 280px; width: 100%; }
+
+    .empty { color: var(--text-muted); text-align: center; padding: 30px; }
+
+    /* Block 4 — top tasks table */
+    .top-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+    .top-table th, .top-table td {
+        text-align: left;
+        padding: 10px 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-table th { color: var(--text-muted); font-weight: 500; font-size: 0.8rem; }
+    .top-table tr:last-child td { border-bottom: none; }
+
+    .badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+    .badge.easy   { background: rgba(16,185,129,0.18); color: var(--ok); }
+    .badge.medium { background: rgba(245,158,11,0.18); color: var(--warning); }
+    .badge.hard   { background: rgba(239,68,68,0.18); color: var(--bad); }
+
+    /* Block 5 — achievements */
+    .ach-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+    }
+    .ach {
+        position: relative;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+        padding: 14px 8px;
+        text-align: center;
+        cursor: help;
+        transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .ach:hover { transform: translateY(-2px); border-color: var(--accent-light); }
+    .ach.earned {
+        background: linear-gradient(135deg, rgba(74,144,217,0.15), rgba(124,58,237,0.15));
+        border-color: rgba(124,58,237,0.4);
+    }
+    .ach.locked { filter: grayscale(0.9); opacity: 0.55; }
+
+    .ach .ic { font-size: 1.8rem; }
+    .ach .name { font-size: 0.78rem; margin-top: 6px; font-weight: 600; }
+    .ach .date { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+    .ach .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        bottom: calc(100% + 6px); left: 50%;
+        transform: translateX(-50%);
+        background: rgba(15,12,41,0.95);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.78rem;
+        width: max-content;
+        max-width: 220px;
+        white-space: normal;
+        z-index: 10;
+        transition: opacity 0.2s;
+        pointer-events: none;
+    }
+    .ach:hover .tooltip { visibility: visible; opacity: 1; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="prog-wrapper">
+    <h1 class="page-title">Прогресс</h1>
+
+    {# Block 1 — week comparison #}
+    <section class="panel anim anim-1">
+        <h2>Эта неделя vs прошлая</h2>
+        <div class="compare">
+            <div class="col">
+                <div class="label">Эта неделя</div>
+                <div class="val">{{ comparison.current_week_avg }}</div>
+            </div>
+            <div class="col">
+                <div class="label">Прошлая</div>
+                <div class="val">{{ comparison.previous_week_avg }}</div>
+            </div>
+            <div class="col">
+                <div class="label">Изменение</div>
+                <div style="margin-top: 10px;">
+                    {% if comparison.trend == 'improving' %}
+                        <span class="trend-pill trend-improving">↓ {{ comparison.change_pct }}%</span>
+                    {% elif comparison.trend == 'worsening' %}
+                        <span class="trend-pill trend-worsening">↑ +{{ comparison.change_pct }}%</span>
+                    {% else %}
+                        <span class="trend-pill trend-stable">→ {{ comparison.change_pct }}%</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Block 2 — anxiety chart #}
+    <section class="panel anim anim-2">
+        <h2>Уровень тревоги</h2>
+        <div class="controls">
+            <button data-days="7">7 дней</button>
+            <button data-days="30" class="active">30 дней</button>
+            <button data-days="90">90 дней</button>
+        </div>
+        <div class="chart-wrap">
+            <canvas id="anxietyChart"></canvas>
+        </div>
+        <div id="anxietyEmpty" class="empty" style="display:none;">Нет данных за выбранный период</div>
+    </section>
+
+    {# Block 3 — tasks bar chart #}
+    <section class="panel anim anim-3">
+        <h2>Задания по неделям (последние 8 недель)</h2>
+        <div class="chart-wrap-sm">
+            <canvas id="tasksChart"></canvas>
+        </div>
+        <div id="tasksEmpty" class="empty" style="display:none;">Нет выполненных заданий за этот период</div>
+    </section>
+
+    {# Block 4 — top 5 completed tasks #}
+    <section class="panel anim anim-4">
+        <h2>Последние 5 выполненных заданий</h2>
+        {% if top_tasks %}
+            <table class="top-table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Сложность</th>
+                        <th>Дата</th>
+                        <th style="text-align: right;">XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ut in top_tasks %}
+                        <tr>
+                            <td>{{ ut.task.title }}</td>
+                            <td><span class="badge {{ ut.task.difficulty }}">{{ ut.task.difficulty }}</span></td>
+                            <td>{{ ut.completed_at.strftime('%d %B %Y') if ut.completed_at else '—' }}</td>
+                            <td style="text-align: right; color: var(--accent-light); font-weight: 600;">+{{ ut.task.xp_reward }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="empty">Заданий пока не выполнено</div>
+        {% endif %}
+    </section>
+
+    {# Block 5 — achievements #}
+    <section class="panel anim anim-5">
+        <h2>Достижения</h2>
+        {% if achievements %}
+            <div class="ach-grid">
+                {% for a in achievements %}
+                    <div class="ach {% if a.earned %}earned{% else %}locked{% endif %}">
+                        <div class="ic">{{ a.icon }}</div>
+                        <div class="name">{{ a.name }}</div>
+                        {% if a.earned and a.earned_at %}
+                            <div class="date">{{ a.earned_at[:10] }}</div>
+                        {% endif %}
+                        <div class="tooltip">
+                            <strong>{{ a.name }}</strong><br>
+                            {{ a.description or '' }}
+                            {% if not a.earned %}
+                                <br><em>Требуется: {{ a.condition_type }} ≥ {{ a.condition_value }}</em>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty">Достижения пока не настроены</div>
+        {% endif %}
+    </section>
+</div>
+
+<script>
+    let anxietyChart = null;
+    let tasksChart = null;
+
+    async function fetchJSON(url) {
+        const r = await fetch(url, {
+            credentials: 'same-origin',
+            headers: { 'Accept': 'application/json' },
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+    }
+
+    function makeGradient(ctx, h) {
+        const g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, 'rgba(239,68,68,0.45)');
+        g.addColorStop(0.5, 'rgba(245,158,11,0.3)');
+        g.addColorStop(1, 'rgba(16,185,129,0.25)');
+        return g;
+    }
+
+    async function loadAnxiety(days) {
+        const data = await fetchJSON(`/api/stats/anxiety?days=${days}`);
+        const canvas = document.getElementById('anxietyChart');
+        const empty = document.getElementById('anxietyEmpty');
+
+        if (!data.length) {
+            empty.style.display = 'block';
+            canvas.style.display = 'none';
+            if (anxietyChart) { anxietyChart.destroy(); anxietyChart = null; }
+            return;
+        }
+        empty.style.display = 'none';
+        canvas.style.display = 'block';
+
+        const ctx = canvas.getContext('2d');
+        const gradient = makeGradient(ctx, canvas.parentElement.clientHeight || 320);
+
+        if (anxietyChart) anxietyChart.destroy();
+        anxietyChart = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: data.map(d => d.date),
+                datasets: [{
+                    label: 'Тревога',
+                    data: data.map(d => d.anxiety_level),
+                    borderColor: '#7C3AED',
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#a78bfa',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'nearest', intersect: false },
+                onClick: (e, els) => {
+                    if (!els.length) return;
+                    const i = els[0].index;
+                    const d = data[i];
+                    alert(`${d.date}: уровень тревоги ${d.anxiety_level}/10`);
+                },
+                plugins: {
+                    legend: { labels: { color: '#e2e8f0' } },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `Тревога: ${ctx.parsed.y}/10`,
+                        },
+                    },
+                },
+                scales: {
+                    y: { min: 1, max: 10, ticks: { color: '#94a3b8', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { ticks: { color: '#94a3b8', maxRotation: 0, autoSkip: true, maxTicksLimit: 10 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                },
+            },
+        });
+    }
+
+    async function loadTasks(weeks) {
+        const data = await fetchJSON(`/api/stats/tasks?weeks=${weeks}`);
+        const canvas = document.getElementById('tasksChart');
+        const empty = document.getElementById('tasksEmpty');
+
+        const total = data.reduce((s, x) => s + x.count, 0);
+        if (!total) {
+            empty.style.display = 'block';
+            canvas.style.display = 'none';
+            if (tasksChart) { tasksChart.destroy(); tasksChart = null; }
+            return;
+        }
+        empty.style.display = 'none';
+        canvas.style.display = 'block';
+
+        if (tasksChart) tasksChart.destroy();
+        tasksChart = new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: data.map(d => d.week),
+                datasets: [{
+                    label: 'Выполнено заданий',
+                    data: data.map(d => d.count),
+                    backgroundColor: 'rgba(74,144,217,0.6)',
+                    borderColor: '#7C3AED',
+                    borderWidth: 1,
+                    borderRadius: 6,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#e2e8f0' } } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { color: '#94a3b8', precision: 0 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+                },
+            },
+        });
+    }
+
+    document.querySelectorAll('[data-days]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-days]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadAnxiety(parseInt(btn.dataset.days, 10));
+        });
+    });
+
+    loadAnxiety(30);
+    loadTasks(8);
+</script>
+{% endblock %}
