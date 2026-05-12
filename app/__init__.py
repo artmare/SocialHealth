@@ -16,6 +16,7 @@ def create_app(config_name="development"):
     limiter.init_app(app)
     csrf.init_app(app)
 
+    from app.routes.main import main_bp
     from app.routes.auth import auth_bp
     from app.routes.diary import diary_bp
     from app.routes.tasks import tasks_bp
@@ -26,6 +27,7 @@ def create_app(config_name="development"):
     from app.views.tips import tips_bp
     from app.routes.api import api_bp
 
+    app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(diary_bp, url_prefix="/diary")
     app.register_blueprint(tasks_bp, url_prefix="/tasks")
