@@ -23,7 +23,7 @@ def create_app(config_name="development"):
     from app.routes.dashboard import dashboard_bp
     from app.routes.progress import progress_bp
     from app.routes.sos import sos_bp
-    from app.views.profile import profile_bp
+    from app.routes.profile import profile_bp
     from app.views.tips import tips_bp
     from app.routes.api import api_bp
 

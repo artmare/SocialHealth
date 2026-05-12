@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление аккаунта — SocialHealth{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-wrap" style="max-width: 560px;">
+    <a href="{{ url_for('profile.index') }}" style="color:var(--text-muted); text-decoration:none;">← Назад к профилю</a>
+    <h1 style="margin: 12px 0 12px; color: #ef4444;">Удалить аккаунт</h1>
+
+    <div class="card" style="border-color: rgba(239,68,68,0.4);">
+        <p style="margin: 0 0 12px;">
+            <strong>Это действие необратимо.</strong>
+        </p>
+        <p style="color: var(--text-muted); margin: 0 0 18px; line-height: 1.5;">
+            Будут безвозвратно удалены: ваш аккаунт, все записи дневника, история заданий,
+            достижения и настройки. Перед удалением рекомендуем
+            <a href="{{ url_for('profile.index') }}" style="color: var(--accent-light);">экспортировать данные</a>.
+        </p>
+
+        <form method="post" action="{{ url_for('profile.delete_account') }}" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="field">
+                <label for="password">Текущий пароль</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+
+            <div class="field">
+                <label for="confirmation">
+                    Чтобы подтвердить, введите слово <code>УДАЛИТЬ</code> заглавными буквами
+                </label>
+                <input type="text" id="confirmation" name="confirmation" required
+                       autocomplete="off" pattern="УДАЛИТЬ" placeholder="УДАЛИТЬ">
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top: 8px;">
+                <button type="submit" class="btn danger">Удалить аккаунт навсегда</button>
+                <a href="{{ url_for('profile.index') }}" class="btn ghost">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

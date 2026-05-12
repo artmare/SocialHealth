@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Экспорт данных — SocialHealth</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body style="background: #fff; color: #111;">
+<div class="export-print">
+    <div class="no-print" style="text-align: right; margin-bottom: 12px;">
+        <button onclick="window.print()" style="padding: 8px 16px; cursor: pointer;">🖨 Печать / Сохранить как PDF</button>
+        <a href="{{ url_for('profile.index') }}" style="margin-left: 8px;">Назад</a>
+    </div>
+
+    <h1>SocialHealth — экспорт данных</h1>
+    <p style="color: #555;">Сгенерировано: {{ data.exported_at }}</p>
+
+    <h2>Профиль</h2>
+    <table>
+        <tr><th>Имя</th><td>{{ data.user.username }}</td></tr>
+        <tr><th>Email</th><td>{{ data.user.email }}</td></tr>
+        <tr><th>Зарегистрирован</th><td>{{ data.user.created_at }}</td></tr>
+    </table>
+
+    <h2>Статистика</h2>
+    <table>
+        <tr><th>XP</th><td>{{ data.stats.xp }}</td></tr>
+        <tr><th>Уровень</th><td>{{ data.stats.level }} ({{ data.stats.level_title }})</td></tr>
+        <tr><th>Streak</th><td>{{ data.stats.streak }}</td></tr>
+        <tr><th>Самый длинный streak</th><td>{{ data.user.longest_streak }}</td></tr>
+        <tr><th>Записей в дневнике</th><td>{{ data.stats.total_entries }}</td></tr>
+        <tr><th>Выполнено заданий</th><td>{{ data.stats.total_tasks_completed }}</td></tr>
+        <tr><th>Средняя тревога (всё время)</th><td>{{ data.stats.avg_anxiety }}/10</td></tr>
+        <tr><th>Средняя тревога (неделя)</th><td>{{ data.stats.avg_anxiety_week }}/10</td></tr>
+    </table>
+
+    <h2>Записи дневника ({{ data.entries|length }})</h2>
+    {% if data.entries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Тревога</th>
+                    <th>Текст</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in data.entries %}
+                <tr>
+                    <td>{{ e.date }}</td>
+                    <td>{{ e.anxiety_level }}/10</td>
+                    <td>{{ (e.text or '')[:200] }}{% if e.text and e.text|length > 200 %}…{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: #888;">Записей пока нет.</p>
+    {% endif %}
+
+    <h2>Задания ({{ data.tasks|length }})</h2>
+    {% if data.tasks %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Сложность</th>
+                    <th>Статус</th>
+                    <th>Выполнено</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in data.tasks %}
+                <tr>
+                    <td>{{ t.title }}</td>
+                    <td>{{ t.difficulty }}</td>
+                    <td>{{ 'Выполнено' if t.completed else 'Назначено' }}</td>
+                    <td>{{ t.completed_at or '—' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: #888;">Заданий нет.</p>
+    {% endif %}
+
+    <h2>Достижения ({{ data.achievements|length }})</h2>
+    {% if data.achievements %}
+        <ul>
+            {% for a in data.achievements %}
+                <li>{{ a.icon }} {{ a.name }} — {{ a.earned_at }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="color: #888;">Достижений пока нет.</p>
+    {% endif %}
+
+    <p style="margin-top: 28px; color: #888; font-size: 0.85rem;">
+        SocialHealth не является медицинским сервисом. При серьёзных симптомах обратитесь к специалисту.
+    </p>
+</div>
+</body>
+</html>

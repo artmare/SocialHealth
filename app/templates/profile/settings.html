@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Настройки — SocialHealth{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-wrap">
+    <a href="{{ url_for('profile.index') }}" style="color:var(--text-muted); text-decoration:none;">← Назад к профилю</a>
+    <h1 style="margin: 12px 0 18px;">Настройки</h1>
+
+    <form method="post" action="{{ url_for('profile.settings') }}" class="card" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <h2>Внешний вид</h2>
+        <label class="toggle">
+            <div>
+                <div class="label">🌙 Тёмная тема</div>
+                <div class="desc">Затемнённый интерфейс, легче для глаз вечером</div>
+            </div>
+            <input type="checkbox" name="dark_mode" {% if settings.dark_mode %}checked{% endif %}>
+        </label>
+
+        <h2 style="margin-top:18px;">Уведомления</h2>
+        <label class="toggle">
+            <div>
+                <div class="label">🔔 Уведомления</div>
+                <div class="desc">Получать напоминания о ведении дневника</div>
+            </div>
+            <input type="checkbox" name="notifications_enabled" {% if settings.notifications_enabled %}checked{% endif %}>
+        </label>
+
+        <div class="field" style="margin-top: 14px;">
+            <label for="reminder">Время ежедневного напоминания</label>
+            <input type="time" id="reminder" name="daily_reminder_time"
+                   value="{{ settings.daily_reminder_time or '' }}">
+        </div>
+
+        <h2 style="margin-top:18px;">Язык</h2>
+        <div class="field">
+            <label for="lang">Язык интерфейса</label>
+            <select id="lang" name="language">
+                <option value="ru" {% if settings.language == 'ru' %}selected{% endif %}>Русский</option>
+                <option value="en" {% if settings.language == 'en' %}selected{% endif %}>English</option>
+            </select>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top: 8px;">
+            <button type="submit" class="btn">Сохранить</button>
+            <a href="{{ url_for('profile.index') }}" class="btn ghost">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

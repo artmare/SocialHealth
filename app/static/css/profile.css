@@ -1,0 +1,283 @@
+/* =========================================================
+   SocialHealth — profile / settings styles
+   ========================================================= */
+
+.profile-wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4A90D9, #7C3AED);
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(124,58,237,0.35);
+}
+
+.profile-header h1 {
+    font-size: 1.5rem;
+    margin: 0 0 4px;
+}
+.profile-header .email {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ============================== STATS GRID ============================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.stat-card .label {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.stat-card .value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* ============================== XP BAR ============================== */
+
+.xp-block {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 24px;
+}
+.xp-block .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.xp-block .title { font-weight: 600; }
+.xp-block .meta { color: var(--text-muted); font-size: 0.85rem; }
+
+.progress-bar {
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4A90D9, #7C3AED);
+    transition: width 0.5s ease;
+}
+
+/* ============================== ACTIONS ============================== */
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.action {
+    display: block;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.action:hover {
+    border-color: var(--accent-light);
+    background: rgba(124,58,237,0.08);
+    transform: translateY(-1px);
+}
+.action.danger {
+    border-color: rgba(239,68,68,0.4);
+}
+.action.danger:hover {
+    background: rgba(239,68,68,0.08);
+    border-color: #ef4444;
+}
+.action .name { font-weight: 600; margin-bottom: 4px; }
+.action .desc { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ============================== FORM CARDS ============================== */
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    margin-bottom: 18px;
+}
+.card h2 { font-size: 1.15rem; margin: 0 0 16px; }
+
+.field { margin-bottom: 16px; }
+.field label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+.field input[type="text"],
+.field input[type="time"],
+.field input[type="password"],
+.field select {
+    width: 100%;
+    padding: 11px 14px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, background 0.2s;
+}
+.field input:focus,
+.field select:focus {
+    outline: none;
+    border-color: var(--accent-light);
+    background: rgba(124,58,237,0.06);
+}
+
+/* Toggle switch */
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.toggle .label { font-size: 0.95rem; }
+.toggle .desc { color: var(--text-muted); font-size: 0.8rem; }
+
+.toggle input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 44px;
+    height: 24px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+.toggle input[type="checkbox"]::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    top: 3px; left: 3px;
+    transition: left 0.2s;
+}
+.toggle input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, #4A90D9, #7C3AED);
+}
+.toggle input[type="checkbox"]:checked::after { left: 23px; }
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 11px 20px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    background: linear-gradient(135deg, #4A90D9, #7C3AED);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.15s;
+    font-family: inherit;
+}
+.btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn.ghost {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.btn.danger {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+/* Dark theme — applied when body has .dark-theme.
+   Эта тема немного сильнее затемняет UI, чем дефолтный градиент. */
+body.dark-theme,
+.dark-theme {
+    background: #07050f !important;
+}
+body.dark-theme .card,
+body.dark-theme .stat-card,
+body.dark-theme .xp-block,
+body.dark-theme .action,
+.dark-mode .card {
+    background: rgba(255,255,255,0.03);
+}
+
+/* ============================== EXPORT (print) ============================== */
+
+.export-print {
+    color: #111;
+    background: #fff;
+    padding: 32px;
+    max-width: 820px;
+    margin: 0 auto;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.export-print h1 { margin: 0 0 6px; }
+.export-print h2 { margin: 28px 0 8px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+.export-print table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.export-print th, .export-print td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #eee; }
+.export-print th { color: #555; font-weight: 600; }
+
+@media print {
+    .no-print { display: none !important; }
+}
+
+/* ============================== RESPONSIVE ============================== */
+
+@media (max-width: 768px) {
+    .profile-header { flex-direction: column; align-items: flex-start; }
+    .avatar { width: 56px; height: 56px; font-size: 1.4rem; }
+    .actions { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .profile-wrap { padding: 14px; }
+    .stat-card .value { font-size: 1.3rem; }
+}
