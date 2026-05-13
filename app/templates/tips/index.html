@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Советы и техники — SocialHealth{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tips.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="tips-wrap">
+    <header class="tips-header">
+        <h1>Техники и советы для управления тревогой</h1>
+        <p>Проверенные CBT-методы, которые помогут вам чувствовать себя увереннее</p>
+    </header>
+
+    <div class="tips-filters" role="tablist" aria-label="Фильтр по категориям">
+        <button type="button" class="tip-filter {% if active_category == 'all' %}active{% endif %}"
+                data-category="all">Все</button>
+        {% for key, meta in categories.items() %}
+            <button type="button"
+                    class="tip-filter {% if active_category == key %}active{% endif %}"
+                    data-category="{{ key }}">
+                {{ meta.icon }} {{ meta.name }}
+            </button>
+        {% endfor %}
+    </div>
+
+    <div class="tips-grid" id="tipsGrid">
+        {# Рендерим ВСЕ техники — фильтр работает на клиенте (data-category) #}
+        {% for tip in all_tips %}
+            <a class="tip-card" href="{{ url_for('tips.detail', identifier=tip.id) }}"
+               data-category="{{ tip.category }}">
+                <div class="icon" aria-hidden="true">{{ tip.icon }}</div>
+                <h3>{{ tip.title }}</h3>
+                <p class="summary">{{ tip.summary }}</p>
+                <div class="tip-meta">
+                    <span class="badge {{ tip.difficulty }}">
+                        {{ difficulty_labels[tip.difficulty] }}
+                    </span>
+                    <span class="badge time">⏱ {{ tip.duration }}</span>
+                    <span class="badge cat">
+                        {{ categories[tip.category].icon }} {{ categories[tip.category].name }}
+                    </span>
+                </div>
+                <span class="tip-more">Подробнее →</span>
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="tips-empty" id="tipsEmpty" style="display:none;">
+        В этой категории пока нет техник.
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/tips.js') }}"></script>
+{% endblock %}

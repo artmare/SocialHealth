@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tip.title }} — Советы — SocialHealth{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tips.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="tip-detail">
+    <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="{{ url_for('tips.index') }}">Советы</a>
+        →
+        <span>{{ tip.title }}</span>
+    </nav>
+
+    <header class="tip-detail-head">
+        <span class="icon" aria-hidden="true">{{ tip.icon }}</span>
+        <h1>{{ tip.title }}</h1>
+    </header>
+
+    <div class="tip-detail-meta">
+        <span class="badge cat">
+            {{ categories[tip.category].icon }} {{ categories[tip.category].name }}
+        </span>
+        <span class="badge {{ tip.difficulty }}">
+            {{ difficulty_labels[tip.difficulty] }}
+        </span>
+        <span class="badge time">⏱ {{ tip.duration }}</span>
+    </div>
+
+    <section class="tip-section">
+        <h2>📖 Описание</h2>
+        <p>{{ tip.description }}</p>
+    </section>
+
+    <section class="tip-section">
+        <h2>🎯 Когда использовать</h2>
+        <p>{{ tip.when_to_use }}</p>
+    </section>
+
+    <section class="tip-section">
+        <h2>📋 Пошаговая инструкция</h2>
+        <ol class="steps-list">
+            {% for step in tip.steps %}
+                <li>
+                    <span class="step-num">{{ loop.index }}</span>
+                    <div class="step-text">
+                        {% if step is mapping %}
+                            {{ step.text }}
+                            {% if step.sub %}
+                                <ul class="steps-sub">
+                                    {% for sub in step.sub %}
+                                        <li>{{ sub }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% else %}
+                            {{ step }}
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    {% if tip.science %}
+        <section class="tip-section">
+            <h2>🔬 Научное обоснование</h2>
+            <blockquote class="science-quote">{{ tip.science }}</blockquote>
+        </section>
+    {% endif %}
+
+    <div class="tip-actions">
+        <a class="btn ghost" href="{{ url_for('tips.index') }}">← Все техники</a>
+        {% if tip.interactive_url %}
+            <a class="btn" href="{{ tip.interactive_url }}">
+                {{ tip.interactive_label or 'Попробовать сейчас' }} →
+            </a>
+        {% elif tip.category == 'breathing' %}
+            <a class="btn" href="{{ url_for('sos.breathing') }}">Попробовать с таймером →</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
