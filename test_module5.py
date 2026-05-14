@@ -26,7 +26,7 @@ def create_user(client, db, User, username, email, password):
     u.set_password(password)
     db.session.add(u)
     db.session.commit()
-    client.post("/auth/login", data={"email": email, "password": password}, follow_redirects=False)
+    client.post("/ru/auth/login", data={"email": email, "password": password}, follow_redirects=False)
     return u
 
 
@@ -307,7 +307,7 @@ def run_checks():
         db.session.add(de)
         db.session.commit()
 
-        resp = client2.get("/tasks/daily")
+        resp = client2.get("/ru/tasks/daily")
         check("GET /tasks/daily с токеном — 200", resp.status_code == 200)
         html = resp.data.decode("utf-8")
         check("Страница содержит заголовок задания", "Задание дня" in html)
@@ -332,7 +332,7 @@ def run_checks():
         check("Ответ содержит информацию о XP", "XP" in html_post or "xp" in html_post.lower())
 
         # Несуществующий task_id
-        resp_404 = client2.post("/tasks/99999/complete", data={"feedback": ""})
+        resp_404 = client2.post("/ru/tasks/99999/complete", data={"feedback": ""})
         check("POST с несуществующим task_id — 404", resp_404.status_code == 404)
 
         # Повторное выполнение
@@ -357,9 +357,9 @@ def run_checks():
             TaskService.assign_task(user7.id, tsk.id)
 
         client7 = app.test_client()
-        client7.post("/auth/login", data={"email": "hist@test.com", "password": "pass123"}, follow_redirects=False)
+        client7.post("/ru/auth/login", data={"email": "hist@test.com", "password": "pass123"}, follow_redirects=False)
 
-        resp_hist = client7.get("/tasks/")
+        resp_hist = client7.get("/ru/tasks/")
         check("GET /tasks/ — статус 200", resp_hist.status_code == 200)
         html_hist = resp_hist.data.decode("utf-8")
         check("Страница показывает задания пользователя", "task-row" in html_hist)
@@ -377,7 +377,7 @@ def run_checks():
         db.session.add(other_user)
         db.session.commit()
         TaskService.complete_task(other_user.id, all_tasks[10].id)
-        resp_hist2 = client7.get("/tasks/")
+        resp_hist2 = client7.get("/ru/tasks/")
         html_hist2 = resp_hist2.data.decode("utf-8")
         # Проверим что нет записи otherhist
         check("Чужие задания не показываются", True)  # логически верно через фильтр user_id

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Профиль — SocialHealth{% endblock %}
+{% block title %}{{ _("Profile") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
@@ -18,39 +18,39 @@
 
     <section class="stats-grid">
         <div class="stat-card">
-            <div class="label">XP</div>
+            <div class="label">{{ _("XP") }}</div>
             <div class="value">{{ stats.xp }}</div>
         </div>
         <div class="stat-card">
-            <div class="label">Уровень</div>
+            <div class="label">{{ _("Level") }}</div>
             <div class="value">{{ stats.level }} <small style="font-size:0.85rem;color:var(--accent-light);">{{ stats.level_title }}</small></div>
         </div>
         <div class="stat-card">
-            <div class="label">Streak</div>
+            <div class="label">{{ _("Streak") }}</div>
             <div class="value">{{ stats.streak }} 🔥</div>
         </div>
         <div class="stat-card">
-            <div class="label">Выполнено заданий</div>
+            <div class="label">{{ _("Tasks completed") }}</div>
             <div class="value">{{ stats.total_tasks_completed }}</div>
         </div>
         <div class="stat-card">
-            <div class="label">Записей в дневнике</div>
+            <div class="label">{{ _("Diary entries") }}</div>
             <div class="value">{{ stats.total_entries }}</div>
         </div>
         <div class="stat-card">
-            <div class="label">Самый длинный streak</div>
+            <div class="label">{{ _("Longest streak") }}</div>
             <div class="value">{{ user.longest_streak }}</div>
         </div>
     </section>
 
     <section class="xp-block">
         <div class="row">
-            <div class="title">Прогресс уровня</div>
+            <div class="title">{{ _("Level progress") }}</div>
             <div class="meta">
                 {% if stats.xp_to_next_level > 0 %}
-                    до следующего: {{ stats.xp_to_next_level }} XP
+                    {{ _("to next level:") }} {{ stats.xp_to_next_level }} XP
                 {% else %}
-                    максимальный уровень
+                    {{ _("max level reached") }}
                 {% endif %}
             </div>
         </div>
@@ -61,32 +61,32 @@
 
     <section class="actions">
         <a class="action" href="{{ url_for('profile.settings') }}">
-            <div class="name">⚙️ Настройки</div>
-            <div class="desc">Тема, уведомления, язык, напоминания</div>
+            <div class="name">⚙️ {{ _("Settings") }}</div>
+            <div class="desc">{{ _("Theme, notifications, language, reminders") }}</div>
         </a>
         <a class="action" href="{{ url_for('profile.change_password') }}">
-            <div class="name">🔑 Сменить пароль</div>
-            <div class="desc">Обновить пароль входа</div>
+            <div class="name">🔑 {{ _("Change password") }}</div>
+            <div class="desc">{{ _("Update sign-in password") }}</div>
         </a>
         <form action="{{ url_for('profile.export_data') }}" method="post" class="action" style="text-align:left;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="format" value="json">
             <button type="submit" style="all:unset; cursor:pointer; display:block; width:100%;">
-                <div class="name">⬇️ Экспорт (JSON)</div>
-                <div class="desc">Скачать все ваши данные</div>
+                <div class="name">⬇️ {{ _("Export (JSON)") }}</div>
+                <div class="desc">{{ _("Download all your data") }}</div>
             </button>
         </form>
         <form action="{{ url_for('profile.export_data') }}" method="post" target="_blank" class="action" style="text-align:left;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="format" value="pdf">
             <button type="submit" style="all:unset; cursor:pointer; display:block; width:100%;">
-                <div class="name">🖨 Экспорт для печати (PDF)</div>
-                <div class="desc">Откроется страница для Ctrl+P</div>
+                <div class="name">🖨 {{ _("Export for print (PDF)") }}</div>
+                <div class="desc">{{ _("Opens print-friendly page (Ctrl+P)") }}</div>
             </button>
         </form>
         <a class="action danger" href="{{ url_for('profile.delete_account') }}">
-            <div class="name">🗑 Удалить аккаунт</div>
-            <div class="desc">Безвозвратное удаление всех данных</div>
+            <div class="name">🗑 {{ _("Delete account") }}</div>
+            <div class="desc">{{ _("Irreversibly delete all data") }}</div>
         </a>
     </section>
 </div>

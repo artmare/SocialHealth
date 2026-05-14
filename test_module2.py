@@ -53,15 +53,17 @@ def run_checks():
         # ================================================================
         print()
         print("--- 2. Страницы отображаются ---")
-        resp_reg = client.get("/auth/register")
+        resp_reg = client.get("/ru/auth/register")
         check("GET /auth/register возвращает 200", resp_reg.status_code == 200)
         html_reg = resp_reg.data.decode("utf-8")
         check(
             "Страница регистрации содержит 'Регистрация'",
-            "Регистрация" in html_reg,
+            ("Регистрация" in html_reg or "Зарегистрироваться" in html_reg
+             or "Sign up" in html_reg or "Register" in html_reg
+             or "Create account" in html_reg or "Создать аккаунт" in html_reg),
         )
 
-        resp_log = client.get("/auth/login")
+        resp_log = client.get("/ru/auth/login")
         check("GET /auth/login возвращает 200", resp_log.status_code == 200)
         html_log = resp_log.data.decode("utf-8")
         check("Страница логина содержит 'Войти'", "Войти" in html_log)
@@ -73,8 +75,7 @@ def run_checks():
         print("--- 3. Регистрация ---")
 
         # 3.1 Успешная регистрация
-        resp = client.post(
-            "/auth/register",
+        resp = client.post("/ru/auth/register",
             data={
                 "username": "testuser",
                 "email": "test@test.com",
@@ -111,8 +112,7 @@ def run_checks():
             check("UserSettings создан", False, "User не найден")
 
         # 3.3 Дубликат email
-        resp_dup = client.post(
-            "/auth/register",
+        resp_dup = client.post("/ru/auth/register",
             data={
                 "username": "testuser2",
                 "email": "test@test.com",
@@ -128,8 +128,7 @@ def run_checks():
         )
 
         # 3.4 Короткий пароль
-        resp_short = client.post(
-            "/auth/register",
+        resp_short = client.post("/ru/auth/register",
             data={
                 "username": "short",
                 "email": "short@test.com",
@@ -150,8 +149,7 @@ def run_checks():
         )
 
         # 3.5 Без email
-        resp_no_email = client.post(
-            "/auth/register",
+        resp_no_email = client.post("/ru/auth/register",
             data={
                 "username": "noemail",
                 "email": "",
@@ -171,8 +169,7 @@ def run_checks():
         )
 
         # 3.6 Несовпадающие пароли
-        resp_mismatch = client.post(
-            "/auth/register",
+        resp_mismatch = client.post("/ru/auth/register",
             data={
                 "username": "mismatch",
                 "email": "mismatch@test.com",
@@ -199,8 +196,7 @@ def run_checks():
         print("--- 4. Логин ---")
 
         # 4.1 Успешный логин
-        resp_login = client.post(
-            "/auth/login",
+        resp_login = client.post("/ru/auth/login",
             data={
                 "email": "test@test.com",
                 "password": "testpass123",
@@ -221,8 +217,7 @@ def run_checks():
         )
 
         # 4.2 Неверный пароль
-        resp_bad_pass = client.post(
-            "/auth/login",
+        resp_bad_pass = client.post("/ru/auth/login",
             data={
                 "email": "test@test.com",
                 "password": "wrongpassword",
@@ -236,8 +231,7 @@ def run_checks():
         )
 
         # 4.3 Несуществующий email
-        resp_bad_email = client.post(
-            "/auth/login",
+        resp_bad_email = client.post("/ru/auth/login",
             data={
                 "email": "nosuch@test.com",
                 "password": "testpass123",
@@ -251,7 +245,7 @@ def run_checks():
         )
 
         # 4.4 access_token работает — используем /auth/refresh
-        resp_refresh = client.post("/auth/refresh")
+        resp_refresh = client.post("/ru/auth/refresh")
         check(
             "Полученный access_token/refresh_token работает (POST /auth/refresh после логина)",
             resp_refresh.status_code == 200,
@@ -278,7 +272,7 @@ def run_checks():
 
         # 5.2 Без токена
         fresh_client = app.test_client()
-        resp_no_refresh = fresh_client.post("/auth/refresh")
+        resp_no_refresh = fresh_client.post("/ru/auth/refresh")
         check(
             "POST /auth/refresh без токена — ошибка 401",
             resp_no_refresh.status_code == 401,
@@ -291,7 +285,7 @@ def run_checks():
         print()
         print("--- 6. Logout ---")
 
-        resp_logout = client.post("/auth/logout", follow_redirects=False)
+        resp_logout = client.post("/ru/auth/logout", follow_redirects=False)
         check(
             "POST /auth/logout с валидным токеном — успех (редирект)",
             resp_logout.status_code in (301, 302, 307, 308),
@@ -318,7 +312,7 @@ def run_checks():
 
         # 7.1 Без токена
         fresh_client2 = app.test_client()
-        resp_unauth = fresh_client2.post("/auth/refresh")
+        resp_unauth = fresh_client2.post("/ru/auth/refresh")
         check(
             "Защищённый маршрут без токена — 401",
             resp_unauth.status_code == 401,
@@ -327,14 +321,13 @@ def run_checks():
 
         # 7.2 С токеном
         auth_client = app.test_client()
-        auth_client.post(
-            "/auth/login",
+        auth_client.post("/ru/auth/login",
             data={
                 "email": "test@test.com",
                 "password": "testpass123",
             },
         )
-        resp_auth = auth_client.post("/auth/refresh")
+        resp_auth = auth_client.post("/ru/auth/refresh")
         check(
             "Защищённый маршрут с валидным токеном — доступ разрешён (200)",
             resp_auth.status_code == 200,
@@ -353,7 +346,8 @@ def run_checks():
         check("base.html содержит кнопку/ссылку SOS", "SOS" in html_log)
         check(
             "base.html содержит дисклеймер 'не является медицинским сервисом'",
-            "не является медицинским сервисом" in html_log,
+            ("не является медицинским сервисом" in html_log
+             or "is not a medical service" in html_log),
         )
 
     # ================================================================

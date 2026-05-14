@@ -10,30 +10,60 @@ logger = logging.getLogger(__name__)
 
 
 class AIService:
-    ANALYSIS_PROMPT = (
-        "Ты — помощник по когнитивно-поведенческой терапии (CBT) "
-        "для людей с социальной тревожностью. "
-        "Твой тон — поддерживающий, неосуждающий, на русском языке. "
-        "Проанализируй запись пользователя и верни строго JSON с тремя ключами: "
-        "summary (краткое резюме состояния, 1-2 предложения), "
-        "insight (какие когнитивные искажения заметны: катастрофизация, "
-        "чтение мыслей, персонализация и т.д.), "
-        "recommendation (конкретная CBT-техника на сегодня). "
-        "Правила: никогда не ставь диагнозы, не критикуй пользователя. "
-        "Все значения — строки на русском языке. "
-        "Если уровень тревоги 9-10 из 10 — обязательно рекомендуй "
-        "обратиться к специалисту и укажи телефон доверия 8-800-2000-122."
-    )
+    ANALYSIS_PROMPT_BY_LOCALE = {
+        "en": (
+            "You are a Cognitive Behavioral Therapy (CBT) assistant "
+            "for people with social anxiety. "
+            "Your tone is supportive, non-judgmental, in English. "
+            "Analyze the user's entry and return strict JSON with three keys: "
+            "summary (brief 1-2 sentence summary of state), "
+            "insight (which cognitive distortions are visible: catastrophizing, "
+            "mind-reading, personalization, etc.), "
+            "recommendation (a concrete CBT technique for today). "
+            "Rules: never diagnose, never criticize the user. "
+            "All values must be strings in English. "
+            "If anxiety level is 9-10 of 10 — strongly recommend "
+            "consulting a specialist and provide the helpline 8-800-2000-122."
+        ),
+        "ru": (
+            "Ты — помощник по когнитивно-поведенческой терапии (CBT) "
+            "для людей с социальной тревожностью. "
+            "Твой тон — поддерживающий, неосуждающий, на русском языке. "
+            "Проанализируй запись пользователя и верни строго JSON с тремя ключами: "
+            "summary (краткое резюме состояния, 1-2 предложения), "
+            "insight (какие когнитивные искажения заметны: катастрофизация, "
+            "чтение мыслей, персонализация и т.д.), "
+            "recommendation (конкретная CBT-техника на сегодня). "
+            "Правила: никогда не ставь диагнозы, не критикуй пользователя. "
+            "Все значения — строки на русском языке. "
+            "Если уровень тревоги 9-10 из 10 — обязательно рекомендуй "
+            "обратиться к специалисту и укажи телефон доверия 8-800-2000-122."
+        ),
+    }
+    # Backward-compat: дефолт EN
+    ANALYSIS_PROMPT = ANALYSIS_PROMPT_BY_LOCALE["en"]
 
-    WEEKLY_REPORT_PROMPT = (
-        "Ты — CBT-терапевт. Проанализируй записи пользователя за неделю "
-        "и верни строго JSON с четырьмя ключами: "
-        "trend (динамика тревоги за неделю: растёт/падает/стабильна), "
-        "patterns (замеченные паттерны и триггеры), "
-        "progress (что улучшилось), "
-        "next_week_focus (на чём сфокусироваться на следующей неделе). "
-        "Все значения — строки на русском языке."
-    )
+    WEEKLY_REPORT_PROMPT_BY_LOCALE = {
+        "en": (
+            "You are a CBT therapist. Analyze the user's entries for the week "
+            "and return strict JSON with four keys: "
+            "trend (anxiety trend over the week: rising/falling/stable), "
+            "patterns (observed patterns and triggers), "
+            "progress (what improved), "
+            "next_week_focus (what to focus on next week). "
+            "All values must be strings in English."
+        ),
+        "ru": (
+            "Ты — CBT-терапевт. Проанализируй записи пользователя за неделю "
+            "и верни строго JSON с четырьмя ключами: "
+            "trend (динамика тревоги за неделю: растёт/падает/стабильна), "
+            "patterns (замеченные паттерны и триггеры), "
+            "progress (что улучшилось), "
+            "next_week_focus (на чём сфокусироваться на следующей неделе). "
+            "Все значения — строки на русском языке."
+        ),
+    }
+    WEEKLY_REPORT_PROMPT = WEEKLY_REPORT_PROMPT_BY_LOCALE["en"]
 
     MODERATION_PROMPT = (
         "Ты — модератор сообщества. Проанализируй текст поста "
@@ -55,6 +85,33 @@ class AIService:
 
         return anthropic.Anthropic(api_key=api_key)
 
+    
+    @staticmethod
+    def _current_locale() -> str:
+        """Возвращает локаль для AI-промпта (en/ru). По умолчанию en."""
+        try:
+            from flask import g, has_request_context
+            if has_request_context():
+                loc = getattr(g, "locale", None)
+                if loc in ("en", "ru"):
+                    return loc
+        except Exception:
+            pass
+        return "en"
+
+    @staticmethod
+    def _analysis_prompt(locale: str = None) -> str:
+        loc = locale or AIService._current_locale()
+        return AIService.ANALYSIS_PROMPT_BY_LOCALE.get(
+            loc, AIService.ANALYSIS_PROMPT_BY_LOCALE["en"]
+        )
+
+    @staticmethod
+    def _weekly_prompt(locale: str = None) -> str:
+        loc = locale or AIService._current_locale()
+        return AIService.WEEKLY_REPORT_PROMPT_BY_LOCALE.get(
+            loc, AIService.WEEKLY_REPORT_PROMPT_BY_LOCALE["en"]
+        )
     @staticmethod
     def _call_api(client, system_prompt: str, user_content: str, max_tokens: int) -> str:
         # TODO: Redis cache для экономии ~40% API вызовов
@@ -98,7 +155,7 @@ class AIService:
 
         try:
             raw = AIService._call_api(
-                client, AIService.ANALYSIS_PROMPT, user_content, 500
+                client, AIService._analysis_prompt(), user_content, 500
             )
             parsed = AIService._extract_json(raw)
             return {
@@ -122,7 +179,7 @@ class AIService:
 
         try:
             raw = AIService._call_api(
-                client, AIService.WEEKLY_REPORT_PROMPT, weekly_data, 800
+                client, AIService._weekly_prompt(), weekly_data, 800
             )
             parsed = AIService._extract_json(raw)
             return {
@@ -178,21 +235,39 @@ class AIService:
 
     @staticmethod
     def _fallback_analysis(anxiety_level: int) -> dict:
-        summary = "Ваша запись отражает переживание тревожной ситуации."
-        insight = (
-            "Часто тревога усиливается из-за катастрофизации — "
-            "мы мысленно раздуваем возможные негативные исходы."
-        )
-        recommendation = (
-            "Попробуйте технику дыхания 4-7-8: вдох 4 секунды, "
-            "задержка 7 секунд, выдох 8 секунд."
-        )
-        if anxiety_level >= 9:
-            recommendation += (
-                " При таком высоком уровне тревоги рекомендуем "
-                "обратиться к квалифицированному специалисту "
-                "или позвонить на телефон доверия 8-800-2000-122."
+        loc = AIService._current_locale()
+        if loc == "ru":
+            summary = "Ваша запись отражает переживание тревожной ситуации."
+            insight = (
+                "Часто тревога усиливается из-за катастрофизации — "
+                "мы мысленно раздуваем возможные негативные исходы."
             )
+            recommendation = (
+                "Попробуйте технику дыхания 4-7-8: вдох 4 секунды, "
+                "задержка 7 секунд, выдох 8 секунд."
+            )
+            if anxiety_level >= 9:
+                recommendation += (
+                    " При таком высоком уровне тревоги рекомендуем "
+                    "обратиться к квалифицированному специалисту "
+                    "или позвонить на телефон доверия 8-800-2000-122."
+                )
+        else:
+            summary = "Your entry reflects an anxious experience."
+            insight = (
+                "Anxiety is often amplified by catastrophizing — "
+                "mentally exaggerating possible negative outcomes."
+            )
+            recommendation = (
+                "Try the 4-7-8 breathing technique: inhale for 4 seconds, "
+                "hold for 7 seconds, exhale for 8 seconds."
+            )
+            if anxiety_level >= 9:
+                recommendation += (
+                    " At such a high anxiety level, we recommend "
+                    "consulting a qualified specialist or calling the "
+                    "helpline 8-800-2000-122."
+                )
         return {
             "summary": summary,
             "insight": insight,
@@ -201,20 +276,36 @@ class AIService:
 
     @staticmethod
     def _fallback_weekly_report() -> dict:
+        loc = AIService._current_locale()
+        if loc == "ru":
+            return {
+                "trend": "Данные недостаточны для точного анализа динамики.",
+                "patterns": "Замечен стабильный уровень тревоги без резких колебаний.",
+                "progress": "Продолжайте вести дневник — это уже важный шаг вперёд.",
+                "next_week_focus": (
+                    "Попробуйте технику дыхания 4-7-8 каждый день "
+                    "перед выходом из дома."
+                ),
+            }
         return {
-            "trend": "Данные недостаточны для точного анализа динамики.",
-            "patterns": "Замечен стабильный уровень тревоги без резких колебаний.",
-            "progress": "Продолжайте вести дневник — это уже важный шаг вперёд.",
+            "trend": "Not enough data for accurate trend analysis.",
+            "patterns": "Anxiety level looks stable without sharp swings.",
+            "progress": "Keep journaling — that's already a big step forward.",
             "next_week_focus": (
-                "Попробуйте технику дыхания 4-7-8 каждый день "
-                "перед выходом из дома."
+                "Try the 4-7-8 breathing technique every day "
+                "before leaving home."
             ),
         }
 
     @staticmethod
     def _fallback_moderation() -> dict:
+        loc = AIService._current_locale()
+        if loc == "ru":
+            reason = "Ручная проверка невозможна — сервис недоступен."
+        else:
+            reason = "Manual moderation unavailable — service is offline."
         return {
             "approved": True,
-            "reason": "Ручная проверка невозможна — сервис недоступен.",
+            "reason": reason,
             "toxicity_score": 0.0,
         }

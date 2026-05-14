@@ -3,6 +3,7 @@ from datetime import date
 
 import sqlalchemy as sa
 from flask import Blueprint, render_template
+from flask_babel import lazy_gettext as _
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.extensions import db
@@ -13,11 +14,11 @@ from app.services.task_service import TaskService
 dashboard_bp = Blueprint("dashboard", __name__)
 
 MOTIVATIONAL_PHRASES = [
-    "Каждый маленький шаг — это победа",
-    "Сегодня — лучший день, чтобы стать чуть смелее",
-    "Тревога приходит и уходит, а ты остаёшься",
-    "Дыши глубже. Ты справляешься лучше, чем думаешь",
-    "Прогресс важнее совершенства",
+    _("Every tiny step is a victory"),
+    _("Today is the best day to become a bit braver"),
+    _("Anxiety comes and goes, but you stay"),
+    _("Breathe deeper. You are coping better than you think"),
+    _("Progress matters more than perfection"),
 ]
 
 

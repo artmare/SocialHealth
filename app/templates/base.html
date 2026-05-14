@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0c29">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>{% block title %}SocialHealth{% endblock %}</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -220,30 +223,39 @@
         }
     </style>
     {% block styles %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
 </head>
 <body>
     <nav class="navbar">
         <a href="{{ url_for('dashboard.index') }}" class="logo">SocialHealth</a>
         <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
         <ul class="nav-links">
-            <li><a href="{{ url_for('dashboard.index') }}">Дашборд</a></li>
-            <li><a href="{{ url_for('diary.index') }}">Дневник</a></li>
-            <li><a href="{{ url_for('tasks.index') }}">Задания</a></li>
-            <li><a href="{{ url_for('progress.index') }}">Прогресс</a></li>
-            <li><a href="{{ url_for('tips.index') }}">Советы</a></li>
+            <li><a href="{{ url_for('dashboard.index') }}">{{ _("Dashboard") }}</a></li>
+            <li><a href="{{ url_for('diary.index') }}">{{ _("Diary") }}</a></li>
+            <li><a href="{{ url_for('tasks.index') }}">{{ _("Tasks") }}</a></li>
+            <li><a href="{{ url_for('progress.index') }}">{{ _("Progress") }}</a></li>
+            <li><a href="{{ url_for('tips.index') }}">{{ _("Tips") }}</a></li>
         </ul>
+        <div class="lang-switcher" style="display:inline-flex; gap:8px; margin-right:14px; align-items:center; font-size:0.85rem;">
+            {% for code in supported_locales %}
+                <a href="{{ switch_locale_url(code) }}"
+                   style="color: {% if current_locale == code %}var(--text){% else %}var(--text-muted){% endif %}; text-decoration: {% if current_locale == code %}underline{% else %}none{% endif %}; text-transform:uppercase; font-weight:{% if current_locale == code %}700{% else %}500{% endif %};">
+                    {{ code }}
+                </a>
+            {% endfor %}
+        </div>
         <a href="{{ url_for('sos.index') }}" class="sos-btn">SOS</a>
     </nav>
 
     <aside class="sidebar" id="sidebar">
         <ul>
-            <li><a href="{{ url_for('dashboard.index') }}"><span>&#127968;</span> Дашборд</a></li>
-            <li><a href="{{ url_for('diary.index') }}"><span>&#128211;</span> Дневник тревоги</a></li>
-            <li><a href="{{ url_for('tasks.index') }}"><span>&#9989;</span> Задания</a></li>
-            <li><a href="{{ url_for('progress.index') }}"><span>&#128200;</span> Прогресс</a></li>
-            <li><a href="{{ url_for('tips.index') }}"><span>&#128161;</span> Советы</a></li>
+            <li><a href="{{ url_for('dashboard.index') }}"><span>&#127968;</span> Dashboard</a></li>
+            <li><a href="{{ url_for('diary.index') }}"><span>&#128211;</span> {{ _("Anxiety Diary") }}</a></li>
+            <li><a href="{{ url_for('tasks.index') }}"><span>&#9989;</span> {{ _("Tasks") }}</a></li>
+            <li><a href="{{ url_for('progress.index') }}"><span>&#128200;</span> {{ _("Progress") }}</a></li>
+            <li><a href="{{ url_for('tips.index') }}"><span>&#128161;</span> {{ _("Tips") }}</a></li>
             <li><a href="{{ url_for('sos.index') }}"><span>&#128680;</span> SOS</a></li>
-            <li><a href="{{ url_for('profile.index') }}"><span>&#128100;</span> Профиль</a></li>
+            <li><a href="{{ url_for('profile.index') }}"><span>&#128100;</span> {{ _("Profile") }}</a></li>
         </ul>
     </aside>
 
@@ -254,10 +266,10 @@
     </main>
 
     <footer class="footer">
-        SocialHealth не является медицинским сервисом. При серьёзных симптомах обратитесь к специалисту.
+        {{ _("SocialHealth is not a medical service. For serious symptoms, please consult a specialist.") }}
     </footer>
 
-    <a href="{{ url_for('sos.index') }}" class="sos-floating" aria-label="Открыть SOS-режим">🚨 SOS</a>
+    <a href="{{ url_for('sos.index') }}" class="sos-floating" aria-label="{{ _("Open SOS mode") }}">🚨 SOS</a>
 
     <div class="flash-container">
         {% with messages = get_flashed_messages(with_categories=true) %}

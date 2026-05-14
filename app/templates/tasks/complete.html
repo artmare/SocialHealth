@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Выполнение задания — SocialHealth{% endblock %}
+{% block title %}{{ _("Complete task") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -132,7 +132,7 @@
 <div class="tasks-wrapper">
     <div class="complete-card">
         <h1>Выполнение задания</h1>
-        <div class="task-name">{{ task.title }}</div>
+        <div class="task-name">{{ task.localized_title }}</div>
 
         {% if not result %}
             <form method="POST" action="{{ url_for('tasks.complete', task_id=task.id) }}">
@@ -148,10 +148,10 @@
             <div class="result-block">
                 <div class="xp-anim">+{{ result.xp_earned }} XP!</div>
                 <div class="stats">
-                    Всего XP: {{ result.total_xp }} | Уровень: {{ result.new_level }} | Стрик: {{ result.streak }}
+                    {{ _("Total XP:") }} {{ result.total_xp }} | Уровень: {{ result.new_level }} | Стрик: {{ result.streak }}
                 </div>
                 {% if result.leveled_up %}
-                    <div class="level-up">&#127881; Новый уровень! Уровень {{ result.new_level }} &#127881;</div>
+                    <div class="level-up">&#127881; {{ _("Level up!") }} Уровень {{ result.new_level }} &#127881;</div>
                 {% endif %}
             </div>
             <a href="{{ url_for('tasks.index') }}" style="display:inline-block;margin-top:20px;color:var(--accent-light);text-decoration:none;">

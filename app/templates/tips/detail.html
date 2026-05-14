@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ tip.title }} — Советы — SocialHealth{% endblock %}
+{% block title %}{{ tip.title }} — {{ _("Tips") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/tips.css') }}">
@@ -8,8 +8,8 @@
 
 {% block content %}
 <div class="tip-detail">
-    <nav class="breadcrumbs" aria-label="Хлебные крошки">
-        <a href="{{ url_for('tips.index') }}">Советы</a>
+    <nav class="breadcrumbs" aria-label="{{ _("Breadcrumbs") }}">
+        <a href="{{ url_for('tips.index') }}">{{ _("Tips") }}</a>
         →
         <span>{{ tip.title }}</span>
     </nav>
@@ -30,17 +30,17 @@
     </div>
 
     <section class="tip-section">
-        <h2>📖 Описание</h2>
+        <h2>📖 {{ _("Description") }}</h2>
         <p>{{ tip.description }}</p>
     </section>
 
     <section class="tip-section">
-        <h2>🎯 Когда использовать</h2>
+        <h2>🎯 {{ _("When to use") }}</h2>
         <p>{{ tip.when_to_use }}</p>
     </section>
 
     <section class="tip-section">
-        <h2>📋 Пошаговая инструкция</h2>
+        <h2>📋 {{ _("Step-by-step instructions") }}</h2>
         <ol class="steps-list">
             {% for step in tip.steps %}
                 <li>
@@ -66,19 +66,19 @@
 
     {% if tip.science %}
         <section class="tip-section">
-            <h2>🔬 Научное обоснование</h2>
+            <h2>🔬 {{ _("Scientific basis") }}</h2>
             <blockquote class="science-quote">{{ tip.science }}</blockquote>
         </section>
     {% endif %}
 
     <div class="tip-actions">
-        <a class="btn ghost" href="{{ url_for('tips.index') }}">← Все техники</a>
+        <a class="btn ghost" href="{{ url_for('tips.index') }}">{{ _("← All techniques") }}</a>
         {% if tip.interactive_url %}
             <a class="btn" href="{{ tip.interactive_url }}">
-                {{ tip.interactive_label or 'Попробовать сейчас' }} →
+                {{ tip.interactive_label or '{{ _("Try now") }}' }} →
             </a>
         {% elif tip.category == 'breathing' %}
-            <a class="btn" href="{{ url_for('sos.breathing') }}">Попробовать с таймером →</a>
+            <a class="btn" href="{{ url_for('sos.breathing') }}">{{ _("Try with a timer →") }}</a>
         {% endif %}
     </div>
 </div>

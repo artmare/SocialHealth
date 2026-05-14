@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}История заданий — SocialHealth{% endblock %}
+{% block title %}{{ _("Task history") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -126,16 +126,16 @@
 {% block content %}
 <div class="tasks-wrapper">
     <div class="stats-bar">
-        <h1>История заданий</h1>
+        <h1>{{ _("Task history") }}</h1>
         <div class="stats-numbers">
-            <div>Всего выполнено: <span>{{ completed_count or 0 }}</span></div>
-            <div>Заработано XP: <span>{{ total_xp_earned or 0 }}</span></div>
+            <div>{{ _("Total completed:") }} <span>{{ completed_count or 0 }}</span></div>
+            <div>{{ _("XP earned:") }} <span>{{ total_xp_earned or 0 }}</span></div>
         </div>
     </div>
 
     {% if not entries %}
         <div class="empty-state">
-            <p>Пока нет заданий. Перейдите к заданию дня, чтобы начать.</p>
+            <p>{{ _("No tasks yet. Go to the task of the day to start.") }}</p>
         </div>
     {% endif %}
 
@@ -144,7 +144,7 @@
             <div class="difficulty-dot dot-{{ ut.task.difficulty }}"></div>
             <div class="task-info">
                 <div class="task-title-row">
-                    <strong>{{ ut.task.title }}</strong>
+                    <strong>{{ ut.task.localized_title }}</strong>
                     <span style="font-size:0.75rem;color:var(--text-muted);">
                         {% if ut.task.category == 'breathing' %}&#128067;{%
                         elif ut.task.category == 'cognition' %}&#129504;{%
@@ -156,7 +156,7 @@
                 </div>
                 <div class="task-meta">
                     {% if ut.assigned_at %}{{ ut.assigned_at.strftime('%d %B %Y') }}{% endif %}
-                    {% if ut.completed_at %}— выполнено {{ ut.completed_at.strftime('%d %B %Y') }}{% endif %}
+                    {% if ut.completed_at %}— {{ _("completed") }} {{ ut.completed_at.strftime('%d %B %Y') }}{% endif %}
                 </div>
             </div>
             <div class="task-status">
@@ -169,7 +169,7 @@
     {% if total_pages > 1 %}
         <div class="pagination">
             <a href="{{ url_for('tasks.index', page=page-1) }}" class="{% if page <= 1 %}disabled{% endif %}">&#8592; Назад</a>
-            <span>Страница {{ page }} из {{ total_pages }}</span>
+            <span>{{ _("Page") }} {{ page }} из {{ total_pages }}</span>
             <a href="{{ url_for('tasks.index', page=page+1) }}" class="{% if page >= total_pages %}disabled{% endif %}">Далее &#8594;</a>
         </div>
     {% endif %}

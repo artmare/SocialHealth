@@ -12,7 +12,12 @@ def test_tips_list_content(client):
     assert cards >= 6
     # хотя бы некоторые из ключевых техник
     assert "4-7-8" in body
-    assert "реструктуризация" in body.lower() or "когнитивн" in body.lower()
+    assert (
+        "реструктуризация" in body.lower()
+        or "когнитивн" in body.lower()
+        or "cognitive" in body.lower()
+        or "restructuring" in body.lower()
+    )
 
 
 def test_tips_detail(client):

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Мой дневник — SocialHealth{% endblock %}
+{% block title %}{{ _("My diary") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -157,14 +157,14 @@
 {% block content %}
 <div class="diary-wrapper">
     <div class="diary-header">
-        <h1>Мой дневник эмоций</h1>
-        <a href="{{ url_for('diary.new') }}" class="btn-new">+ Новая запись</a>
+        <h1>{{ _("My emotion diary") }}</h1>
+        <a href="{{ url_for('diary.new') }}" class="btn-new">+ {{ _("New entry") }}</a>
     </div>
 
     {% if not entries %}
         <div class="empty-state">
             <h2>Пока нет записей</h2>
-            <p>Создайте первую запись, чтобы начать отслеживать свои переживания.</p>
+            <p>{{ _("Create your first entry") }}, чтобы начать отслеживать свои переживания.</p>
         </div>
     {% endif %}
 
@@ -192,7 +192,7 @@
     {% if total_pages > 1 %}
         <div class="pagination">
             <a href="{{ url_for('diary.index', page=page-1) }}" class="{% if page <= 1 %}disabled{% endif %}">&#8592; Назад</a>
-            <span>Страница {{ page }} из {{ total_pages }}</span>
+            <span>{{ _("Page") }} {{ page }} из {{ total_pages }}</span>
             <a href="{{ url_for('diary.index', page=page+1) }}" class="{% if page >= total_pages %}disabled{% endif %}">Далее &#8594;</a>
         </div>
     {% endif %}

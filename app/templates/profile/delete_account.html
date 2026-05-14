@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Удаление аккаунта — SocialHealth{% endblock %}
+{% block title %}{{ _("Delete account") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
@@ -8,24 +8,24 @@
 
 {% block content %}
 <div class="profile-wrap" style="max-width: 560px;">
-    <a href="{{ url_for('profile.index') }}" style="color:var(--text-muted); text-decoration:none;">← Назад к профилю</a>
-    <h1 style="margin: 12px 0 12px; color: #ef4444;">Удалить аккаунт</h1>
+    <a href="{{ url_for('profile.index') }}" style="color:var(--text-muted); text-decoration:none;">{{ _("← Back to profile") }}</a>
+    <h1 style="margin: 12px 0 12px; color: #ef4444;">{{ _("Delete account") }}</h1>
 
     <div class="card" style="border-color: rgba(239,68,68,0.4);">
         <p style="margin: 0 0 12px;">
-            <strong>Это действие необратимо.</strong>
+            <strong>{{ _("This action is irreversible.") }}</strong>
         </p>
         <p style="color: var(--text-muted); margin: 0 0 18px; line-height: 1.5;">
             Будут безвозвратно удалены: ваш аккаунт, все записи дневника, история заданий,
             достижения и настройки. Перед удалением рекомендуем
-            <a href="{{ url_for('profile.index') }}" style="color: var(--accent-light);">экспортировать данные</a>.
+            <a href="{{ url_for('profile.index') }}" style="color: var(--accent-light);">{{ _("export your data") }}</a>.
         </p>
 
         <form method="post" action="{{ url_for('profile.delete_account') }}" novalidate>
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <div class="field">
-                <label for="password">Текущий пароль</label>
+                <label for="password">{{ _("Current password") }}</label>
                 <input type="password" id="password" name="password" required autocomplete="current-password">
             </div>
 
@@ -38,8 +38,8 @@
             </div>
 
             <div style="display:flex; gap:10px; margin-top: 8px;">
-                <button type="submit" class="btn danger">Удалить аккаунт навсегда</button>
-                <a href="{{ url_for('profile.index') }}" class="btn ghost">Отмена</a>
+                <button type="submit" class="btn danger">{{ _("Delete account") }} навсегда</button>
+                <a href="{{ url_for('profile.index') }}" class="btn ghost">{{ _("Cancel") }}</a>
             </div>
         </form>
     </div>

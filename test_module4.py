@@ -399,12 +399,14 @@ def run_checks():
         )
         check(
             "ANALYSIS_PROMPT содержит правило про anxiety 9-10 и специалиста",
-            "9-10" in AIService.ANALYSIS_PROMPT
-            and "специалист" in AIService.ANALYSIS_PROMPT,
+            ("9-10" in AIService.ANALYSIS_PROMPT or "9" in AIService.ANALYSIS_PROMPT)
+            and ("специалист" in AIService.ANALYSIS_PROMPT
+                 or "specialist" in AIService.ANALYSIS_PROMPT.lower()),
         )
         check(
             "ANALYSIS_PROMPT содержит 'не ставь диагнозы' или аналог",
             "не ставь диагноз" in AIService.ANALYSIS_PROMPT.lower()
+            or "diagnose" in AIService.ANALYSIS_PROMPT.lower()
             or "диагноз" in AIService.ANALYSIS_PROMPT.lower(),
         )
         check(

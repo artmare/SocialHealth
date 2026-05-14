@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Дашборд — SocialHealth{% endblock %}
+{% block title %}{{ _("Dashboard") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -181,7 +181,7 @@
 <div class="dash-wrapper">
     {# Block 1 — greeting #}
     <section class="greeting anim anim-1">
-        <h1>Привет, {{ display_name }}! 👋</h1>
+        <h1>{{ _("Hi,") }} {{ display_name }}! 👋</h1>
         <div class="date">{{ today.strftime('%d %B %Y') }}</div>
         <div class="motivation">{{ motivation }}</div>
     </section>
@@ -191,13 +191,13 @@
         <div class="card anim anim-2">
             <div class="icon">🔥</div>
             <div class="card-label">Streak</div>
-            <div class="card-value">{{ stats.streak }} дней подряд</div>
-            <div class="card-sub">самый длинный: {{ user.longest_streak }}</div>
+            <div class="card-value">{{ stats.streak }} {{ _("days in a row") }}</div>
+            <div class="card-sub">{{ _("longest:") }} {{ user.longest_streak }}</div>
         </div>
 
         <div class="card anim anim-2">
             <div class="icon">⭐️</div>
-            <div class="card-label">Опыт</div>
+            <div class="card-label">{{ _("XP") }}</div>
             <div class="card-value">{{ stats.xp }} XP · Ур. {{ stats.level }}</div>
             <div class="card-sub">{{ stats.level_title }}{% if stats.xp_to_next_level > 0 %} · до следующего: {{ stats.xp_to_next_level }} XP{% else %} · максимальный уровень!{% endif %}</div>
             <div class="xp-bar">
@@ -207,16 +207,16 @@
 
         <div class="card anim anim-3">
             <div class="icon">✅</div>
-            <div class="card-label">Задания</div>
-            <div class="card-value">{{ stats.total_tasks_completed }} выполнено</div>
-            <div class="card-sub">{{ stats.total_entries }} записей в дневнике</div>
+            <div class="card-label">{{ _("Tasks") }}</div>
+            <div class="card-value">{{ stats.total_tasks_completed }} {{ _("completed") }}</div>
+            <div class="card-sub">{{ stats.total_entries }} {{ _("diary entries") }}</div>
         </div>
 
         <div class="card anim anim-3">
             <div class="icon">📊</div>
-            <div class="card-label">Тревога</div>
+            <div class="card-label">{{ _("Anxiety") }}</div>
             <div class="card-value">
-                Средняя за неделю: {{ stats.avg_anxiety_week }}/10
+                {{ _("Weekly average:") }} {{ stats.avg_anxiety_week }}/10
                 {% if comparison.trend == 'improving' %}
                     <span class="trend-arrow trend-improving">↓</span>
                 {% elif comparison.trend == 'worsening' %}
@@ -225,67 +225,65 @@
                     <span class="trend-arrow trend-stable">→</span>
                 {% endif %}
             </div>
-            <div class="card-sub">за всё время: {{ stats.avg_anxiety }}/10</div>
+            <div class="card-sub">{{ _("all-time:") }} {{ stats.avg_anxiety }}/10</div>
         </div>
     </section>
 
     {# Block 3 — daily task #}
     <section class="panel anim anim-4">
-        <h2>Задание дня</h2>
+        <h2>{{ _("Task of the day") }}</h2>
         {% if daily_task %}
-            <div class="task-title">{{ daily_task.title }}</div>
-            <div class="task-desc">{{ daily_task.description }}</div>
+            <div class="task-title">{{ daily_task.localized_title }}</div>
+            <div class="task-desc">{{ daily_task.localized_description }}</div>
             <div>
                 <span class="badge {{ daily_task.difficulty }}">{{ daily_task.difficulty }}</span>
                 <span class="badge xp">+{{ daily_task.xp_reward }} XP</span>
             </div>
             {% if today_completed %}
-                <div class="done-mark">Задание выполнено! ✓</div>
+                <div class="done-mark">Задание {{ _("completed") }}! ✓</div>
             {% else %}
                 <form action="{{ url_for('tasks.complete', task_id=daily_task.id) }}" method="post" style="margin-top: 4px;">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn">Выполнить задание</button>
+                    <button type="submit" class="btn">{{ _("Complete task") }}</button>
                 </form>
             {% endif %}
         {% else %}
-            <div class="empty">Сегодня заданий нет</div>
+            <div class="empty">{{ _("No tasks today") }}</div>
         {% endif %}
     </section>
 
     {# Block 4 — last diary entry #}
     <section class="panel anim anim-4">
-        <h2>Последняя запись дневника</h2>
+        <h2>{{ _("Latest diary entry") }}</h2>
         {% if last_entry %}
             <div class="entry-meta">
                 <span>{{ last_entry.date.strftime('%d %B %Y') }}</span>
-                <span>Уровень тревоги: <span class="anxiety-num">{{ last_entry.anxiety_level }}/10</span></span>
+                <span>{{ _("Anxiety level:") }} <span class="anxiety-num">{{ last_entry.anxiety_level }}/10</span></span>
             </div>
             <div class="summary">
-                {% if last_entry.ai_analysis and last_entry.ai_analysis.summary %}
-                    {{ last_entry.ai_analysis.summary }}
-                {% elif last_entry.text %}
+                {% if last_entry.text %}
                     {{ last_entry.text[:200] }}{% if last_entry.text|length > 200 %}…{% endif %}
                 {% else %}
-                    <span class="empty">Нет содержимого</span>
+                    <span class="empty">{{ _("No content") }}</span>
                 {% endif %}
             </div>
-            <a href="{{ url_for('diary.new') }}" class="btn">Добавить новую запись</a>
-            <a href="{{ url_for('diary.detail', entry_id=last_entry.id) }}" class="btn ghost">Открыть</a>
+            <a href="{{ url_for('diary.new') }}" class="btn">{{ _("Add new entry") }}</a>
+            <a href="{{ url_for('diary.detail', entry_id=last_entry.id) }}" class="btn ghost">{{ _("Open") }}</a>
         {% else %}
-            <div class="empty">Создайте первую запись в дневнике!</div>
+            <div class="empty">{{ _("Create your first diary entry!") }}</div>
             <div style="text-align:center;">
-                <a href="{{ url_for('diary.new') }}" class="btn">Добавить запись</a>
+                <a href="{{ url_for('diary.new') }}" class="btn">{{ _("Add entry") }}</a>
             </div>
         {% endif %}
     </section>
 
     {# Block 5 — mini anxiety chart #}
     <section class="panel anim anim-5">
-        <h2>Тревога за неделю</h2>
+        <h2>{{ _("Weekly anxiety") }}</h2>
         <div class="mini-chart-wrap">
             <canvas id="miniAnxietyChart"></canvas>
         </div>
-        <div id="miniAnxietyEmpty" class="empty" style="display:none;">Нет данных за последние 7 дней</div>
+        <div id="miniAnxietyEmpty" class="empty" style="display:none;">{{ _("No data for the last 7 days") }}</div>
     </section>
 </div>
 

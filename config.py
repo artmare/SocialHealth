@@ -16,19 +16,24 @@ class BaseConfig:
     WTF_CSRF_ENABLED = True
     RATELIMIT_STORAGE_URI = "memory://"
 
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
+    BABEL_TRANSLATION_DIRECTORIES = "translations"
+    SUPPORTED_LOCALES = ["en", "ru"]
+
     XP_LEVELS = [0, 100, 250, 500, 900, 1400, 2000, 2800, 3800, 5000]
-    LEVEL_TITLES = [
-        "Новичок",
-        "Искатель",
-        "Наблюдатель",
-        "Смельчак",
-        "Преодолевший",
-        "Воин",
-        "Мастер",
-        "Герой",
-        "Легенда",
-        "Властелин тревоги",
-    ]
+    LEVEL_TITLES_BY_LOCALE = {
+        "en": [
+            "Novice", "Seeker", "Observer", "Brave Soul", "Overcomer",
+            "Warrior", "Master", "Hero", "Legend", "Anxiety Lord",
+        ],
+        "ru": [
+            "Новичок", "Искатель", "Наблюдатель", "Смельчак", "Преодолевший",
+            "Воин", "Мастер", "Герой", "Легенда", "Властелин тревоги",
+        ],
+    }
+    # Backward-compat: дефолт — EN
+    LEVEL_TITLES = LEVEL_TITLES_BY_LOCALE["en"]
 
     @classmethod
     def get_level_from_xp(cls, xp: int) -> int:

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Настройки — SocialHealth{% endblock %}
+{% block title %}{{ _("Settings") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
@@ -8,48 +8,48 @@
 
 {% block content %}
 <div class="profile-wrap">
-    <a href="{{ url_for('profile.index') }}" style="color:var(--text-muted); text-decoration:none;">← Назад к профилю</a>
-    <h1 style="margin: 12px 0 18px;">Настройки</h1>
+    <a href="{{ url_for('profile.index') }}" style="color:var(--text-muted); text-decoration:none;">{{ _("← Back to profile") }}</a>
+    <h1 style="margin: 12px 0 18px;">{{ _("Settings") }}</h1>
 
     <form method="post" action="{{ url_for('profile.settings') }}" class="card" novalidate>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-        <h2>Внешний вид</h2>
+        <h2>{{ _("Appearance") }}</h2>
         <label class="toggle">
             <div>
-                <div class="label">🌙 Тёмная тема</div>
-                <div class="desc">Затемнённый интерфейс, легче для глаз вечером</div>
+                <div class="label">🌙 {{ _("Dark theme") }}</div>
+                <div class="desc">{{ _("Dimmed interface, easier on the eyes at night") }}</div>
             </div>
             <input type="checkbox" name="dark_mode" {% if settings.dark_mode %}checked{% endif %}>
         </label>
 
-        <h2 style="margin-top:18px;">Уведомления</h2>
+        <h2 style="margin-top:18px;">{{ _("Notifications") }}</h2>
         <label class="toggle">
             <div>
-                <div class="label">🔔 Уведомления</div>
-                <div class="desc">Получать напоминания о ведении дневника</div>
+                <div class="label">🔔 {{ _("Notifications") }}</div>
+                <div class="desc">{{ _("Receive diary reminders") }}</div>
             </div>
             <input type="checkbox" name="notifications_enabled" {% if settings.notifications_enabled %}checked{% endif %}>
         </label>
 
         <div class="field" style="margin-top: 14px;">
-            <label for="reminder">Время ежедневного напоминания</label>
+            <label for="reminder">{{ _("Daily reminder time") }}</label>
             <input type="time" id="reminder" name="daily_reminder_time"
                    value="{{ settings.daily_reminder_time or '' }}">
         </div>
 
-        <h2 style="margin-top:18px;">Язык</h2>
+        <h2 style="margin-top:18px;">{{ _("Language") }}</h2>
         <div class="field">
-            <label for="lang">Язык интерфейса</label>
+            <label for="lang">{{ _("Interface language") }}</label>
             <select id="lang" name="language">
-                <option value="ru" {% if settings.language == 'ru' %}selected{% endif %}>Русский</option>
+                <option value="ru" {% if settings.language == 'ru' %}selected{% endif %}>{{ _("Russian") }}</option>
                 <option value="en" {% if settings.language == 'en' %}selected{% endif %}>English</option>
             </select>
         </div>
 
         <div style="display:flex; gap:10px; margin-top: 8px;">
-            <button type="submit" class="btn">Сохранить</button>
-            <a href="{{ url_for('profile.index') }}" class="btn ghost">Отмена</a>
+            <button type="submit" class="btn">{{ _("Save") }}</button>
+            <a href="{{ url_for('profile.index') }}" class="btn ghost">{{ _("Cancel") }}</a>
         </div>
     </form>
 </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Задание дня — SocialHealth{% endblock %}
+{% block title %}{{ _("Task of the day") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -166,14 +166,14 @@
                 elif task.category == 'body' %}&#129496;{%
                 else %}&#9997;{% endif %}
             </div>
-            <h1>Задание дня</h1>
+            <h1>{{ _("Task of the day") }}</h1>
             <div class="difficulty-badge badge-{{ task.difficulty }}">
                 {% if task.difficulty == 'easy' %}Лёгкое{%
                 elif task.difficulty == 'medium' %}Среднее{%
                 else %}Сложное{% endif %}
             </div>
-            <div class="task-title">{{ task.title }}</div>
-            <div class="task-desc">{{ task.description }}</div>
+            <div class="task-title">{{ task.localized_title }}</div>
+            <div class="task-desc">{{ task.localized_description }}</div>
             <div class="xp-badge">&#11088; +{{ task.xp_reward }} XP</div>
             <a href="{{ url_for('tasks.complete', task_id=task.id) }}" class="btn-complete">Я выполнил!</a>
         </div>

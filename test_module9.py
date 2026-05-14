@@ -70,11 +70,11 @@ def run_checks():
         # ============================================================
         print()
         print("--- 2. Доступность БЕЗ авторизации ---")
-        r, _ = html_from(c, "/tips/")
+        r, _ = html_from(c, "/ru/tips/")
         check("/tips/ БЕЗ токена → 200", r.status_code == 200,
               f"status={r.status_code} loc={r.headers.get('Location')}")
 
-        r, _ = html_from(c, "/tips/1")
+        r, _ = html_from(c, "/ru/tips/1")
         check("/tips/1 БЕЗ токена → 200", r.status_code == 200,
               f"status={r.status_code}")
 
@@ -83,7 +83,7 @@ def run_checks():
         # ============================================================
         print()
         print("--- 3. Список техник (/tips/) ---")
-        r, html_idx = html_from(c, "/tips/")
+        r, html_idx = html_from(c, "/ru/tips/")
         check("/tips/ статус 200", r.status_code == 200, f"status={r.status_code}")
 
         # Карточки
@@ -155,7 +155,7 @@ def run_checks():
         # ============================================================
         print()
         print("--- 5. Детальная страница (/tips/1) ---")
-        r, html_d = html_from(c, "/tips/1")
+        r, html_d = html_from(c, "/ru/tips/1")
         check("/tips/1 статус 200", r.status_code == 200, f"status={r.status_code}")
 
         # tip 1 = "Дыхание 4-7-8"
@@ -222,9 +222,9 @@ def run_checks():
         # ============================================================
         print()
         print("--- 7. Несуществующая техника ---")
-        r = c.get("/tips/999", headers={"Accept": "text/html"})
+        r = c.get("/ru/tips/999", headers={"Accept": "text/html"})
         check("/tips/999 → 404", r.status_code == 404, f"status={r.status_code}")
-        r = c.get("/tips/abc", headers={"Accept": "text/html"})
+        r = c.get("/ru/tips/abc", headers={"Accept": "text/html"})
         check("/tips/abc (несуществующий slug) → 404",
               r.status_code == 404, f"status={r.status_code}")
 
@@ -235,7 +235,7 @@ def run_checks():
         print("--- 8. Корректность CBT-контента ---")
 
         def html_for(slug_or_id):
-            r, h = html_from(c, f"/tips/{slug_or_id}")
+            r, h = html_from(c, f"/ru/tips/{slug_or_id}")
             return h if r.status_code == 200 else ""
 
         h_478 = html_for(1)  # Дыхание 4-7-8

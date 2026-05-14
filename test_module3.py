@@ -76,21 +76,21 @@ def run_checks():
         print()
         print("--- 2. Защита маршрутов ---")
         fresh = app.test_client()
-        resp = fresh.get("/diary/", follow_redirects=False)
+        resp = fresh.get("/ru/diary/", follow_redirects=False)
         check(
             "GET /diary/ без токена — 401 или редирект",
             resp.status_code in (401, 301, 302, 307, 308),
             f"status={resp.status_code}",
         )
 
-        resp = fresh.get("/diary/new", follow_redirects=False)
+        resp = fresh.get("/ru/diary/new", follow_redirects=False)
         check(
             "GET /diary/new без токена — 401 или редирект",
             resp.status_code in (401, 301, 302, 307, 308),
             f"status={resp.status_code}",
         )
 
-        resp = fresh.post("/diary/new", data={"anxiety_level": 5}, follow_redirects=False)
+        resp = fresh.post("/ru/diary/new", data={"anxiety_level": 5}, follow_redirects=False)
         check(
             "POST /diary/new без токена — 401 или редирект",
             resp.status_code in (401, 301, 302, 307, 308),
@@ -105,7 +105,7 @@ def run_checks():
         client = app.test_client()
         user = create_user_and_login(client, db, User, "diaryuser", "diary@test.com", "password123")
 
-        resp = client.get("/diary/new")
+        resp = client.get("/ru/diary/new")
         check("GET /diary/new с токеном — 200", resp.status_code == 200)
         html_new = resp.data.decode("utf-8")
         check(
@@ -170,7 +170,7 @@ def run_checks():
             check("ai_analysis заполнен", False, "Entry не найдена")
 
         # 4.2 Без anxiety_level
-        resp_no = client.post("/diary/new", data={"text": "без уровня"})
+        resp_no = client.post("/ru/diary/new", data={"text": "без уровня"})
         check(
             "POST /diary/new без anxiety_level — ошибка",
             resp_no.status_code in (400, 422),
@@ -245,7 +245,7 @@ def run_checks():
             sa.select(sa.func.count(DailyEntry.id)).where(DailyEntry.user_id == user.id)
         )
 
-        resp_list = client.get("/diary/")
+        resp_list = client.get("/ru/diary/")
         check("GET /diary/ — статус 200", resp_list.status_code == 200)
         html_list = resp_list.data.decode("utf-8")
 
@@ -257,7 +257,7 @@ def run_checks():
             "Страница" in html_list or "pagination" in html_list.lower() or "Назад" in html_list,
         )
 
-        resp_p2 = client.get("/diary/?page=2")
+        resp_p2 = client.get("/ru/diary/?page=2")
         check("GET /diary/?page=2 — статус 200", resp_p2.status_code == 200)
 
         # Проверим что записи отсортированы по дате (новые сверху)
@@ -288,7 +288,7 @@ def run_checks():
         db.session.add(other_entry)
         db.session.commit()
 
-        resp_other = client.get("/diary/")
+        resp_other = client.get("/ru/diary/")
         html_other = resp_other.data.decode("utf-8")
         check(
             "Пользователь НЕ видит чужие записи",
@@ -338,7 +338,7 @@ def run_checks():
         )
 
         # Несуществующая
-        resp_404 = client.get("/diary/99999")
+        resp_404 = client.get("/ru/diary/99999")
         check(
             "GET /diary/99999 — 404",
             resp_404.status_code == 404,
@@ -398,7 +398,8 @@ def run_checks():
         result_high = AIService.analyze_entry("тест", 9)
         check(
             "При anxiety_level 9-10 рекомендация содержит слово 'специалист'",
-            "специалист" in result_high.get("recommendation", "").lower(),
+            ("специалист" in result_high.get("recommendation", "").lower()
+             or "specialist" in result_high.get("recommendation", "").lower()),
             f"recommendation={result_high.get('recommendation')}",
         )
 

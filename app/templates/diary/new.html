@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Новая запись — SocialHealth{% endblock %}
+{% block title %}{{ _("New entry") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -188,11 +188,11 @@
 {% block content %}
 <div class="diary-wrapper">
     <div class="diary-card">
-        <h1>Новая запись в дневнике</h1>
+        <h1>{{ _("New diary entry") }}</h1>
         <form method="POST" action="{{ url_for('diary.create') }}" id="entryForm">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="form-section">
-                <label>Уровень тревоги</label>
+                <label>{{ _("Anxiety level") }}</label>
                 <div class="slider-row">
                     <input type="range" id="anxietySlider" name="anxiety_level" min="1" max="10" value="5">
                     <div class="slider-value" id="sliderValue">5</div>
@@ -205,37 +205,37 @@
                     <span id="emoji5">&#128561;</span>
                 </div>
                 <div class="anxiety-labels">
-                    <span>Спокойно</span>
-                    <span>Паника</span>
+                    <span>{{ _("Calm") }}</span>
+                    <span>{{ _("Panic") }}</span>
                 </div>
             </div>
 
             <div class="form-section">
-                <label>Что вы чувствуете? (можно выбрать несколько)</label>
+                <label>{{ _("How do you feel? (multiple choice)") }}</label>
                 <div class="emotion-grid">
-                    <button type="button" class="emotion-btn" data-value="Страх">Страх</button>
-                    <button type="button" class="emotion-btn" data-value="Стыд">Стыд</button>
-                    <button type="button" class="emotion-btn" data-value="Одиночество">Одиночество</button>
-                    <button type="button" class="emotion-btn" data-value="Раздражение">Раздражение</button>
-                    <button type="button" class="emotion-btn" data-value="Грусть">Грусть</button>
-                    <button type="button" class="emotion-btn" data-value="Вина">Вина</button>
-                    <button type="button" class="emotion-btn" data-value="Беспомощность">Беспомощность</button>
-                    <button type="button" class="emotion-btn" data-value="Напряжение">Напряжение</button>
-                    <button type="button" class="emotion-btn" data-value="Неуверенность">Неуверенность</button>
-                    <button type="button" class="emotion-btn" data-value="Смущение">Смущение</button>
-                    <button type="button" class="emotion-btn" data-value="Паника">Паника</button>
-                    <button type="button" class="emotion-btn" data-value="Подавленность">Подавленность</button>
+                    <button type="button" class="emotion-btn" data-value="{{ _("Fear") }}">{{ _("Fear") }}</button>
+                    <button type="button" class="emotion-btn" data-value="{{ _("Shame") }}">{{ _("Shame") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Loneliness">{{ _("Loneliness") }}</button>
+                    <button type="button" class="emotion-btn" data-value="{{ _("Irritation") }}">{{ _("Irritation") }}</button>
+                    <button type="button" class="emotion-btn" data-value="{{ _("Sadness") }}">{{ _("Sadness") }}</button>
+                    <button type="button" class="emotion-btn" data-value="{{ _("Guilt") }}">{{ _("Guilt") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Helplessness">{{ _("Helplessness") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Tension">{{ _("Tension") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Insecurity">{{ _("Insecurity") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Embarrassment">{{ _("Embarrassment") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Panic">{{ _("Panic") }}</button>
+                    <button type="button" class="emotion-btn" data-value="Depression">{{ _("Depression") }}</button>
                 </div>
             </div>
 
             <div class="form-section">
-                <label for="textField">Опишите, что вас беспокоит сегодня</label>
+                <label for="textField">{{ _("Describe what worries you today") }}</label>
                 <textarea id="textField" name="text" maxlength="2000"
-                    placeholder="Опишите, что вас беспокоит сегодня..."></textarea>
+                    placeholder="{{ _("Describe what worries you today...") }}"></textarea>
                 <div class="char-counter" id="charCounter">0 / 2000</div>
             </div>
 
-            <button type="submit" class="btn-submit" id="submitBtn">Сохранить запись</button>
+            <button type="submit" class="btn-submit" id="submitBtn">{{ _("Save entry") }}</button>
         </form>
     </div>
 </div>

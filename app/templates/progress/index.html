@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Прогресс — SocialHealth{% endblock %}
+{% block title %}{{ _("Progress") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -162,22 +162,22 @@
 
 {% block content %}
 <div class="prog-wrapper">
-    <h1 class="page-title">Прогресс</h1>
+    <h1 class="page-title">{{ _("Progress") }}</h1>
 
     {# Block 1 — week comparison #}
     <section class="panel anim anim-1">
-        <h2>Эта неделя vs прошлая</h2>
+        <h2>{{ _("This week vs last week") }}</h2>
         <div class="compare">
             <div class="col">
-                <div class="label">Эта неделя</div>
+                <div class="label">{{ _("This week") }}</div>
                 <div class="val">{{ comparison.current_week_avg }}</div>
             </div>
             <div class="col">
-                <div class="label">Прошлая</div>
+                <div class="label">{{ _("Last week") }}</div>
                 <div class="val">{{ comparison.previous_week_avg }}</div>
             </div>
             <div class="col">
-                <div class="label">Изменение</div>
+                <div class="label">{{ _("Change") }}</div>
                 <div style="margin-top: 10px;">
                     {% if comparison.trend == 'improving' %}
                         <span class="trend-pill trend-improving">↓ {{ comparison.change_pct }}%</span>
@@ -193,44 +193,44 @@
 
     {# Block 2 — anxiety chart #}
     <section class="panel anim anim-2">
-        <h2>Уровень тревоги</h2>
+        <h2>{{ _("Anxiety level") }}</h2>
         <div class="controls">
-            <button data-days="7">7 дней</button>
-            <button data-days="30" class="active">30 дней</button>
-            <button data-days="90">90 дней</button>
+            <button data-days="7">{{ _("7 days") }}</button>
+            <button data-days="30" class="active">{{ _("30 days") }}</button>
+            <button data-days="90">{{ _("90 days") }}</button>
         </div>
         <div class="chart-wrap">
             <canvas id="anxietyChart"></canvas>
         </div>
-        <div id="anxietyEmpty" class="empty" style="display:none;">Нет данных за выбранный период</div>
+        <div id="anxietyEmpty" class="empty" style="display:none;">{{ _("No data for the selected period") }}</div>
     </section>
 
     {# Block 3 — tasks bar chart #}
     <section class="panel anim anim-3">
-        <h2>Задания по неделям (последние 8 недель)</h2>
+        <h2>{{ _("Tasks per week (last 8 weeks)") }}</h2>
         <div class="chart-wrap-sm">
             <canvas id="tasksChart"></canvas>
         </div>
-        <div id="tasksEmpty" class="empty" style="display:none;">Нет выполненных заданий за этот период</div>
+        <div id="tasksEmpty" class="empty" style="display:none;">{{ _("No completed tasks for this period") }}</div>
     </section>
 
     {# Block 4 — top 5 completed tasks #}
     <section class="panel anim anim-4">
-        <h2>Последние 5 выполненных заданий</h2>
+        <h2>{{ _("Last 5 completed tasks") }}</h2>
         {% if top_tasks %}
             <table class="top-table">
                 <thead>
                     <tr>
-                        <th>Название</th>
-                        <th>Сложность</th>
-                        <th>Дата</th>
+                        <th>{{ _("Title") }}</th>
+                        <th>{{ _("Difficulty") }}</th>
+                        <th>{{ _("Date") }}</th>
                         <th style="text-align: right;">XP</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for ut in top_tasks %}
                         <tr>
-                            <td>{{ ut.task.title }}</td>
+                            <td>{{ ut.task.localized_title }}</td>
                             <td><span class="badge {{ ut.task.difficulty }}">{{ ut.task.difficulty }}</span></td>
                             <td>{{ ut.completed_at.strftime('%d %B %Y') if ut.completed_at else '—' }}</td>
                             <td style="text-align: right; color: var(--accent-light); font-weight: 600;">+{{ ut.task.xp_reward }}</td>
@@ -239,13 +239,13 @@
                 </tbody>
             </table>
         {% else %}
-            <div class="empty">Заданий пока не выполнено</div>
+            <div class="empty">{{ _("No tasks completed yet") }}</div>
         {% endif %}
     </section>
 
     {# Block 5 — achievements #}
     <section class="panel anim anim-5">
-        <h2>Достижения</h2>
+        <h2>{{ _("Achievements") }}</h2>
         {% if achievements %}
             <div class="ach-grid">
                 {% for a in achievements %}
@@ -259,14 +259,14 @@
                             <strong>{{ a.name }}</strong><br>
                             {{ a.description or '' }}
                             {% if not a.earned %}
-                                <br><em>Требуется: {{ a.condition_type }} ≥ {{ a.condition_value }}</em>
+                                <br><em>{{ _("Required:") }} {{ a.condition_type }} ≥ {{ a.condition_value }}</em>
                             {% endif %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div class="empty">Достижения пока не настроены</div>
+            <div class="empty">{{ _("Achievements not set up yet") }}</div>
         {% endif %}
     </section>
 </div>
@@ -315,7 +315,7 @@
             data: {
                 labels: data.map(d => d.date),
                 datasets: [{
-                    label: 'Тревога',
+                    label: {{ _('Anxiety') | tojson }},
                     data: data.map(d => d.anxiety_level),
                     borderColor: '#7C3AED',
                     backgroundColor: gradient,
@@ -340,7 +340,7 @@
                     legend: { labels: { color: '#e2e8f0' } },
                     tooltip: {
                         callbacks: {
-                            label: ctx => `Тревога: ${ctx.parsed.y}/10`,
+                            label: ctx => {{ _("Anxiety") | tojson }} + ": " + ctx.parsed.y + "/10",
                         },
                     },
                 },
@@ -373,7 +373,7 @@
             data: {
                 labels: data.map(d => d.week),
                 datasets: [{
-                    label: 'Выполнено заданий',
+                    label: {{ _('Tasks completed') | tojson }},
                     data: data.map(d => d.count),
                     backgroundColor: 'rgba(74,144,217,0.6)',
                     borderColor: '#7C3AED',

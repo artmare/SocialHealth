@@ -77,13 +77,13 @@ def run_checks():
         # ============================================================
         print()
         print("--- 3. Главная SOS-страница ---")
-        r, html_idx = html_from(anon, "/sos/")
+        r, html_idx = html_from(anon, "/ru/sos/")
         check("/sos/ → статус 200", r.status_code == 200, f"status={r.status_code}")
         low_idx = html_idx.lower()
 
         check(
             "Содержит успокаивающее сообщение ('безопасности'/'будет хорошо')",
-            "безопасности" in low_idx or "будет хорошо" in low_idx,
+            "безопасности" in low_idx or "будет хорошо" in low_idx or "everything will be okay" in low_idx or "you are safe" in low_idx,
         )
         check("Содержит ссылку на /sos/breathing", "/sos/breathing" in html_idx)
         check("Содержит ссылку на /sos/grounding", "/sos/grounding" in html_idx)
@@ -97,7 +97,7 @@ def run_checks():
         )
         check(
             "Содержит дисклеймер о немедицинском характере",
-            "не является медицинским" in html_idx
+            ("не является медицинским" in html_idx or "is not a medical" in html_idx)
             or "немедицинск" in low_idx,
         )
         # Никаких pop-up / alert / реклама
@@ -115,7 +115,7 @@ def run_checks():
         # ============================================================
         print()
         print("--- 4. Страница дыхания (/sos/breathing) ---")
-        r, html_b = html_from(anon, "/sos/breathing")
+        r, html_b = html_from(anon, "/ru/sos/breathing")
         check("/sos/breathing → статус 200", r.status_code == 200,
               f"status={r.status_code}")
         low_b = html_b.lower()
@@ -177,7 +177,7 @@ def run_checks():
         # ============================================================
         print()
         print("--- 5. Страница заземления (/sos/grounding) ---")
-        r, html_g = html_from(anon, "/sos/grounding")
+        r, html_g = html_from(anon, "/ru/sos/grounding")
         check("/sos/grounding → статус 200", r.status_code == 200,
               f"status={r.status_code}")
         low_g = html_g.lower()
@@ -245,10 +245,10 @@ def run_checks():
         u.set_password("pass1234")
         db.session.add(u); db.session.commit()
         c = app.test_client()
-        c.post("/auth/login",
+        c.post("/ru/auth/login",
                data={"email": "sosnav@test.com", "password": "pass1234"},
                follow_redirects=False)
-        r_dash, html_dash = html_from(c, "/dashboard/")
+        r_dash, html_dash = html_from(c, "/ru/dashboard/")
         check("/dashboard/ доступен залогиненному → 200",
               r_dash.status_code == 200, f"status={r_dash.status_code}")
         check("base.html содержит ссылку на /sos/", "/sos/" in html_dash)

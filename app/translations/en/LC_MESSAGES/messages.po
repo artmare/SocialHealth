@@ -1,0 +1,887 @@
+# English translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-05-13 22:30+0200\n"
+"PO-Revision-Date: 2026-05-13 21:11+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: app/routes/auth.py:55
+msgid "A user with this email already exists"
+msgstr ""
+
+#: app/routes/auth.py:65
+msgid "Username is already taken"
+msgstr ""
+
+#: app/routes/auth.py:77
+msgid "Registration successful! You can sign in now."
+msgstr ""
+
+#: app/routes/auth.py:99
+msgid "Signed in successfully!"
+msgstr ""
+
+#: app/routes/auth.py:102
+msgid "Wrong email or password"
+msgstr ""
+
+#: app/routes/dashboard.py:17
+msgid "Every tiny step is a victory"
+msgstr ""
+
+#: app/routes/dashboard.py:18
+msgid "Today is the best day to become a bit braver"
+msgstr ""
+
+#: app/routes/dashboard.py:19
+msgid "Anxiety comes and goes, but you stay"
+msgstr ""
+
+#: app/routes/dashboard.py:20
+msgid "Breathe deeper. You are coping better than you think"
+msgstr ""
+
+#: app/routes/dashboard.py:21
+msgid "Progress matters more than perfection"
+msgstr ""
+
+#: app/routes/profile.py:102
+msgid "Invalid reminder time format (HH:MM required)"
+msgstr ""
+
+#: app/routes/profile.py:109
+msgid "Settings saved"
+msgstr ""
+
+#: app/routes/profile.py:139
+msgid "Current password is incorrect"
+msgstr ""
+
+#: app/routes/profile.py:141
+msgid "New password must be at least 8 characters"
+msgstr ""
+
+#: app/routes/profile.py:143
+msgid "New password and confirmation do not match"
+msgstr ""
+
+#: app/routes/profile.py:145
+msgid "New password must differ from current"
+msgstr ""
+
+#: app/routes/profile.py:154
+msgid "Password changed successfully"
+msgstr ""
+
+#: app/routes/profile.py:263
+msgid "Unknown export format"
+msgstr ""
+
+#: app/routes/profile.py:282
+msgid "Enter the word 'УДАЛИТЬ' in uppercase to confirm"
+msgstr ""
+
+#: app/routes/profile.py:286
+msgid "Wrong password"
+msgstr ""
+
+#: app/routes/profile.py:295
+msgid "Account deleted"
+msgstr ""
+
+#: app/templates/base.html:233 app/templates/dashboard/index.html:3
+msgid "Dashboard"
+msgstr ""
+
+#: app/templates/base.html:234
+msgid "Diary"
+msgstr ""
+
+#: app/templates/base.html:235 app/templates/base.html:254
+#: app/templates/dashboard/index.html:210
+msgid "Tasks"
+msgstr ""
+
+#: app/templates/base.html:236 app/templates/base.html:255
+#: app/templates/progress/index.html:3 app/templates/progress/index.html:165
+msgid "Progress"
+msgstr ""
+
+#: app/templates/base.html:237 app/templates/base.html:256
+#: app/templates/tips/detail.html:3 app/templates/tips/detail.html:12
+msgid "Tips"
+msgstr ""
+
+#: app/templates/base.html:253
+msgid "Anxiety Diary"
+msgstr ""
+
+#: app/templates/base.html:258 app/templates/profile/index.html:3
+msgid "Profile"
+msgstr ""
+
+#: app/templates/base.html:269
+msgid ""
+"SocialHealth is not a medical service. For serious symptoms, please "
+"consult a specialist."
+msgstr ""
+
+#: app/templates/base.html:272
+msgid "Open SOS mode"
+msgstr ""
+
+#: app/templates/auth/login.html:3 app/templates/auth/register.html:151
+msgid "Sign in"
+msgstr ""
+
+#: app/templates/auth/login.html:115
+msgid "Welcome back"
+msgstr ""
+
+#: app/templates/auth/login.html:116
+msgid "Sign in to your SocialHealth account"
+msgstr ""
+
+#: app/templates/auth/login.html:136
+msgid "No account?"
+msgstr ""
+
+#: app/templates/auth/login.html:136 app/templates/auth/register.html:3
+msgid "Register"
+msgstr ""
+
+#: app/templates/auth/register.html:116
+msgid "Create account"
+msgstr ""
+
+#: app/templates/auth/register.html:117
+msgid "Start your journey to overcome social anxiety"
+msgstr ""
+
+#: app/templates/auth/register.html:151
+msgid "Already have an account?"
+msgstr ""
+
+#: app/templates/dashboard/index.html:184
+msgid "Hi,"
+msgstr ""
+
+#: app/templates/dashboard/index.html:194
+msgid "days in a row"
+msgstr ""
+
+#: app/templates/dashboard/index.html:195
+msgid "longest:"
+msgstr ""
+
+#: app/templates/dashboard/index.html:200 app/templates/profile/index.html:21
+msgid "XP"
+msgstr ""
+
+#: app/templates/dashboard/index.html:211
+#: app/templates/dashboard/index.html:243
+#: app/templates/tasks/task_list.html:159
+msgid "completed"
+msgstr ""
+
+#: app/templates/dashboard/index.html:212
+msgid "diary entries"
+msgstr ""
+
+#: app/templates/dashboard/index.html:217
+msgid "Anxiety"
+msgstr ""
+
+#: app/templates/dashboard/index.html:219
+msgid "Weekly average:"
+msgstr ""
+
+#: app/templates/dashboard/index.html:228
+msgid "all-time:"
+msgstr ""
+
+#: app/templates/dashboard/index.html:234 app/templates/tasks/daily.html:3
+#: app/templates/tasks/daily.html:169
+msgid "Task of the day"
+msgstr ""
+
+#: app/templates/dashboard/index.html:247 app/templates/tasks/complete.html:3
+msgid "Complete task"
+msgstr ""
+
+#: app/templates/dashboard/index.html:251
+msgid "No tasks today"
+msgstr ""
+
+#: app/templates/dashboard/index.html:257
+msgid "Latest diary entry"
+msgstr ""
+
+#: app/templates/dashboard/index.html:261
+msgid "Anxiety level:"
+msgstr ""
+
+#: app/templates/dashboard/index.html:267
+msgid "No content"
+msgstr ""
+
+#: app/templates/dashboard/index.html:270
+msgid "Add new entry"
+msgstr ""
+
+#: app/templates/dashboard/index.html:271
+msgid "Open"
+msgstr ""
+
+#: app/templates/dashboard/index.html:273
+msgid "Create your first diary entry!"
+msgstr ""
+
+#: app/templates/dashboard/index.html:275
+msgid "Add entry"
+msgstr ""
+
+#: app/templates/dashboard/index.html:282
+msgid "Weekly anxiety"
+msgstr ""
+
+#: app/templates/dashboard/index.html:286
+msgid "No data for the last 7 days"
+msgstr ""
+
+#: app/templates/diary/detail.html:3
+msgid "Entry"
+msgstr ""
+
+#: app/templates/diary/detail.html:145
+msgid "Entry from"
+msgstr ""
+
+#: app/templates/diary/detail.html:152
+msgid "Emotions"
+msgstr ""
+
+#: app/templates/diary/detail.html:162 app/templates/tips/detail.html:33
+msgid "Description"
+msgstr ""
+
+#: app/templates/diary/detail.html:167
+msgid "AI analysis"
+msgstr ""
+
+#: app/templates/diary/detail.html:170
+msgid "Summary"
+msgstr ""
+
+#: app/templates/diary/detail.html:178
+msgid "Recommendation"
+msgstr ""
+
+#: app/templates/diary/list.html:3
+msgid "My diary"
+msgstr ""
+
+#: app/templates/diary/list.html:160
+msgid "My emotion diary"
+msgstr ""
+
+#: app/templates/diary/list.html:161 app/templates/diary/new.html:3
+msgid "New entry"
+msgstr ""
+
+#: app/templates/diary/list.html:167
+msgid "Create your first entry"
+msgstr ""
+
+#: app/templates/diary/list.html:195 app/templates/tasks/task_list.html:172
+msgid "Page"
+msgstr ""
+
+#: app/templates/diary/new.html:191
+msgid "New diary entry"
+msgstr ""
+
+#: app/templates/diary/new.html:195 app/templates/progress/index.html:196
+msgid "Anxiety level"
+msgstr ""
+
+#: app/templates/diary/new.html:208
+msgid "Calm"
+msgstr ""
+
+#: app/templates/diary/new.html:209 app/templates/diary/new.html:226
+msgid "Panic"
+msgstr ""
+
+#: app/templates/diary/new.html:214
+msgid "How do you feel? (multiple choice)"
+msgstr ""
+
+#: app/templates/diary/new.html:216
+msgid "Fear"
+msgstr ""
+
+#: app/templates/diary/new.html:217
+msgid "Shame"
+msgstr ""
+
+#: app/templates/diary/new.html:218
+msgid "Loneliness"
+msgstr ""
+
+#: app/templates/diary/new.html:219
+msgid "Irritation"
+msgstr ""
+
+#: app/templates/diary/new.html:220
+msgid "Sadness"
+msgstr ""
+
+#: app/templates/diary/new.html:221
+msgid "Guilt"
+msgstr ""
+
+#: app/templates/diary/new.html:222
+msgid "Helplessness"
+msgstr ""
+
+#: app/templates/diary/new.html:223
+msgid "Tension"
+msgstr ""
+
+#: app/templates/diary/new.html:224
+msgid "Insecurity"
+msgstr ""
+
+#: app/templates/diary/new.html:225
+msgid "Embarrassment"
+msgstr ""
+
+#: app/templates/diary/new.html:227
+msgid "Depression"
+msgstr ""
+
+#: app/templates/diary/new.html:232
+msgid "Describe what worries you today"
+msgstr ""
+
+#: app/templates/diary/new.html:234
+msgid "Describe what worries you today..."
+msgstr ""
+
+#: app/templates/diary/new.html:238
+msgid "Save entry"
+msgstr ""
+
+#: app/templates/profile/change_password.html:3
+#: app/templates/profile/change_password.html:12
+#: app/templates/profile/change_password.html:33
+#: app/templates/profile/index.html:68
+msgid "Change password"
+msgstr ""
+
+#: app/templates/profile/change_password.html:11
+#: app/templates/profile/delete_account.html:11
+#: app/templates/profile/settings.html:11
+msgid "← Back to profile"
+msgstr ""
+
+#: app/templates/profile/change_password.html:18
+#: app/templates/profile/delete_account.html:28
+msgid "Current password"
+msgstr ""
+
+#: app/templates/profile/change_password.html:23
+msgid "New password (at least 8 characters)"
+msgstr ""
+
+#: app/templates/profile/change_password.html:28
+msgid "Confirm new password"
+msgstr ""
+
+#: app/templates/profile/change_password.html:34
+#: app/templates/profile/delete_account.html:42
+#: app/templates/profile/settings.html:52
+msgid "Cancel"
+msgstr ""
+
+#: app/templates/profile/delete_account.html:3
+#: app/templates/profile/delete_account.html:12
+#: app/templates/profile/delete_account.html:41
+#: app/templates/profile/index.html:88
+msgid "Delete account"
+msgstr ""
+
+#: app/templates/profile/delete_account.html:16
+msgid "This action is irreversible."
+msgstr ""
+
+#: app/templates/profile/delete_account.html:21
+msgid "export your data"
+msgstr ""
+
+#: app/templates/profile/index.html:25
+msgid "Level"
+msgstr ""
+
+#: app/templates/profile/index.html:29
+msgid "Streak"
+msgstr ""
+
+#: app/templates/profile/index.html:33
+msgid "Tasks completed"
+msgstr ""
+
+#: app/templates/profile/index.html:37
+msgid "Diary entries"
+msgstr ""
+
+#: app/templates/profile/index.html:41
+msgid "Longest streak"
+msgstr ""
+
+#: app/templates/profile/index.html:48
+msgid "Level progress"
+msgstr ""
+
+#: app/templates/profile/index.html:51
+msgid "to next level:"
+msgstr ""
+
+#: app/templates/profile/index.html:53
+msgid "max level reached"
+msgstr ""
+
+#: app/templates/profile/index.html:64 app/templates/profile/settings.html:3
+#: app/templates/profile/settings.html:12
+msgid "Settings"
+msgstr ""
+
+#: app/templates/profile/index.html:65
+msgid "Theme, notifications, language, reminders"
+msgstr ""
+
+#: app/templates/profile/index.html:69
+msgid "Update sign-in password"
+msgstr ""
+
+#: app/templates/profile/index.html:75
+msgid "Export (JSON)"
+msgstr ""
+
+#: app/templates/profile/index.html:76
+msgid "Download all your data"
+msgstr ""
+
+#: app/templates/profile/index.html:83
+msgid "Export for print (PDF)"
+msgstr ""
+
+#: app/templates/profile/index.html:84
+msgid "Opens print-friendly page (Ctrl+P)"
+msgstr ""
+
+#: app/templates/profile/index.html:89
+msgid "Irreversibly delete all data"
+msgstr ""
+
+#: app/templates/profile/settings.html:17
+msgid "Appearance"
+msgstr ""
+
+#: app/templates/profile/settings.html:20
+msgid "Dark theme"
+msgstr ""
+
+#: app/templates/profile/settings.html:21
+msgid "Dimmed interface, easier on the eyes at night"
+msgstr ""
+
+#: app/templates/profile/settings.html:26
+#: app/templates/profile/settings.html:29
+msgid "Notifications"
+msgstr ""
+
+#: app/templates/profile/settings.html:30
+msgid "Receive diary reminders"
+msgstr ""
+
+#: app/templates/profile/settings.html:36
+msgid "Daily reminder time"
+msgstr ""
+
+#: app/templates/profile/settings.html:41
+msgid "Language"
+msgstr ""
+
+#: app/templates/profile/settings.html:43
+msgid "Interface language"
+msgstr ""
+
+#: app/templates/profile/settings.html:45
+msgid "Russian"
+msgstr ""
+
+#: app/templates/profile/settings.html:51
+msgid "Save"
+msgstr ""
+
+#: app/templates/progress/index.html:169
+msgid "This week vs last week"
+msgstr ""
+
+#: app/templates/progress/index.html:172
+msgid "This week"
+msgstr ""
+
+#: app/templates/progress/index.html:176
+msgid "Last week"
+msgstr ""
+
+#: app/templates/progress/index.html:180
+msgid "Change"
+msgstr ""
+
+#: app/templates/progress/index.html:198
+msgid "7 days"
+msgstr ""
+
+#: app/templates/progress/index.html:199
+msgid "30 days"
+msgstr ""
+
+#: app/templates/progress/index.html:200
+msgid "90 days"
+msgstr ""
+
+#: app/templates/progress/index.html:205
+msgid "No data for the selected period"
+msgstr ""
+
+#: app/templates/progress/index.html:210
+msgid "Tasks per week (last 8 weeks)"
+msgstr ""
+
+#: app/templates/progress/index.html:214
+msgid "No completed tasks for this period"
+msgstr ""
+
+#: app/templates/progress/index.html:219
+msgid "Last 5 completed tasks"
+msgstr ""
+
+#: app/templates/progress/index.html:224
+msgid "Title"
+msgstr ""
+
+#: app/templates/progress/index.html:225
+msgid "Difficulty"
+msgstr ""
+
+#: app/templates/progress/index.html:226
+msgid "Date"
+msgstr ""
+
+#: app/templates/progress/index.html:242
+msgid "No tasks completed yet"
+msgstr ""
+
+#: app/templates/progress/index.html:248
+msgid "Achievements"
+msgstr ""
+
+#: app/templates/progress/index.html:262
+msgid "Required:"
+msgstr ""
+
+#: app/templates/progress/index.html:269
+msgid "Achievements not set up yet"
+msgstr ""
+
+#: app/templates/sos/breathing.html:8 app/templates/sos/breathing.html:15
+#: app/templates/sos/index.html:19
+msgid "4-7-8 Breathing"
+msgstr ""
+
+#: app/templates/sos/breathing.html:13 app/templates/sos/grounding.html:13
+#: app/templates/sos/grounding.html:73
+msgid "← Back"
+msgstr ""
+
+#: app/templates/sos/breathing.html:16
+msgid "Follow the circle. Inhale through the nose, exhale through the mouth."
+msgstr ""
+
+#: app/templates/sos/breathing.html:24
+msgid "Ready?"
+msgstr ""
+
+#: app/templates/sos/breathing.html:26
+msgid "Cycle 1 of ∞"
+msgstr ""
+
+#: app/templates/sos/breathing.html:30
+msgid "Start"
+msgstr ""
+
+#: app/templates/sos/breathing.html:31
+msgid "Reset"
+msgstr ""
+
+#: app/templates/sos/breathing.html:36
+msgid "Soft beep on phase change"
+msgstr ""
+
+#: app/templates/sos/breathing.html:45
+msgid "Inhale"
+msgstr ""
+
+#: app/templates/sos/breathing.html:46
+msgid "Hold your breath"
+msgstr ""
+
+#: app/templates/sos/breathing.html:47
+msgid "Exhale"
+msgstr ""
+
+#: app/templates/sos/breathing.html:49
+#, python-brace-format
+msgid "Cycle {n} of ∞"
+msgstr ""
+
+#: app/templates/sos/grounding.html:15
+msgid "5-4-3-2-1 Grounding Technique"
+msgstr ""
+
+#: app/templates/sos/grounding.html:16
+msgid "Name or write down:"
+msgstr ""
+
+#: app/templates/sos/grounding.html:20
+msgid "Step 1 of 5"
+msgstr ""
+
+#: app/templates/sos/grounding.html:29
+msgid "Great! You are here and now. 💙"
+msgstr ""
+
+#: app/templates/sos/grounding.html:30
+msgid "How do you feel?"
+msgstr ""
+
+#: app/templates/sos/grounding.html:32
+msgid "Better 😊"
+msgstr ""
+
+#: app/templates/sos/grounding.html:33
+msgid "Same 😐"
+msgstr ""
+
+#: app/templates/sos/grounding.html:34
+msgid "Need help 😟"
+msgstr ""
+
+#: app/templates/sos/grounding.html:38
+msgid "You are not alone. Call — free and anonymous:"
+msgstr ""
+
+#: app/templates/sos/grounding.html:41
+msgid "Helpline, 24/7"
+msgstr ""
+
+#: app/templates/sos/grounding.html:46
+msgid "Back to main"
+msgstr ""
+
+#: app/templates/sos/grounding.html:57
+msgid "5 things you can SEE right now"
+msgstr ""
+
+#: app/templates/sos/grounding.html:58
+msgid "Something nearby..."
+msgstr ""
+
+#: app/templates/sos/grounding.html:60
+msgid "4 sounds you can HEAR"
+msgstr ""
+
+#: app/templates/sos/grounding.html:61
+msgid "Some sound..."
+msgstr ""
+
+#: app/templates/sos/grounding.html:63
+msgid "3 things you can TOUCH"
+msgstr ""
+
+#: app/templates/sos/grounding.html:64
+msgid "A surface, fabric..."
+msgstr ""
+
+#: app/templates/sos/grounding.html:66
+msgid "2 smells you can FEEL"
+msgstr ""
+
+#: app/templates/sos/grounding.html:67
+msgid "Some smell..."
+msgstr ""
+
+#: app/templates/sos/grounding.html:69
+msgid "1 taste you can SENSE"
+msgstr ""
+
+#: app/templates/sos/grounding.html:70
+msgid "Taste in mouth..."
+msgstr ""
+
+#: app/templates/sos/grounding.html:72
+#, python-brace-format
+msgid "Step {i} of {n}"
+msgstr ""
+
+#: app/templates/sos/grounding.html:74
+msgid "Skip step"
+msgstr ""
+
+#: app/templates/sos/grounding.html:75
+msgid "Next →"
+msgstr ""
+
+#: app/templates/sos/grounding.html:76
+msgid "Finish"
+msgstr ""
+
+#: app/templates/sos/index.html:13
+msgid "Everything will be okay. You are safe."
+msgstr ""
+
+#: app/templates/sos/index.html:14
+msgid "Pick a technique that helps right now:"
+msgstr ""
+
+#: app/templates/sos/index.html:20
+msgid "Guided breathing for fast calming"
+msgstr ""
+
+#: app/templates/sos/index.html:25
+msgid "5-4-3-2-1 Grounding"
+msgstr ""
+
+#: app/templates/sos/index.html:26
+msgid "Come back to the present through your senses"
+msgstr ""
+
+#: app/templates/sos/index.html:31
+msgid "Call a specialist"
+msgstr ""
+
+#: app/templates/sos/index.html:32
+msgid "Helpline — free, anonymous, 24/7"
+msgstr ""
+
+#: app/templates/sos/index.html:39
+msgid "If you or someone nearby is in danger —"
+msgstr ""
+
+#: app/templates/sos/index.html:40
+msgid "call 112"
+msgstr ""
+
+#: app/templates/sos/index.html:42
+msgid "SocialHealth is not a medical service"
+msgstr ""
+
+#: app/templates/tasks/complete.html:151
+msgid "Total XP:"
+msgstr ""
+
+#: app/templates/tasks/complete.html:154
+msgid "Level up!"
+msgstr ""
+
+#: app/templates/tasks/task_list.html:3 app/templates/tasks/task_list.html:129
+msgid "Task history"
+msgstr ""
+
+#: app/templates/tasks/task_list.html:131
+msgid "Total completed:"
+msgstr ""
+
+#: app/templates/tasks/task_list.html:132
+msgid "XP earned:"
+msgstr ""
+
+#: app/templates/tasks/task_list.html:138
+msgid "No tasks yet. Go to the task of the day to start."
+msgstr ""
+
+#: app/templates/tips/detail.html:11
+msgid "Breadcrumbs"
+msgstr ""
+
+#: app/templates/tips/detail.html:38
+msgid "When to use"
+msgstr ""
+
+#: app/templates/tips/detail.html:43
+msgid "Step-by-step instructions"
+msgstr ""
+
+#: app/templates/tips/detail.html:69
+msgid "Scientific basis"
+msgstr ""
+
+#: app/templates/tips/detail.html:75
+msgid "← All techniques"
+msgstr ""
+
+#: app/templates/tips/detail.html:81
+msgid "Try with a timer →"
+msgstr ""
+
+#: app/templates/tips/index.html:3
+msgid "Tips & techniques"
+msgstr ""
+
+#: app/templates/tips/index.html:12
+msgid "Techniques and tips for managing anxiety"
+msgstr ""
+
+#: app/templates/tips/index.html:13
+msgid "Proven CBT methods to help you feel more confident"
+msgstr ""
+
+#: app/templates/tips/index.html:16
+msgid "Filter by category"
+msgstr ""
+
+#: app/templates/tips/index.html:18
+msgid "All"
+msgstr ""
+
+#: app/templates/tips/index.html:45
+msgid "Details →"
+msgstr ""
+
+#: app/templates/tips/index.html:51
+msgid "No techniques in this category yet."
+msgstr ""
+
+#~ msgid "Cycle %(n)s of ∞"
+#~ msgstr ""
+
+#~ msgid "Step %(i)s of %(n)s"
+#~ msgstr ""
+

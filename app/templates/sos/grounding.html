@@ -2,21 +2,22 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0c29">
     <meta name="robots" content="noindex">
     <title>Заземление 5-4-3-2-1 — SOS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sos.css') }}">
 </head>
 <body>
     <main class="sos-wrap" id="groundRoot">
-        <a class="sos-back" href="{{ url_for('sos.index') }}">← Назад</a>
+        <a class="sos-back" href="{{ url_for('sos.index') }}">{{ _("← Back") }}</a>
 
-        <h1 class="sos-title" style="font-size: 1.5rem; margin-bottom: 4px;">Техника заземления 5-4-3-2-1</h1>
-        <p class="sos-subtitle" style="margin-bottom: 0;">Назови или запиши:</p>
+        <h1 class="sos-title" style="font-size: 1.5rem; margin-bottom: 4px;">{{ _("5-4-3-2-1 Grounding Technique") }}</h1>
+        <p class="sos-subtitle" style="margin-bottom: 0;">{{ _("Name or write down:") }}</p>
 
         <div class="ground-wrap">
             <div class="ground-progress" aria-live="polite">
-                <div id="groundProgressLabel" class="ground-progress-label">Шаг 1 из 5</div>
+                <div id="groundProgressLabel" class="ground-progress-label">{{ _("Step 1 of 5") }}</div>
                 <div class="ground-progress-bar">
                     <div id="groundProgressFill" class="ground-progress-fill"></div>
                 </div>
@@ -25,29 +26,56 @@
             <div id="groundStep"></div>
 
             <div id="groundFinish" class="ground-finish" style="display:none;">
-                <h2>Отлично! Ты здесь и сейчас. 💙</h2>
-                <p class="hint">Как ты себя чувствуешь?</p>
+                <h2>{{ _("Great! You are here and now. 💙") }}</h2>
+                <p class="hint">{{ _("How do you feel?") }}</p>
                 <div class="feel-buttons">
-                    <button type="button" class="btn-sos" data-feel="better">Лучше 😊</button>
-                    <button type="button" class="btn-sos" data-feel="same">Так же 😐</button>
-                    <button type="button" class="btn-sos" data-feel="help">Нужна помощь 😟</button>
+                    <button type="button" class="btn-sos" data-feel="better">{{ _("Better 😊") }}</button>
+                    <button type="button" class="btn-sos" data-feel="same">{{ _("Same 😐") }}</button>
+                    <button type="button" class="btn-sos" data-feel="help">{{ _("Need help 😟") }}</button>
                 </div>
 
                 <div id="groundHelpLine" class="help-line">
-                    <p>Ты не один. Позвони — это бесплатно и анонимно:</p>
+                    <p>{{ _("You are not alone. Call — free and anonymous:") }}</p>
                     <a href="tel:88002000122" class="phone">8-800-2000-122</a>
                     <p style="color: var(--sos-text-muted); font-size: 0.85rem;">
-                        Телефон доверия, круглосуточно
+                        {{ _("Helpline, 24/7") }}
                     </p>
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <a href="{{ url_for('sos.index') }}" class="btn-sos">Вернуться на главную</a>
+                    <a href="{{ url_for('sos.index') }}" class="btn-sos">{{ _("Back to main") }}</a>
                 </div>
             </div>
         </div>
     </main>
 
-    <script src="{{ url_for('static', filename='js/sos.js') }}"></script>
+    
+<script>
+  window.SOS_GROUNDING_I18N = {
+    steps: [
+      { icon: "👁", count: 5,
+        title: {{ _("5 things you can SEE right now") | tojson }},
+        placeholder: {{ _("Something nearby...") | tojson }} },
+      { icon: "👂", count: 4,
+        title: {{ _("4 sounds you can HEAR") | tojson }},
+        placeholder: {{ _("Some sound...") | tojson }} },
+      { icon: "✋", count: 3,
+        title: {{ _("3 things you can TOUCH") | tojson }},
+        placeholder: {{ _("A surface, fabric...") | tojson }} },
+      { icon: "👃", count: 2,
+        title: {{ _("2 smells you can FEEL") | tojson }},
+        placeholder: {{ _("Some smell...") | tojson }} },
+      { icon: "👅", count: 1,
+        title: {{ _("1 taste you can SENSE") | tojson }},
+        placeholder: {{ _("Taste in mouth...") | tojson }} },
+    ],
+    step_label: {{ _("Step {i} of {n}") | tojson }},
+    back_label: {{ _("← Back") | tojson }},
+    skip_label: {{ _("Skip step") | tojson }},
+    next_label: {{ _("Next →") | tojson }},
+    finish_label: {{ _("Finish") | tojson }},
+  };
+</script>
+<script src="{{ url_for('static', filename='js/sos.js') }}"></script>
 </body>
 </html>

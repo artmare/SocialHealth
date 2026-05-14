@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Советы и техники — SocialHealth{% endblock %}
+{% block title %}{{ _("Tips & techniques") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/tips.css') }}">
@@ -9,13 +9,13 @@
 {% block content %}
 <div class="tips-wrap">
     <header class="tips-header">
-        <h1>Техники и советы для управления тревогой</h1>
-        <p>Проверенные CBT-методы, которые помогут вам чувствовать себя увереннее</p>
+        <h1>{{ _("Techniques and tips for managing anxiety") }}</h1>
+        <p>{{ _("Proven CBT methods to help you feel more confident") }}</p>
     </header>
 
-    <div class="tips-filters" role="tablist" aria-label="Фильтр по категориям">
+    <div class="tips-filters" role="tablist" aria-label="{{ _("Filter by category") }}">
         <button type="button" class="tip-filter {% if active_category == 'all' %}active{% endif %}"
-                data-category="all">Все</button>
+                data-category="all">{{ _("All") }}</button>
         {% for key, meta in categories.items() %}
             <button type="button"
                     class="tip-filter {% if active_category == key %}active{% endif %}"
@@ -42,13 +42,13 @@
                         {{ categories[tip.category].icon }} {{ categories[tip.category].name }}
                     </span>
                 </div>
-                <span class="tip-more">Подробнее →</span>
+                <span class="tip-more">{{ _("Details →") }}</span>
             </a>
         {% endfor %}
     </div>
 
     <div class="tips-empty" id="tipsEmpty" style="display:none;">
-        В этой категории пока нет техник.
+        {{ _("No techniques in this category yet.") }}
     </div>
 </div>
 

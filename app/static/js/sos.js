@@ -21,10 +21,15 @@
 
         if (!circle || !phaseEl || !countEl || !btnToggle) return;
 
+        var i18n_b = window.SOS_BREATHING_I18N || {};
+        var labels = (i18n_b.phases || [
+            { label: "Вдох" }, { label: "Задержи дыхание" }, { label: "Выдох" }
+        ]);
+        var cycleTemplate = i18n_b.cycle_template || "Цикл {n} из ∞";
         var PHASES = [
-            { name: "inhale", label: "Вдох",             seconds: 4, freq: 440 },
-            { name: "hold",   label: "Задержи дыхание",  seconds: 7, freq: 392 },
-            { name: "exhale", label: "Выдох",            seconds: 8, freq: 330 }
+            { name: "inhale", label: labels[0].label, seconds: 4, freq: 440 },
+            { name: "hold",   label: labels[1].label, seconds: 7, freq: 392 },
+            { name: "exhale", label: labels[2].label, seconds: 8, freq: 330 }
         ];
 
         var state = {
@@ -47,7 +52,7 @@
             var p = PHASES[state.phaseIdx];
             phaseEl.textContent = p.label;
             countEl.textContent = state.secondsLeft;
-            cycleEl.textContent = "Цикл " + state.cycle + " из ∞";
+            cycleEl.textContent = cycleTemplate.replace("{n}", state.cycle);
             applyPhaseClass(p.name);
         }
 
@@ -130,7 +135,8 @@
         var root = document.getElementById("groundRoot");
         if (!root) return;
 
-        var STEPS = [
+        var i18n_g = window.SOS_GROUNDING_I18N || {};
+        var STEPS = i18n_g.steps || [
             { icon: "👁", count: 5, title: "5 вещей, которые ты ВИДИШЬ прямо сейчас",
               placeholder: "Что-то рядом..." },
             { icon: "👂", count: 4, title: "4 звука, которые ты СЛЫШИШЬ",
@@ -142,6 +148,11 @@
             { icon: "👅", count: 1, title: "1 вкус, который ты ОЩУЩАЕШЬ",
               placeholder: "Вкус во рту..." }
         ];
+        var labelTemplate  = i18n_g.step_label  || "Шаг {i} из {n}";
+        var backLabel      = i18n_g.back_label  || "← Назад";
+        var skipLabel      = i18n_g.skip_label  || "Пропустить шаг";
+        var nextLabel      = i18n_g.next_label  || "Далее →";
+        var finishLabel    = i18n_g.finish_label || "Завершить";
 
         var fill        = document.getElementById("groundProgressFill");
         var label       = document.getElementById("groundProgressLabel");
@@ -156,7 +167,7 @@
         function renderProgress() {
             var pct = (idx / STEPS.length) * 100;
             if (fill)  fill.style.width = pct + "%";
-            if (label) label.textContent = "Шаг " + Math.min(idx + 1, STEPS.length) + " из " + STEPS.length;
+            if (label) label.textContent = labelTemplate.replace("{i}", Math.min(idx + 1, STEPS.length)).replace("{n}", STEPS.length);
         }
 
         function buildStep() {
@@ -176,11 +187,11 @@
                 +   '<div class="ground-inputs">' + inputs + '</div>'
                 +   '<div class="ground-nav">'
                 +     '<button type="button" class="btn-sos" id="groundBack" '
-                +       (idx === 0 ? 'aria-disabled="true" disabled' : '') + '>← Назад</button>'
+                +       (idx === 0 ? 'aria-disabled="true" disabled' : '') + '>' + backLabel + '</button>'
                 +     '<div class="group">'
-                +       '<button type="button" class="btn-sos" id="groundSkip">Пропустить шаг</button>'
+                +       '<button type="button" class="btn-sos" id="groundSkip">' + skipLabel + '</button>'
                 +       '<button type="button" class="btn-sos primary" id="groundNext">'
-                +         (isLast ? "Завершить" : "Далее →") + '</button>'
+                +         (isLast ? finishLabel : nextLabel) + '</button>'
                 +     '</div>'
                 +   '</div>'
                 + '</div>';
@@ -218,7 +229,7 @@
         function finish() {
             stepHost.style.display = "none";
             if (fill)  fill.style.width = "100%";
-            if (label) label.textContent = "Шаг " + STEPS.length + " из " + STEPS.length;
+            if (label) label.textContent = labelTemplate.replace("{i}", STEPS.length).replace("{n}", STEPS.length);
             finishHost.style.display = "block";
         }
 

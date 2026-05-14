@@ -1,0 +1,267 @@
+/* =========================================================
+   SocialHealth — глобальные мобильные оптимизации.
+   Подключается в base.html ПОСЛЕ всех остальных CSS,
+   чтобы поправить общие проблемы по всему приложению.
+   Поддерживается экран от 320px.
+   ========================================================= */
+
+/* ---------- Универсальные базовые фиксы ---------- */
+
+html {
+    /* Не зумить текст при автоматическом resize iOS Safari */
+    -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+}
+
+body {
+    /* Никакого горизонтального скролла на мобильном */
+    overflow-x: hidden;
+}
+
+/* iOS notch / Android navigation bar */
+.navbar {
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+}
+
+.main,
+main {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Плавный скролл при программной навигации */
+html { scroll-behavior: smooth; }
+
+/* ---------- Картинки и embedded не растягивают вьюпорт ---------- */
+
+img, video, iframe, svg, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+canvas { display: block; }  /* убираем спецстроку у canvas */
+
+/* ---------- Long words не ломают layout ---------- */
+
+.tip-card .summary,
+.entry-meta,
+.task-info,
+.tip-section p,
+.task-desc,
+.summary {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* ============================================================
+   ТАЧ-ТАРГЕТЫ И ВВОД (≤767px)
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+    /* iOS НЕ зумит при фокусе только если font-size >= 16px */
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* Минимальная высота инпутов для удобства касания */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="time"],
+    input[type="date"],
+    select,
+    textarea {
+        min-height: 44px;
+    }
+
+    /* Кнопки — минимум 44×44 для надёжного нажатия */
+    button:not([class*="hamburger"]):not([class*="filter"]),
+    .btn,
+    .btn-sos,
+    .action,
+    input[type="submit"],
+    input[type="button"] {
+        min-height: 44px;
+    }
+
+    /* Pill-фильтры (tips) — не слишком крупные, но касабельные */
+    .tip-filter {
+        min-height: 40px;
+        padding: 8px 14px;
+    }
+
+    /* Hamburger увеличить — стандартный был 1.5rem иконкой без padding */
+    .hamburger {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 4px 8px;
+    }
+
+    /* ---------- Боковая панель ---------- */
+    .sidebar {
+        width: 84vw !important;
+        max-width: 320px;
+    }
+
+    /* ---------- main padding на узких ---------- */
+    .main {
+        padding: 14px !important;
+    }
+
+    /* ---------- Hero/page-title уменьшаем ---------- */
+    .tips-header h1,
+    .profile-wrap h1,
+    .tip-detail-head h1,
+    .sos-title {
+        font-size: 1.4rem !important;
+        line-height: 1.25 !important;
+    }
+
+    .page-title { font-size: 1.3rem !important; }
+
+    /* ---------- Карточки/панели — меньший паддинг ---------- */
+    .card,
+    .panel,
+    .tip-section,
+    .stat-card,
+    .xp-block,
+    .tip-card,
+    .breath-stage,
+    .ground-step,
+    .ground-finish {
+        padding: 16px !important;
+    }
+
+    /* ---------- Формы и actions — кнопки full-width ---------- */
+    form .btn,
+    form button[type="submit"],
+    .tip-actions .btn,
+    .breath-controls .btn-sos,
+    .ground-nav .btn-sos {
+        width: 100%;
+    }
+
+    /* «display: flex» с разными кнопками — стек */
+    form > div[style*="display:flex"],
+    form > div[style*="display: flex"],
+    .tip-actions {
+        flex-direction: column !important;
+    }
+
+    /* ---------- Графики Chart.js — компактнее ---------- */
+    .chart-wrap        { height: 240px !important; }
+    .chart-wrap-sm     { height: 220px !important; }
+    .mini-chart-wrap   { height: 160px !important; }
+
+    /* ---------- Таблицы — горизонтальный скролл-обёртка ---------- */
+    .top-table,
+    .export-print table {
+        font-size: 0.9rem;
+    }
+    /* Если родителю задать класс scroll-x, появится скролл, но контент не сломает экран */
+    .scroll-x {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ---------- Stat / cards grid: одна колонка по умолчанию ---------- */
+    .stats-grid,
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* ---------- Pagination ссылки — крупнее ---------- */
+    .pagination a,
+    .pagination span {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* ---------- Footer — поменьше отступы ---------- */
+    .footer {
+        padding: 12px 14px !important;
+        font-size: 0.72rem !important;
+    }
+
+    /* ---------- Плавающая SOS-кнопка не перекрывает контент ---------- */
+    .sos-floating {
+        right: 12px !important;
+        bottom: max(14px, env(safe-area-inset-bottom)) !important;
+        padding: 12px 18px !important;
+        font-size: 0.95rem;
+    }
+
+    /* отступ снизу у main, чтобы плавающая SOS-кнопка не залипала на контент */
+    main.main {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+    }
+}
+
+/* ============================================================
+   Очень узкие экраны (≤360px) — крохотные телефоны
+   ============================================================ */
+
+@media (max-width: 360px) {
+    .sos-title          { font-size: 1.2rem !important; }
+    .stat-card .value   { font-size: 1.2rem !important; }
+    .card-value         { font-size: 1.3rem !important; }
+    .breath-circle-wrap { width: 200px !important; height: 200px !important; }
+    .breath-circle      { font-size: 1rem !important; }
+
+    /* Avatar в профиле меньше */
+    .avatar {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 1.2rem !important;
+    }
+
+    .navbar      { height: 52px !important; }
+    .main        { margin-top: 52px !important; }
+    .logo        { font-size: 1.1rem !important; }
+}
+
+/* ============================================================
+   Альбомная ориентация на мобильном — sidebar не нужен fixed,
+   а навбар не должен занимать половину экрана.
+   ============================================================ */
+
+@media (max-width: 767px) and (orientation: landscape) and (max-height: 500px) {
+    .navbar  { height: 48px; }
+    .main    { margin-top: 48px; }
+    .sidebar { top: 48px; }
+
+    .breath-circle-wrap { width: 160px; height: 160px; }
+    .breath-circle      { font-size: 0.95rem; }
+}
+
+/* ============================================================
+   Уважение к настройкам пользователя
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+    }
+}
+
+/* Тач-устройства — убрать sticky hover на карточках, чтобы
+   не «залипали» подсвеченными после касания. */
+@media (hover: none) {
+    .tip-card:hover,
+    .sos-card:hover,
+    .action:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+}

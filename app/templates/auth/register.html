@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Регистрация — SocialHealth{% endblock %}
+{% block title %}{{ _("Register") }} — SocialHealth{% endblock %}
 
 {% block styles %}
 <style>
@@ -113,8 +113,8 @@
 {% block content %}
 <div class="auth-wrapper">
     <div class="auth-card">
-        <h1>Создать аккаунт</h1>
-        <p>Начните свой путь преодоления социальной тревожности</p>
+        <h1>{{ _("Create account") }}</h1>
+        <p>{{ _("Start your journey to overcome social anxiety") }}</p>
         <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
             {{ form.hidden_tag() }}
             <div class="form-group">
@@ -148,7 +148,7 @@
             <button type="submit" class="btn-primary">{{ form.submit.label.text }}</button>
         </form>
         <div class="auth-footer">
-            Уже есть аккаунт? <a href="{{ url_for('auth.login') }}">Войти</a>
+            {{ _("Already have an account?") }} <a href="{{ url_for('auth.login') }}">{{ _("Sign in") }}</a>
         </div>
     </div>
 </div>

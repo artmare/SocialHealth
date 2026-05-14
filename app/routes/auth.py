@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, jsonify, make_response
+from flask_babel import lazy_gettext as _
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
@@ -51,7 +52,7 @@ def register():
             .scalar_one_or_none()
         )
         if existing_email:
-            flash("Пользователь с таким email уже существует", "error")
+            flash(_("A user with this email already exists"), "error")
             return render_template("auth/register.html", form=form)
 
         existing_username = (
@@ -61,7 +62,7 @@ def register():
             .scalar_one_or_none()
         )
         if existing_username:
-            flash("Имя пользователя уже занято", "error")
+            flash(_("Username is already taken"), "error")
             return render_template("auth/register.html", form=form)
 
         user = User(email=form.email.data, username=form.username.data)
@@ -73,7 +74,7 @@ def register():
         db.session.add(settings)
         db.session.commit()
 
-        flash("Регистрация прошла успешно! Теперь вы можете войти.", "success")
+        flash(_("Registration successful! You can sign in now."), "success")
         return redirect(url_for("auth.login"))
 
     return render_template("auth/register.html", form=form)
@@ -95,10 +96,10 @@ def login():
             resp = make_response(redirect(url_for("dashboard.index")))
             set_access_cookies(resp, access_token)
             set_refresh_cookies(resp, refresh_token)
-            flash("Вход выполнен успешно!", "success")
+            flash(_("Signed in successfully!"), "success")
             return resp
         else:
-            flash("Неверный email или пароль", "error")
+            flash(_("Wrong email or password"), "error")
 
     return render_template("auth/login.html", form=form)
 

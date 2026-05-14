@@ -139,7 +139,7 @@ def run_checks():
         db.session.commit()
 
         c3 = login_client(app, "alice8@test.com", "pass1234")
-        r = c3.get("/profile/", headers={"Accept": "text/html"})
+        r = c3.get("/ru/profile/", headers={"Accept": "text/html"})
         check("/profile/ с токеном → 200", r.status_code == 200, f"status={r.status_code}")
         html = r.data.decode("utf-8")
         check("Профиль содержит email/username",
@@ -148,10 +148,10 @@ def run_checks():
               "Уровень" in html or "level" in html.lower())
         check("Профиль содержит XP", "XP" in html or "xp" in html)
         check("Профиль содержит количество заданий",
-              "Заданий" in html or "заданий" in html.lower()
+              "Заданий" in html or "заданий" in html.lower() or "Tasks completed" in html or "tasks completed" in html.lower()
               or "Выполнено" in html)
         check("Профиль содержит количество записей",
-              "Записей" in html or "записей" in html.lower())
+              "Записей" in html or "записей" in html.lower() or "Diary entries" in html or "diary entries" in html.lower())
         check("Профиль содержит ссылку на /profile/change-password",
               "/profile/change-password" in html)
         check("Профиль содержит ссылку на /profile/settings",
@@ -178,7 +178,7 @@ def run_checks():
         c5 = login_client(app, "pwd5@test.com", "oldpass1")
 
         # 5.1 Успешная смена
-        r = c5.post("/profile/change-password", data={
+        r = c5.post("/ru/profile/change-password", data={
             "current_password": "oldpass1",
             "new_password": "newpass123",
             "confirm_password": "newpass123",
@@ -199,7 +199,7 @@ def run_checks():
         c5b = login_client(app, "pwd5@test.com", "newpass123")
 
         # 5.3 Неверный текущий
-        r = c5b.post("/profile/change-password", data={
+        r = c5b.post("/ru/profile/change-password", data={
             "current_password": "wrongCurrent",
             "new_password": "anotherpass1",
             "confirm_password": "anotherpass1",
@@ -214,7 +214,7 @@ def run_checks():
               u5_check.check_password("newpass123"))
 
         # 5.4 Короткий новый
-        r = c5b.post("/profile/change-password", data={
+        r = c5b.post("/ru/profile/change-password", data={
             "current_password": "newpass123",
             "new_password": "short",
             "confirm_password": "short",
@@ -224,7 +224,7 @@ def run_checks():
               f"status={r.status_code}")
 
         # 5.5 Несовпадающее подтверждение
-        r = c5b.post("/profile/change-password", data={
+        r = c5b.post("/ru/profile/change-password", data={
             "current_password": "newpass123",
             "new_password": "anotherpass1",
             "confirm_password": "different11",
@@ -234,7 +234,7 @@ def run_checks():
               f"status={r.status_code}")
 
         # 5.6 Новый == текущий
-        r = c5b.post("/profile/change-password", data={
+        r = c5b.post("/ru/profile/change-password", data={
             "current_password": "newpass123",
             "new_password": "newpass123",
             "confirm_password": "newpass123",
@@ -252,7 +252,7 @@ def run_checks():
                        "set6", "set6@test.com", "pass1234")
         c6 = login_client(app, "set6@test.com", "pass1234")
 
-        r = c6.get("/profile/settings")
+        r = c6.get("/ru/profile/settings")
         check("/profile/settings GET → 200", r.status_code == 200,
               f"status={r.status_code}")
         s_html = r.data.decode("utf-8")
@@ -262,7 +262,7 @@ def run_checks():
               "notifications_enabled" in s_html)
 
         # POST: dark=on, notifications выключены, lang=en, reminder=21:30
-        r = c6.post("/profile/settings", data={
+        r = c6.post("/ru/profile/settings", data={
             "dark_mode": "on",
             "language": "en",
             "daily_reminder_time": "21:30",
@@ -287,7 +287,7 @@ def run_checks():
               f"got={s_db.daily_reminder_time!r}")
 
         # GET после сохранения — форма содержит сохранённые значения
-        r = c6.get("/profile/settings")
+        r = c6.get("/ru/profile/settings")
         s_html2 = r.data.decode("utf-8")
         check("GET после сохранения: dark_mode checkbox с checked",
               re.search(r'name="dark_mode"[^>]*checked|checked[^>]*name="dark_mode"',
@@ -303,7 +303,7 @@ def run_checks():
         print()
         print("--- 7. Экспорт данных ---")
         # JSON
-        r = c3.post("/profile/export", data={"format": "json"})
+        r = c3.post("/ru/profile/export", data={"format": "json"})
         check("POST /profile/export format=json → 200", r.status_code == 200,
               f"status={r.status_code}")
         ct = r.content_type or ""
@@ -325,7 +325,7 @@ def run_checks():
                   payload.get("user", {}).get("email") == "alice8@test.com")
 
         # PDF (HTML-страница для печати)
-        r = c3.post("/profile/export", data={"format": "pdf"})
+        r = c3.post("/ru/profile/export", data={"format": "pdf"})
         check("POST /profile/export format=pdf → 200", r.status_code == 200,
               f"status={r.status_code}")
         ct = r.content_type or ""
@@ -346,7 +346,7 @@ def run_checks():
             anxiety_level=9, text="OTHER_USER_PRIVATE_TEXT",
         ))
         db.session.commit()
-        r = c3.post("/profile/export", data={"format": "json"})
+        r = c3.post("/ru/profile/export", data={"format": "json"})
         body = r.data.decode("utf-8")
         check("JSON-экспорт A не содержит данные B",
               "OTHER_USER_PRIVATE_TEXT" not in body)
@@ -378,7 +378,7 @@ def run_checks():
         c_del = login_client(app, "del8@test.com", "delpass1")
 
         # 8.1 Без подтверждения — пусто
-        r = c_del.post("/profile/delete-account", data={
+        r = c_del.post("/ru/profile/delete-account", data={
             "password": "delpass1",
         }, follow_redirects=False)
         check("Удаление БЕЗ confirmation → не редирект (ошибка)",
@@ -391,7 +391,7 @@ def run_checks():
               still is not None)
 
         # 8.2 С неверным текстом
-        r = c_del.post("/profile/delete-account", data={
+        r = c_del.post("/ru/profile/delete-account", data={
             "password": "delpass1",
             "confirmation": "удалить",  # маленькими буквами
         }, follow_redirects=False)
@@ -405,7 +405,7 @@ def run_checks():
               still is not None)
 
         # 8.3 Корректное удаление
-        r = c_del.post("/profile/delete-account", data={
+        r = c_del.post("/ru/profile/delete-account", data={
             "password": "delpass1",
             "confirmation": "УДАЛИТЬ",
         }, follow_redirects=False)
@@ -451,14 +451,14 @@ def run_checks():
         cA = login_client(app, "isoA8@test.com", "pass1234")
         cB = login_client(app, "isoB8@test.com", "pass1234")
 
-        rA = cA.get("/profile/", headers={"Accept": "text/html"})
-        rB = cB.get("/profile/", headers={"Accept": "text/html"})
+        rA = cA.get("/ru/profile/", headers={"Accept": "text/html"})
+        rB = cB.get("/ru/profile/", headers={"Accept": "text/html"})
         check("Профиль A не содержит email B",
               "isoB8@test.com" not in rA.data.decode("utf-8"))
         check("Профиль B не содержит email A",
               "isoA8@test.com" not in rB.data.decode("utf-8"))
 
-        expA = cA.post("/profile/export", data={"format": "json"})
+        expA = cA.post("/ru/profile/export", data={"format": "json"})
         bodyA = expA.data.decode("utf-8")
         check("Экспорт A не содержит запись B (B_TEXT_UNIQUE)",
               "B_TEXT_UNIQUE" not in bodyA)
@@ -466,7 +466,7 @@ def run_checks():
               "A_TEXT_UNIQUE" in bodyA)
 
         # Удаление A не затрагивает B
-        cA.post("/profile/delete-account", data={
+        cA.post("/ru/profile/delete-account", data={
             "password": "pass1234",
             "confirmation": "УДАЛИТЬ",
         }, follow_redirects=False)
@@ -516,7 +516,7 @@ def run_checks():
         print("--- 11. UserSettings авто-создание при регистрации ---")
         reg_client = app.test_client()
         # форма регистрации требует поля
-        reg_resp = reg_client.post("/auth/register", data={
+        reg_resp = reg_client.post("/ru/auth/register", data={
             "username": "freshreg",
             "email": "freshreg@test.com",
             "password": "freshpass8",

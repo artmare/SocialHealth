@@ -319,7 +319,7 @@ def run_checks():
         print("--- 7. Страница дашборда ---")
         # Возьмём user3 (alice3) — у неё есть данные
         c7 = login_client(app, "alice3@test.com", "pass1234")
-        r = c7.get("/dashboard/", follow_redirects=False)
+        r = c7.get("/ru/dashboard/", follow_redirects=False)
         check("GET /dashboard/ с токеном — 200",
               r.status_code == 200, f"status={r.status_code}")
         html = r.data.decode("utf-8")
@@ -329,7 +329,7 @@ def run_checks():
         check("Дашборд содержит XP", "XP" in html or "xp" in html)
         check(
             "Дашборд содержит 'Задание дня' или аналогичный заголовок",
-            "Задание дня" in html or "задание" in html.lower(),
+            "Задание дня" in html or "задание" in html.lower() or "Task of the day" in html or "task of the day" in html.lower(),
         )
         check("Дашборд содержит ссылку на /diary/new", "/diary/new" in html)
 
@@ -351,7 +351,7 @@ def run_checks():
         db.session.add(UserAchievement(user_id=user3.id, achievement_id=ach1.id))
         db.session.commit()
 
-        r = c7.get("/progress/", follow_redirects=False)
+        r = c7.get("/ru/progress/", follow_redirects=False)
         check("GET /progress/ с токеном — 200",
               r.status_code == 200, f"status={r.status_code}")
         html_p = r.data.decode("utf-8")
@@ -374,7 +374,7 @@ def run_checks():
         print()
         print("--- 9. API эндпоинты ---")
 
-        r = c7.get("/api/stats/anxiety")
+        r = c7.get("/ru/api/stats/anxiety")
         check("GET /api/stats/anxiety — 200",
               r.status_code == 200, f"status={r.status_code}")
         check("/api/stats/anxiety — JSON",
@@ -388,7 +388,7 @@ def run_checks():
             f"sample={data[:1]}",
         )
 
-        r7 = c7.get("/api/stats/anxiety?days=7")
+        r7 = c7.get("/ru/api/stats/anxiety?days=7")
         data7 = r7.get_json()
         check("/api/stats/anxiety?days=7 — JSON, статус 200",
               r7.status_code == 200 and isinstance(data7, list))
@@ -400,7 +400,7 @@ def run_checks():
             ),
         )
 
-        r = c7.get("/api/stats/tasks")
+        r = c7.get("/ru/api/stats/tasks")
         check("GET /api/stats/tasks — 200",
               r.status_code == 200, f"status={r.status_code}")
         check("/api/stats/tasks — JSON список",
@@ -410,7 +410,7 @@ def run_checks():
             all("week" in d and "count" in d for d in r.get_json()),
         )
 
-        r = c7.get("/api/stats/summary")
+        r = c7.get("/ru/api/stats/summary")
         check("GET /api/stats/summary — 200",
               r.status_code == 200, f"status={r.status_code}")
         check("/api/stats/summary — JSON", r.is_json)
@@ -419,7 +419,7 @@ def run_checks():
             check(f"/api/stats/summary содержит '{key}'", key in smry,
                   f"keys={list(smry.keys())}")
 
-        r = c7.get("/api/stats/comparison")
+        r = c7.get("/ru/api/stats/comparison")
         check("GET /api/stats/comparison — 200",
               r.status_code == 200, f"status={r.status_code}")
         cmp_api = r.get_json()
@@ -456,8 +456,8 @@ def run_checks():
         clientA = login_client(app, "isolA@test.com", "pass1234")
         clientB = login_client(app, "isolB@test.com", "pass1234")
 
-        histA = clientA.get("/api/stats/anxiety").get_json()
-        histB = clientB.get("/api/stats/anxiety").get_json()
+        histA = clientA.get("/ru/api/stats/anxiety").get_json()
+        histB = clientB.get("/ru/api/stats/anxiety").get_json()
         check("A видит ровно 3 записи", len(histA) == 3, f"got={len(histA)}")
         check("B видит ровно 1 запись", len(histB) == 1, f"got={len(histB)}")
         check(
@@ -466,8 +466,8 @@ def run_checks():
             and histB[0]["anxiety_level"] == 2,
         )
 
-        smryA = clientA.get("/api/stats/summary").get_json()
-        smryB = clientB.get("/api/stats/summary").get_json()
+        smryA = clientA.get("/ru/api/stats/summary").get_json()
+        smryB = clientB.get("/ru/api/stats/summary").get_json()
         check("summary A: streak == 42", smryA["streak"] == 42,
               f"got={smryA['streak']}")
         check("summary B: streak == 1", smryB["streak"] == 1,
@@ -476,10 +476,10 @@ def run_checks():
               smryA["xp"] != smryB["xp"])
 
         # Дашборд: A не видит запись B
-        dashA = clientA.get("/dashboard/").data.decode("utf-8")
+        dashA = clientA.get("/ru/dashboard/").data.decode("utf-8")
         check("Дашборд A не содержит запись B ('B only')",
               "B only" not in dashA)
-        dashB = clientB.get("/dashboard/").data.decode("utf-8")
+        dashB = clientB.get("/ru/dashboard/").data.decode("utf-8")
         check("Дашборд B не содержит запись A ('A entry')",
               "A entry" not in dashB)
 
@@ -500,17 +500,17 @@ def run_checks():
               s_empty["total_tasks_completed"] == 0)
 
         cE = login_client(app, "empty@test.com", "pass1234")
-        r = cE.get("/dashboard/")
+        r = cE.get("/ru/dashboard/")
         check("GET /dashboard/ для пустого пользователя — 200 (не падает)",
               r.status_code == 200, f"status={r.status_code}")
 
-        r = cE.get("/api/stats/anxiety")
+        r = cE.get("/ru/api/stats/anxiety")
         check("/api/stats/anxiety для пустого пользователя — 200",
               r.status_code == 200)
         check("/api/stats/anxiety для пустого пользователя — пустой список []",
               r.get_json() == [], f"got={r.get_json()}")
 
-        r = cE.get("/api/stats/comparison")
+        r = cE.get("/ru/api/stats/comparison")
         check("/api/stats/comparison для пустого пользователя — 200",
               r.status_code == 200)
         cmp_e = r.get_json()

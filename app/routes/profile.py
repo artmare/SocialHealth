@@ -13,6 +13,7 @@ from flask import (
     url_for,
     make_response,
 )
+from flask_babel import lazy_gettext as _
 from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
@@ -98,15 +99,22 @@ def settings():
             ):
                 settings.daily_reminder_time = reminder
             else:
-                flash("Неверный формат времени напоминания (нужно HH:MM)", "error")
+                flash(_("Invalid reminder time format (HH:MM required)"), "error")
                 db.session.rollback()
                 return render_template(
                     "profile/settings.html", settings=settings
                 ), 400
 
         db.session.commit()
-        flash("Настройки сохранены", "success")
-        return redirect(url_for("profile.settings"))
+        flash(_("Settings saved"), "success")
+        # При смене языка делаем редирект на новую локаль (url_for уже учитывает g.locale,
+        # но g.locale в этом запросе ещё старая). Соберём явно.
+        from app import DEFAULT_LOCALE
+        target = settings.language if settings.language in ("en", "ru") else DEFAULT_LOCALE
+        prefix = "" if target == DEFAULT_LOCALE else f"/{target}"
+        resp = make_response(redirect(prefix + "/profile/settings"))
+        resp.set_cookie("locale", target, max_age=60 * 60 * 24 * 365, samesite="Lax")
+        return resp
 
     return render_template("profile/settings.html", settings=settings)
 
@@ -128,13 +136,13 @@ def change_password():
 
         errors = []
         if not user.check_password(current):
-            errors.append("Текущий пароль введён неверно")
+            errors.append(_("Current password is incorrect"))
         if len(new) < 8:
-            errors.append("Новый пароль должен быть не короче 8 символов")
+            errors.append(_("New password must be at least 8 characters"))
         if new != confirm:
-            errors.append("Новый пароль и подтверждение не совпадают")
+            errors.append(_("New password and confirmation do not match"))
         if new and current and new == current:
-            errors.append("Новый пароль не должен совпадать с текущим")
+            errors.append(_("New password must differ from current"))
 
         if errors:
             for e in errors:
@@ -143,7 +151,7 @@ def change_password():
 
         user.set_password(new)
         db.session.commit()
-        flash("Пароль успешно изменён", "success")
+        flash(_("Password changed successfully"), "success")
         return redirect(url_for("profile.index"))
 
     return render_template("profile/change_password.html")
@@ -252,7 +260,7 @@ def export_data():
         resp.headers["Content-Type"] = "text/html; charset=utf-8"
         return resp
 
-    flash("Неизвестный формат экспорта", "error")
+    flash(_("Unknown export format"), "error")
     return redirect(url_for("profile.index"))
 
 
@@ -271,11 +279,11 @@ def delete_account():
         password = request.form.get("password") or ""
 
         if confirmation != "УДАЛИТЬ":
-            flash("Введите слово 'УДАЛИТЬ' заглавными буквами для подтверждения", "error")
+            flash(_("Enter the word 'УДАЛИТЬ' in uppercase to confirm"), "error")
             return render_template("profile/delete_account.html"), 400
 
         if not user.check_password(password):
-            flash("Неверный пароль", "error")
+            flash(_("Wrong password"), "error")
             return render_template("profile/delete_account.html"), 400
 
         # cascade=all, delete-orphan на User уже удалит entries/user_tasks/achievements/settings
@@ -284,7 +292,7 @@ def delete_account():
 
         resp = make_response(redirect(url_for("auth.login")))
         unset_jwt_cookies(resp)
-        flash("Аккаунт удалён", "success")
+        flash(_("Account deleted"), "success")
         return resp
 
     return render_template("profile/delete_account.html")

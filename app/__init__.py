@@ -1,9 +1,55 @@
-from flask import Flask, jsonify, redirect, request, url_for
+from flask import Flask, g, jsonify, redirect, request, url_for as _flask_url_for
+import flask
 
 
 
 from config import config_map
-from app.extensions import db, jwt, migrate, limiter, csrf
+from app.extensions import db, jwt, migrate, limiter, csrf, babel
+
+
+SUPPORTED_LOCALES = ("en", "ru")
+DEFAULT_LOCALE = "en"
+
+
+def _select_locale():
+    """Какой язык активен для текущего запроса."""
+    # Сначала смотрим environ — middleware всегда выставляет 'socialhealth.locale'
+    # ДО любых before_request hooks.
+    try:
+        env_loc = request.environ.get("socialhealth.locale")
+        if env_loc in SUPPORTED_LOCALES:
+            return env_loc
+    except Exception:
+        pass
+    # Резервно — из g (если кто-то выставил позже)
+    forced = getattr(g, "locale", None)
+    if forced in SUPPORTED_LOCALES:
+        return forced
+    # Из cookie
+    c = request.cookies.get("locale") if request else None
+    if c in SUPPORTED_LOCALES:
+        return c
+    # Authenticated → UserSettings.language
+    try:
+        from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
+        verify_jwt_in_request(optional=True)
+        ident = get_jwt_identity()
+        if ident:
+            from app.models import UserSettings
+            import sqlalchemy as sa
+            s = db.session.execute(
+                sa.select(UserSettings).where(UserSettings.user_id == int(ident))
+            ).scalar_one_or_none()
+            if s and s.language in SUPPORTED_LOCALES:
+                return s.language
+    except Exception:
+        pass
+    # Accept-Language
+    if request:
+        best = request.accept_languages.best_match(list(SUPPORTED_LOCALES))
+        if best:
+            return best
+    return DEFAULT_LOCALE
 
 
 def create_app(config_name="development"):
@@ -15,6 +61,83 @@ def create_app(config_name="development"):
     migrate.init_app(app, db)
     limiter.init_app(app)
     csrf.init_app(app)
+    babel.init_app(app, locale_selector=_select_locale)
+
+    # ------------------------------------------------------------
+    # URL-префикс /ru/ (без префикса = EN дефолт).
+    # На before_request снимаем префикс и помечаем locale в g.
+    # url_for оборачиваем, чтобы он автоматически добавлял /ru
+    # для русской локали.
+    # ------------------------------------------------------------
+    # WSGI-middleware: срезает /ru или /en префикс ДО URL-routing.
+    _orig_wsgi = app.wsgi_app
+    def _locale_prefix_middleware(environ, start_response):
+        path = environ.get("PATH_INFO", "")
+        detected = DEFAULT_LOCALE
+        for code in SUPPORTED_LOCALES:
+            if path == f"/{code}" or path.startswith(f"/{code}/"):
+                detected = code
+                rest = path[len(f"/{code}"):] or "/"
+                environ["PATH_INFO"] = rest
+                break
+        environ["socialhealth.locale"] = detected
+        return _orig_wsgi(environ, start_response)
+    app.wsgi_app = _locale_prefix_middleware
+
+    @app.before_request
+    def _copy_locale_from_environ():
+        g.locale = request.environ.get("socialhealth.locale", DEFAULT_LOCALE)
+        # Сбрасываем babel-кэш, чтобы Flask-Babel переспросил locale_selector
+        # на текущем запросе (важно когда test_client использует один процесс).
+        if hasattr(g, "_flask_babel"):
+            try:
+                del g._flask_babel.babel_locale
+            except AttributeError:
+                pass
+            try:
+                del g._flask_babel.babel_translations
+            except AttributeError:
+                pass
+
+    # Безопасный url_for с автодобавлением /<locale> для не-EN.
+    _orig_url_for = flask.url_for
+
+    def _url_for_with_locale(endpoint, **values):
+        # Кто-то явно указал _lang → используем его (для переключателя языка)
+        lang = values.pop("_lang", None) or getattr(g, "locale", DEFAULT_LOCALE)
+        if lang not in SUPPORTED_LOCALES:
+            lang = DEFAULT_LOCALE
+        url = _orig_url_for(endpoint, **values)
+        # static-файлы и абсолютные внешние ссылки без изменений
+        if endpoint == "static" or url.startswith(("http://", "https://", "tel:", "mailto:")):
+            return url
+        if lang == DEFAULT_LOCALE:
+            return url
+        # url начинается с / (относительный)
+        if url.startswith("/"):
+            return f"/{lang}{url}"
+        return url
+
+    # Подменяем url_for и в Flask, и в Jinja-окружении
+    flask.url_for = _url_for_with_locale
+    app.jinja_env.globals["url_for"] = _url_for_with_locale
+
+    @app.context_processor
+    def _inject_locale():
+        return {
+            "current_locale": getattr(g, "locale", DEFAULT_LOCALE),
+            "supported_locales": list(SUPPORTED_LOCALES),
+        }
+
+    @app.template_global("switch_locale_url")
+    def _switch_locale_url(target_lang):
+        """URL текущей страницы в другой локали."""
+        # request.full_path уже без префикса (срезали в before_request),
+        # поэтому собираем заново
+        path = request.environ.get("PATH_INFO", "/")
+        qs = request.query_string.decode("utf-8", errors="replace")
+        prefix = "" if target_lang == DEFAULT_LOCALE else f"/{target_lang}"
+        return prefix + path + (("?" + qs) if qs else "")
 
     from app.routes.main import main_bp
     from app.routes.auth import auth_bp
@@ -39,16 +162,22 @@ def create_app(config_name="development"):
     app.register_blueprint(api_bp, url_prefix="/api")
 
     def _auth_failure(reason):
-        # HTML-навигация (GET с Accept: text/html и не /api/) → редирект на логин;
-        # всё остальное (API, AJAX, POST/PUT/DELETE, /auth/refresh и т.п.) → 401 JSON.
-        wants_html = (
-            request.method == "GET"
-            and not request.path.startswith("/api/")
-            and "text/html" in (request.accept_mimetypes.best or "")
-        )
-        if not wants_html:
+        # /api/* → всегда 401 JSON.
+        if request.path.startswith("/api/"):
             return jsonify(error="unauthorized", reason=str(reason)), 401
-        return redirect(url_for("auth.login"))
+        # AJAX (X-Requested-With: XMLHttpRequest или fetch с Accept: application/json) → 401 JSON.
+        is_xhr = (
+            request.headers.get("X-Requested-With") == "XMLHttpRequest"
+            or "application/json" in (request.accept_mimetypes.best or "")
+            and "text/html" not in (request.accept_mimetypes.best or "")
+        )
+        if is_xhr:
+            return jsonify(error="unauthorized", reason=str(reason)), 401
+        # /auth/refresh — отдельный API-эндпоинт, отдаём JSON (его дёргает только JS).
+        if request.path.endswith("/auth/refresh") or request.path.endswith("/auth/logout"):
+            return jsonify(error="unauthorized", reason=str(reason)), 401
+        # Браузерная навигация (GET / POST / PUT / DELETE с Accept: text/html) → редирект.
+        return redirect(_flask_url_for("auth.login"))
 
     @jwt.unauthorized_loader
     def _on_missing(reason):
