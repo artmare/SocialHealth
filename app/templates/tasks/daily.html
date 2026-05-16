@@ -147,18 +147,18 @@
 <div class="tasks-wrapper">
     {% if not task %}
         <div class="empty-task">
-            <h2>Пока нет заданий</h2>
-            <p>Сначала добавьте задания через seed_tasks.py</p>
+            <h2>{{ _("No tasks yet") }}</h2>
+            <p>{{ _("Add tasks with seed_tasks.py first") }}</p>
         </div>
     {% elif today_completed %}
         <div class="task-card completed-msg">
-            <h2>Задание выполнено! Возвращайтесь завтра</h2>
-            <p>Вы отлично справились сегодня. Отдыхайте и гордитесь собой.</p>
+            <h2>{{ _("Task completed! Come back tomorrow") }}</h2>
+            <p>{{ _("You did great today. Rest and be proud of yourself.") }}</p>
             <div class="confetti" id="confetti"></div>
         </div>
     {% else %}
         <div class="task-card">
-            <div class="anxiety-info">Ваш уровень тревоги сегодня: {{ anxiety_level }}/10</div>
+            <div class="anxiety-info">{{ _("Your anxiety level today:") }} {{ anxiety_level }}/10</div>
             <div class="category-icon">
                 {% if task.category == 'breathing' %}&#128067;{%
                 elif task.category == 'cognition' %}&#129504;{%
@@ -168,14 +168,14 @@
             </div>
             <h1>{{ _("Task of the day") }}</h1>
             <div class="difficulty-badge badge-{{ task.difficulty }}">
-                {% if task.difficulty == 'easy' %}Лёгкое{%
-                elif task.difficulty == 'medium' %}Среднее{%
-                else %}Сложное{% endif %}
+                {% if task.difficulty == 'easy' %}{{ _("Easy") }}{%
+                elif task.difficulty == 'medium' %}{{ _("Medium") }}{%
+                else %}{{ _("Hard") }}{% endif %}
             </div>
             <div class="task-title">{{ task.localized_title }}</div>
             <div class="task-desc">{{ task.localized_description }}</div>
             <div class="xp-badge">&#11088; +{{ task.xp_reward }} XP</div>
-            <a href="{{ url_for('tasks.complete', task_id=task.id) }}" class="btn-complete">Я выполнил!</a>
+            <a href="{{ url_for('tasks.complete', task_id=task.id) }}" class="btn-complete">{{ _("I completed it!") }}</a>
         </div>
     {% endif %}
 </div>

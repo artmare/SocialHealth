@@ -1,47 +1,47 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ current_locale }}">
 <head>
     <meta charset="UTF-8">
-    <title>Экспорт данных — SocialHealth</title>
+    <title>{{ _("Data export") }} - SocialHealth</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 </head>
 <body style="background: #fff; color: #111;">
 <div class="export-print">
     <div class="no-print" style="text-align: right; margin-bottom: 12px;">
-        <button onclick="window.print()" style="padding: 8px 16px; cursor: pointer;">🖨 Печать / Сохранить как PDF</button>
-        <a href="{{ url_for('profile.index') }}" style="margin-left: 8px;">Назад</a>
+        <button onclick="window.print()" style="padding: 8px 16px; cursor: pointer;">{{ _("Print / Save as PDF") }}</button>
+        <a href="{{ url_for('profile.index') }}" style="margin-left: 8px;">{{ _("Back") }}</a>
     </div>
 
-    <h1>SocialHealth — экспорт данных</h1>
-    <p style="color: #555;">Сгенерировано: {{ data.exported_at }}</p>
+    <h1>SocialHealth - {{ _("Data export") }}</h1>
+    <p style="color: #555;">{{ _("Generated:") }} {{ data.exported_at }}</p>
 
-    <h2>Профиль</h2>
+    <h2>{{ _("Profile") }}</h2>
     <table>
-        <tr><th>Имя</th><td>{{ data.user.username }}</td></tr>
-        <tr><th>Email</th><td>{{ data.user.email }}</td></tr>
-        <tr><th>Зарегистрирован</th><td>{{ data.user.created_at }}</td></tr>
+        <tr><th>{{ _("Name") }}</th><td>{{ data.user.username }}</td></tr>
+        <tr><th>{{ _("Email") }}</th><td>{{ data.user.email }}</td></tr>
+        <tr><th>{{ _("Registered") }}</th><td>{{ data.user.created_at }}</td></tr>
     </table>
 
-    <h2>Статистика</h2>
+    <h2>{{ _("Statistics") }}</h2>
     <table>
         <tr><th>XP</th><td>{{ data.stats.xp }}</td></tr>
-        <tr><th>Уровень</th><td>{{ data.stats.level }} ({{ data.stats.level_title }})</td></tr>
-        <tr><th>Streak</th><td>{{ data.stats.streak }}</td></tr>
-        <tr><th>Самый длинный streak</th><td>{{ data.user.longest_streak }}</td></tr>
-        <tr><th>Записей в дневнике</th><td>{{ data.stats.total_entries }}</td></tr>
-        <tr><th>Выполнено заданий</th><td>{{ data.stats.total_tasks_completed }}</td></tr>
-        <tr><th>Средняя тревога (всё время)</th><td>{{ data.stats.avg_anxiety }}/10</td></tr>
-        <tr><th>Средняя тревога (неделя)</th><td>{{ data.stats.avg_anxiety_week }}/10</td></tr>
+        <tr><th>{{ _("Level") }}</th><td>{{ data.stats.level }} ({{ data.stats.level_title }})</td></tr>
+        <tr><th>{{ _("Streak") }}</th><td>{{ data.stats.streak }}</td></tr>
+        <tr><th>{{ _("Longest streak") }}</th><td>{{ data.user.longest_streak }}</td></tr>
+        <tr><th>{{ _("Diary entries") }}</th><td>{{ data.stats.total_entries }}</td></tr>
+        <tr><th>{{ _("Tasks completed") }}</th><td>{{ data.stats.total_tasks_completed }}</td></tr>
+        <tr><th>{{ _("Average anxiety (all time)") }}</th><td>{{ data.stats.avg_anxiety }}/10</td></tr>
+        <tr><th>{{ _("Average anxiety (week)") }}</th><td>{{ data.stats.avg_anxiety_week }}/10</td></tr>
     </table>
 
-    <h2>Записи дневника ({{ data.entries|length }})</h2>
+    <h2>{{ _("Diary entries") }} ({{ data.entries|length }})</h2>
     {% if data.entries %}
         <table>
             <thead>
                 <tr>
-                    <th>Дата</th>
-                    <th>Тревога</th>
-                    <th>Текст</th>
+                    <th>{{ _("Date") }}</th>
+                    <th>{{ _("Anxiety") }}</th>
+                    <th>{{ _("Text") }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,24 +49,24 @@
                 <tr>
                     <td>{{ e.date }}</td>
                     <td>{{ e.anxiety_level }}/10</td>
-                    <td>{{ (e.text or '')[:200] }}{% if e.text and e.text|length > 200 %}…{% endif %}</td>
+                    <td>{{ (e.text or '')[:200] }}{% if e.text and e.text|length > 200 %}...{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p style="color: #888;">Записей пока нет.</p>
+        <p style="color: #888;">{{ _("No entries yet.") }}</p>
     {% endif %}
 
-    <h2>Задания ({{ data.tasks|length }})</h2>
+    <h2>{{ _("Tasks") }} ({{ data.tasks|length }})</h2>
     {% if data.tasks %}
         <table>
             <thead>
                 <tr>
-                    <th>Название</th>
-                    <th>Сложность</th>
-                    <th>Статус</th>
-                    <th>Выполнено</th>
+                    <th>{{ _("Title") }}</th>
+                    <th>{{ _("Difficulty") }}</th>
+                    <th>{{ _("Status") }}</th>
+                    <th>{{ _("Completed at") }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,29 +74,29 @@
                 <tr>
                     <td>{{ t.title }}</td>
                     <td>{{ t.difficulty }}</td>
-                    <td>{{ 'Выполнено' if t.completed else 'Назначено' }}</td>
-                    <td>{{ t.completed_at or '—' }}</td>
+                    <td>{{ _("Completed") if t.completed else _("Assigned") }}</td>
+                    <td>{{ t.completed_at or '-' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p style="color: #888;">Заданий нет.</p>
+        <p style="color: #888;">{{ _("No tasks yet.") }}</p>
     {% endif %}
 
-    <h2>Достижения ({{ data.achievements|length }})</h2>
+    <h2>{{ _("Achievements") }} ({{ data.achievements|length }})</h2>
     {% if data.achievements %}
         <ul>
             {% for a in data.achievements %}
-                <li>{{ a.icon }} {{ a.name }} — {{ a.earned_at }}</li>
+                <li>{{ a.icon }} {{ a.name }} - {{ a.earned_at }}</li>
             {% endfor %}
         </ul>
     {% else %}
-        <p style="color: #888;">Достижений пока нет.</p>
+        <p style="color: #888;">{{ _("No achievements yet.") }}</p>
     {% endif %}
 
     <p style="margin-top: 28px; color: #888; font-size: 0.85rem;">
-        SocialHealth не является медицинским сервисом. При серьёзных симптомах обратитесь к специалисту.
+        {{ _("SocialHealth is not a medical service. For serious symptoms, please consult a specialist.") }}
     </p>
 </div>
 </body>

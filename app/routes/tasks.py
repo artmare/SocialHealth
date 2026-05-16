@@ -2,6 +2,7 @@ from datetime import date
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_babel import lazy_gettext as _
 import sqlalchemy as sa
 
 from app.extensions import db
@@ -57,14 +58,14 @@ def complete(task_id: int):
     )
 
     if result["xp_earned"] > 0:
-        flash(f"Задание выполнено! +{result['xp_earned']} XP", "success")
+        flash(f"{_('Task completed!')} +{result['xp_earned']} XP", "success")
         if result["leveled_up"]:
             flash(
-                f"Новый уровень! Вы достигли уровня {result['new_level']}",
+                f"{_('New level! You reached level')} {result['new_level']}",
                 "success",
             )
     else:
-        flash("Задание уже было выполнено ранее", "info")
+        flash(_("This task was already completed earlier"), "info")
 
     return render_template(
         "complete.html",

@@ -16,8 +16,7 @@
             <strong>{{ _("This action is irreversible.") }}</strong>
         </p>
         <p style="color: var(--text-muted); margin: 0 0 18px; line-height: 1.5;">
-            Будут безвозвратно удалены: ваш аккаунт, все записи дневника, история заданий,
-            достижения и настройки. Перед удалением рекомендуем
+            {{ _("This will permanently delete your account, diary entries, task history, achievements, and settings. Before deleting, we recommend that you") }}
             <a href="{{ url_for('profile.index') }}" style="color: var(--accent-light);">{{ _("export your data") }}</a>.
         </p>
 
@@ -31,14 +30,14 @@
 
             <div class="field">
                 <label for="confirmation">
-                    Чтобы подтвердить, введите слово <code>УДАЛИТЬ</code> заглавными буквами
+                    {{ _("To confirm, enter the word") }} <code>УДАЛИТЬ</code> {{ _("in uppercase") }}
                 </label>
                 <input type="text" id="confirmation" name="confirmation" required
                        autocomplete="off" pattern="УДАЛИТЬ" placeholder="УДАЛИТЬ">
             </div>
 
             <div style="display:flex; gap:10px; margin-top: 8px;">
-                <button type="submit" class="btn danger">{{ _("Delete account") }} навсегда</button>
+                <button type="submit" class="btn danger">{{ _("Delete account forever") }}</button>
                 <a href="{{ url_for('profile.index') }}" class="btn ghost">{{ _("Cancel") }}</a>
             </div>
         </form>

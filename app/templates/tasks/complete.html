@@ -131,31 +131,31 @@
 {% block content %}
 <div class="tasks-wrapper">
     <div class="complete-card">
-        <h1>Выполнение задания</h1>
+        <h1>{{ _("Complete task") }}</h1>
         <div class="task-name">{{ task.localized_title }}</div>
 
         {% if not result %}
             <form method="POST" action="{{ url_for('tasks.complete', task_id=task.id) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-group">
-                    <label for="feedback">Как прошло? Поделитесь впечатлениями</label>
+                    <label for="feedback">{{ _("How did it go? Share your impressions") }}</label>
                     <textarea id="feedback" name="feedback"
-                        placeholder="Было страшно, но я справился..."></textarea>
+                        placeholder="{{ _("It was scary, but I handled it...") }}"></textarea>
                 </div>
-                <button type="submit" class="btn-submit">Подтвердить выполнение</button>
+                <button type="submit" class="btn-submit">{{ _("Confirm completion") }}</button>
             </form>
         {% else %}
             <div class="result-block">
                 <div class="xp-anim">+{{ result.xp_earned }} XP!</div>
                 <div class="stats">
-                    {{ _("Total XP:") }} {{ result.total_xp }} | Уровень: {{ result.new_level }} | Стрик: {{ result.streak }}
+                    {{ _("Total XP:") }} {{ result.total_xp }} | {{ _("Level") }}: {{ result.new_level }} | {{ _("Streak") }}: {{ result.streak }}
                 </div>
                 {% if result.leveled_up %}
-                    <div class="level-up">&#127881; {{ _("Level up!") }} Уровень {{ result.new_level }} &#127881;</div>
+                    <div class="level-up">&#127881; {{ _("Level up!") }} {{ _("Level") }} {{ result.new_level }} &#127881;</div>
                 {% endif %}
             </div>
             <a href="{{ url_for('tasks.index') }}" style="display:inline-block;margin-top:20px;color:var(--accent-light);text-decoration:none;">
-                &#8592; К истории заданий
+                &#8592; {{ _("To task history") }}
             </a>
         {% endif %}
     </div>

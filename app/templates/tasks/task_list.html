@@ -168,9 +168,9 @@
 
     {% if total_pages > 1 %}
         <div class="pagination">
-            <a href="{{ url_for('tasks.index', page=page-1) }}" class="{% if page <= 1 %}disabled{% endif %}">&#8592; Назад</a>
-            <span>{{ _("Page") }} {{ page }} из {{ total_pages }}</span>
-            <a href="{{ url_for('tasks.index', page=page+1) }}" class="{% if page >= total_pages %}disabled{% endif %}">Далее &#8594;</a>
+            <a href="{{ url_for('tasks.index', page=page-1) }}" class="{% if page <= 1 %}disabled{% endif %}">&#8592; {{ _("Back") }}</a>
+            <span>{{ _("Page") }} {{ page }} {{ _("of") }} {{ total_pages }}</span>
+            <a href="{{ url_for('tasks.index', page=page+1) }}" class="{% if page >= total_pages %}disabled{% endif %}">{{ _("Next") }} &#8594;</a>
         </div>
     {% endif %}
 </div>

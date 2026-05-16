@@ -877,3 +877,199 @@ msgstr "У цій категорії поки немає технік."
 msgid "Ukrainian"
 msgstr "Українська"
 
+msgid "Email"
+msgstr "Email"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Username"
+msgstr "Ім’я користувача"
+
+msgid "Confirm password"
+msgstr "Підтвердьте пароль"
+
+msgid "You have signed out"
+msgstr "Ви вийшли з акаунта"
+
+msgid "Your name"
+msgstr "Ваше ім’я"
+
+msgid "At least 8 characters"
+msgstr "Щонайменше 8 символів"
+
+msgid "Repeat password"
+msgstr "Повторіть пароль"
+
+msgid "Anxiety level must be a number"
+msgstr "Рівень тривоги має бути числом"
+
+msgid "Anxiety level must be between 1 and 10"
+msgstr "Рівень тривоги має бути від 1 до 10"
+
+msgid "Please describe your experience"
+msgstr "Будь ласка, опишіть свої переживання"
+
+msgid "Analysis is temporarily unavailable"
+msgstr "Аналіз тимчасово недоступний"
+
+msgid "Entry saved"
+msgstr "Запис збережено"
+
+msgid "Task completed!"
+msgstr "Завдання виконано!"
+
+msgid "New level! You reached level"
+msgstr "Новий рівень! Ви досягли рівня"
+
+msgid "This task was already completed earlier"
+msgstr "Це завдання вже було виконано раніше"
+
+msgid "No tasks yet"
+msgstr "Завдань поки немає"
+
+msgid "Add tasks with seed_tasks.py first"
+msgstr "Спочатку додайте завдання через seed_tasks.py"
+
+msgid "Task completed! Come back tomorrow"
+msgstr "Завдання виконано! Повертайтеся завтра"
+
+msgid "You did great today. Rest and be proud of yourself."
+msgstr "Ви чудово впоралися сьогодні. Відпочиньте й пишайтеся собою."
+
+msgid "Your anxiety level today:"
+msgstr "Ваш рівень тривоги сьогодні:"
+
+msgid "Easy"
+msgstr "Легке"
+
+msgid "Medium"
+msgstr "Середнє"
+
+msgid "Hard"
+msgstr "Складне"
+
+msgid "I completed it!"
+msgstr "Я виконав!"
+
+msgid "How did it go? Share your impressions"
+msgstr "Як усе пройшло? Поділіться враженнями"
+
+msgid "It was scary, but I handled it..."
+msgstr "Було страшно, але я впорався..."
+
+msgid "Confirm completion"
+msgstr "Підтвердити виконання"
+
+msgid "To task history"
+msgstr "До історії завдань"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Next"
+msgstr "Далі"
+
+msgid "of"
+msgstr "з"
+
+msgid "No entries yet"
+msgstr "Записів поки немає"
+
+msgid "Create your first entry to start tracking your experiences."
+msgstr "Створіть перший запис, щоб почати відстежувати свої переживання."
+
+msgid "Created"
+msgstr "Створено"
+
+msgid "No data"
+msgstr "Немає даних"
+
+msgid "Insight"
+msgstr "Інсайт"
+
+msgid "Analysis is processing... Check back later."
+msgstr "Аналіз обробляється... Перевірте пізніше."
+
+msgid "Back to list"
+msgstr "Назад до списку"
+
+msgid "Data export"
+msgstr "Експорт даних"
+
+msgid "Print / Save as PDF"
+msgstr "Друк / Зберегти як PDF"
+
+msgid "Generated:"
+msgstr "Згенеровано:"
+
+msgid "Name"
+msgstr "Ім’я"
+
+msgid "Registered"
+msgstr "Зареєстровано"
+
+msgid "Statistics"
+msgstr "Статистика"
+
+msgid "Average anxiety (all time)"
+msgstr "Середня тривога (за весь час)"
+
+msgid "Average anxiety (week)"
+msgstr "Середня тривога (тиждень)"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "No entries yet."
+msgstr "Записів поки немає."
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Completed at"
+msgstr "Виконано"
+
+msgid "Completed"
+msgstr "Виконано"
+
+msgid "Assigned"
+msgstr "Призначено"
+
+msgid "No tasks yet."
+msgstr "Завдань немає."
+
+msgid "No achievements yet."
+msgstr "Досягнень поки немає."
+
+msgid ""
+"This will permanently delete your account, diary entries, task history, achievements,"
+" and settings. Before deleting, we recommend that you"
+msgstr ""
+"Ваш акаунт, записи щоденника, історія завдань, досягнення й налаштування будуть "
+"видалені безповоротно. Перед видаленням радимо"
+
+msgid "To confirm, enter the word"
+msgstr "Щоб підтвердити, введіть слово"
+
+msgid "in uppercase"
+msgstr "великими літерами"
+
+msgid "Delete account forever"
+msgstr "Видалити акаунт назавжди"
+
+msgid "This field is required"
+msgstr "Це поле обов’язкове"
+
+msgid "Enter a valid email address"
+msgstr "Введіть коректний email"
+
+msgid "Username must be between 2 and 100 characters"
+msgstr "Ім’я користувача має містити від 2 до 100 символів"
+
+msgid "Password must be at least 8 characters"
+msgstr "Пароль має містити щонайменше 8 символів"
+
+msgid "Passwords do not match"
+msgstr "Паролі не збігаються"
+

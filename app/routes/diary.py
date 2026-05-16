@@ -11,6 +11,7 @@ from flask import (
     abort,
 )
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_babel import lazy_gettext as _
 import sqlalchemy as sa
 
 from app.extensions import db
@@ -35,18 +36,18 @@ def create():
     try:
         anxiety_level = int(anxiety_raw)
     except ValueError:
-        flash("Уровень тревоги должен быть числом", "error")
+        flash(_("Anxiety level must be a number"), "error")
         return render_template("new.html"), 400
 
     if not (1 <= anxiety_level <= 10):
-        flash("Уровень тревоги должен быть от 1 до 10", "error")
+        flash(_("Anxiety level must be between 1 and 10"), "error")
         return render_template("new.html"), 400
 
     emotions = request.form.getlist("emotions")
     text = request.form.get("text", "").strip()
 
     if not text:
-        flash("Пожалуйста, опишите свои переживания", "error")
+        flash(_("Please describe your experience"), "error")
         return render_template("new.html"), 400
 
     if len(text) > 2000:
@@ -67,10 +68,10 @@ def create():
         entry.ai_analysis = analysis
         db.session.commit()
     except Exception:
-        entry.ai_analysis = {"error": "Анализ временно недоступен"}
+        entry.ai_analysis = {"error": str(_("Analysis is temporarily unavailable"))}
         db.session.commit()
 
-    flash("Запись сохранена", "success")
+    flash(_("Entry saved"), "success")
     return redirect(url_for("diary.index"))
 
 

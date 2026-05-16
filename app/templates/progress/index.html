@@ -334,7 +334,7 @@
                     if (!els.length) return;
                     const i = els[0].index;
                     const d = data[i];
-                    alert(`${d.date}: уровень тревоги ${d.anxiety_level}/10`);
+                    alert(`${d.date}: {{ _("Anxiety level") }} ${d.anxiety_level}/10`);
                 },
                 plugins: {
                     legend: { labels: { color: '#e2e8f0' } },

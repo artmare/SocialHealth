@@ -878,6 +878,202 @@ msgstr "В этой категории пока нет техник."
 msgid "Ukrainian"
 msgstr "Украинский"
 
+msgid "Email"
+msgstr "Email"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Confirm password"
+msgstr "Подтвердите пароль"
+
+msgid "You have signed out"
+msgstr "Вы вышли из аккаунта"
+
+msgid "Your name"
+msgstr "Ваше имя"
+
+msgid "At least 8 characters"
+msgstr "Минимум 8 символов"
+
+msgid "Repeat password"
+msgstr "Повторите пароль"
+
+msgid "Anxiety level must be a number"
+msgstr "Уровень тревоги должен быть числом"
+
+msgid "Anxiety level must be between 1 and 10"
+msgstr "Уровень тревоги должен быть от 1 до 10"
+
+msgid "Please describe your experience"
+msgstr "Пожалуйста, опишите свои переживания"
+
+msgid "Analysis is temporarily unavailable"
+msgstr "Анализ временно недоступен"
+
+msgid "Entry saved"
+msgstr "Запись сохранена"
+
+msgid "Task completed!"
+msgstr "Задание выполнено!"
+
+msgid "New level! You reached level"
+msgstr "Новый уровень! Вы достигли уровня"
+
+msgid "This task was already completed earlier"
+msgstr "Задание уже было выполнено ранее"
+
+msgid "No tasks yet"
+msgstr "Пока нет заданий"
+
+msgid "Add tasks with seed_tasks.py first"
+msgstr "Сначала добавьте задания через seed_tasks.py"
+
+msgid "Task completed! Come back tomorrow"
+msgstr "Задание выполнено! Возвращайтесь завтра"
+
+msgid "You did great today. Rest and be proud of yourself."
+msgstr "Вы отлично справились сегодня. Отдыхайте и гордитесь собой."
+
+msgid "Your anxiety level today:"
+msgstr "Ваш уровень тревоги сегодня:"
+
+msgid "Easy"
+msgstr "Лёгкое"
+
+msgid "Medium"
+msgstr "Среднее"
+
+msgid "Hard"
+msgstr "Сложное"
+
+msgid "I completed it!"
+msgstr "Я выполнил!"
+
+msgid "How did it go? Share your impressions"
+msgstr "Как прошло? Поделитесь впечатлениями"
+
+msgid "It was scary, but I handled it..."
+msgstr "Было страшно, но я справился..."
+
+msgid "Confirm completion"
+msgstr "Подтвердить выполнение"
+
+msgid "To task history"
+msgstr "К истории заданий"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Next"
+msgstr "Далее"
+
+msgid "of"
+msgstr "из"
+
+msgid "No entries yet"
+msgstr "Пока нет записей"
+
+msgid "Create your first entry to start tracking your experiences."
+msgstr "Создайте первую запись, чтобы начать отслеживать свои переживания."
+
+msgid "Created"
+msgstr "Создана"
+
+msgid "No data"
+msgstr "Нет данных"
+
+msgid "Insight"
+msgstr "Инсайт"
+
+msgid "Analysis is processing... Check back later."
+msgstr "Анализ обрабатывается... Проверьте позже."
+
+msgid "Back to list"
+msgstr "Назад к списку"
+
+msgid "Data export"
+msgstr "Экспорт данных"
+
+msgid "Print / Save as PDF"
+msgstr "Печать / Сохранить как PDF"
+
+msgid "Generated:"
+msgstr "Сгенерировано:"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Registered"
+msgstr "Зарегистрирован"
+
+msgid "Statistics"
+msgstr "Статистика"
+
+msgid "Average anxiety (all time)"
+msgstr "Средняя тревога (всё время)"
+
+msgid "Average anxiety (week)"
+msgstr "Средняя тревога (неделя)"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "No entries yet."
+msgstr "Записей пока нет."
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Completed at"
+msgstr "Выполнено"
+
+msgid "Completed"
+msgstr "Выполнено"
+
+msgid "Assigned"
+msgstr "Назначено"
+
+msgid "No tasks yet."
+msgstr "Заданий нет."
+
+msgid "No achievements yet."
+msgstr "Достижений пока нет."
+
+msgid ""
+"This will permanently delete your account, diary entries, task history, achievements,"
+" and settings. Before deleting, we recommend that you"
+msgstr ""
+"Будут безвозвратно удалены ваш аккаунт, все записи дневника, история заданий, "
+"достижения и настройки. Перед удалением рекомендуем"
+
+msgid "To confirm, enter the word"
+msgstr "Чтобы подтвердить, введите слово"
+
+msgid "in uppercase"
+msgstr "заглавными буквами"
+
+msgid "Delete account forever"
+msgstr "Удалить аккаунт навсегда"
+
+msgid "This field is required"
+msgstr "Это поле обязательно"
+
+msgid "Enter a valid email address"
+msgstr "Введите корректный email"
+
+msgid "Username must be between 2 and 100 characters"
+msgstr "Имя пользователя должно быть от 2 до 100 символов"
+
+msgid "Password must be at least 8 characters"
+msgstr "Пароль должен быть не короче 8 символов"
+
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
 #~ msgid "Cycle %(n)s of ∞"
 #~ msgstr "Цикл %(n)s из ∞"
 

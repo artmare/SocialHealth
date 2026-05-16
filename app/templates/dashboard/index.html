@@ -190,7 +190,7 @@
     <section class="cards-grid">
         <div class="card anim anim-2">
             <div class="icon">🔥</div>
-            <div class="card-label">Streak</div>
+            <div class="card-label">{{ _("Streak") }}</div>
             <div class="card-value">{{ stats.streak }} {{ _("days in a row") }}</div>
             <div class="card-sub">{{ _("longest:") }} {{ user.longest_streak }}</div>
         </div>
@@ -198,8 +198,8 @@
         <div class="card anim anim-2">
             <div class="icon">⭐️</div>
             <div class="card-label">{{ _("XP") }}</div>
-            <div class="card-value">{{ stats.xp }} XP · Ур. {{ stats.level }}</div>
-            <div class="card-sub">{{ stats.level_title }}{% if stats.xp_to_next_level > 0 %} · до следующего: {{ stats.xp_to_next_level }} XP{% else %} · максимальный уровень!{% endif %}</div>
+            <div class="card-value">{{ stats.xp }} XP · {{ _("Level") }} {{ stats.level }}</div>
+            <div class="card-sub">{{ stats.level_title }}{% if stats.xp_to_next_level > 0 %} · {{ _("to next level:") }} {{ stats.xp_to_next_level }} XP{% else %} · {{ _("max level reached") }}{% endif %}</div>
             <div class="xp-bar">
                 <div class="xp-fill" data-pct="{{ stats.xp_progress_pct }}"></div>
             </div>
@@ -236,11 +236,15 @@
             <div class="task-title">{{ daily_task.localized_title }}</div>
             <div class="task-desc">{{ daily_task.localized_description }}</div>
             <div>
-                <span class="badge {{ daily_task.difficulty }}">{{ daily_task.difficulty }}</span>
+                <span class="badge {{ daily_task.difficulty }}">
+                    {% if daily_task.difficulty == 'easy' %}{{ _("Easy") }}{%
+                    elif daily_task.difficulty == 'medium' %}{{ _("Medium") }}{%
+                    else %}{{ _("Hard") }}{% endif %}
+                </span>
                 <span class="badge xp">+{{ daily_task.xp_reward }} XP</span>
             </div>
             {% if today_completed %}
-                <div class="done-mark">Задание {{ _("completed") }}! ✓</div>
+                <div class="done-mark">{{ _("Task completed!") }} ✓</div>
             {% else %}
                 <form action="{{ url_for('tasks.complete', task_id=daily_task.id) }}" method="post" style="margin-top: 4px;">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

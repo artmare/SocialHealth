@@ -143,7 +143,7 @@
             </div>
             <div class="detail-meta">
                 <h1>{{ _("Entry from") }} {{ entry.date.strftime('%d %B %Y') }}</h1>
-                <div class="date">Создана {{ entry.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                <div class="date">{{ _("Created") }} {{ entry.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
             </div>
         </div>
 
@@ -168,15 +168,15 @@
             {% if entry.ai_analysis %}
                 <div class="ai-block">
                     <h3>&#128221; {{ _("Summary") }}</h3>
-                    <p>{{ entry.ai_analysis.summary or "Нет данных" }}</p>
+                    <p>{{ entry.ai_analysis.summary or _("No data") }}</p>
                 </div>
                 <div class="ai-block">
-                    <h3>&#128161; Инсайт</h3>
-                    <p>{{ entry.ai_analysis.insight or "Нет данных" }}</p>
+                    <h3>&#128161; {{ _("Insight") }}</h3>
+                    <p>{{ entry.ai_analysis.insight or _("No data") }}</p>
                 </div>
                 <div class="ai-block">
                     <h3>&#128173; {{ _("Recommendation") }}</h3>
-                    <p>{{ entry.ai_analysis.recommendation or "Нет данных" }}</p>
+                    <p>{{ entry.ai_analysis.recommendation or _("No data") }}</p>
                 </div>
                 {% if entry.ai_analysis.error %}
                 <div class="ai-block">
@@ -184,11 +184,11 @@
                 </div>
                 {% endif %}
             {% else %}
-                <p class="ai-loading">Анализ обрабатывается... Проверьте позже.</p>
+                <p class="ai-loading">{{ _("Analysis is processing... Check back later.") }}</p>
             {% endif %}
         </div>
 
-        <a href="{{ url_for('diary.index') }}" class="btn-back">&#8592; Назад к списку</a>
+        <a href="{{ url_for('diary.index') }}" class="btn-back">&#8592; {{ _("Back to list") }}</a>
     </div>
 </div>
 {% endblock %}

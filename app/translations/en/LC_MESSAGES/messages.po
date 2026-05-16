@@ -875,6 +875,200 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
+msgid "Email"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Confirm password"
+msgstr ""
+
+msgid "You have signed out"
+msgstr ""
+
+msgid "Your name"
+msgstr ""
+
+msgid "At least 8 characters"
+msgstr ""
+
+msgid "Repeat password"
+msgstr ""
+
+msgid "Anxiety level must be a number"
+msgstr ""
+
+msgid "Anxiety level must be between 1 and 10"
+msgstr ""
+
+msgid "Please describe your experience"
+msgstr ""
+
+msgid "Analysis is temporarily unavailable"
+msgstr ""
+
+msgid "Entry saved"
+msgstr ""
+
+msgid "Task completed!"
+msgstr ""
+
+msgid "New level! You reached level"
+msgstr ""
+
+msgid "This task was already completed earlier"
+msgstr ""
+
+msgid "No tasks yet"
+msgstr ""
+
+msgid "Add tasks with seed_tasks.py first"
+msgstr ""
+
+msgid "Task completed! Come back tomorrow"
+msgstr ""
+
+msgid "You did great today. Rest and be proud of yourself."
+msgstr ""
+
+msgid "Your anxiety level today:"
+msgstr ""
+
+msgid "Easy"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Hard"
+msgstr ""
+
+msgid "I completed it!"
+msgstr ""
+
+msgid "How did it go? Share your impressions"
+msgstr ""
+
+msgid "It was scary, but I handled it..."
+msgstr ""
+
+msgid "Confirm completion"
+msgstr ""
+
+msgid "To task history"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "No entries yet"
+msgstr ""
+
+msgid "Create your first entry to start tracking your experiences."
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "No data"
+msgstr ""
+
+msgid "Insight"
+msgstr ""
+
+msgid "Analysis is processing... Check back later."
+msgstr ""
+
+msgid "Back to list"
+msgstr ""
+
+msgid "Data export"
+msgstr ""
+
+msgid "Print / Save as PDF"
+msgstr ""
+
+msgid "Generated:"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Registered"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Average anxiety (all time)"
+msgstr ""
+
+msgid "Average anxiety (week)"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "No entries yet."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Completed at"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Assigned"
+msgstr ""
+
+msgid "No tasks yet."
+msgstr ""
+
+msgid "No achievements yet."
+msgstr ""
+
+msgid ""
+"This will permanently delete your account, diary entries, task history, achievements,"
+" and settings. Before deleting, we recommend that you"
+msgstr ""
+
+msgid "To confirm, enter the word"
+msgstr ""
+
+msgid "in uppercase"
+msgstr ""
+
+msgid "Delete account forever"
+msgstr ""
+
+msgid "This field is required"
+msgstr ""
+
+msgid "Enter a valid email address"
+msgstr ""
+
+msgid "Username must be between 2 and 100 characters"
+msgstr ""
+
+msgid "Password must be at least 8 characters"
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
 #~ msgid "Cycle %(n)s of ∞"
 #~ msgstr ""
 

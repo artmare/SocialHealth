@@ -21,24 +21,43 @@ auth_bp = Blueprint("auth", __name__, template_folder="../templates")
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    password = PasswordField("Пароль", validators=[DataRequired()])
-    submit = SubmitField("Войти")
+    email = StringField(
+        _("Email"),
+        validators=[DataRequired(message=_("This field is required")), Email(message=_("Enter a valid email address"))],
+    )
+    password = PasswordField(
+        _("Password"), validators=[DataRequired(message=_("This field is required"))]
+    )
+    submit = SubmitField(_("Sign in"))
 
 
 class RegisterForm(FlaskForm):
     username = StringField(
-        "Имя пользователя", validators=[DataRequired(), Length(min=2, max=100)]
+        _("Username"),
+        validators=[
+            DataRequired(message=_("This field is required")),
+            Length(min=2, max=100, message=_("Username must be between 2 and 100 characters")),
+        ],
     )
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = StringField(
+        _("Email"),
+        validators=[DataRequired(message=_("This field is required")), Email(message=_("Enter a valid email address"))],
+    )
     password = PasswordField(
-        "Пароль", validators=[DataRequired(), Length(min=8)]
+        _("Password"),
+        validators=[
+            DataRequired(message=_("This field is required")),
+            Length(min=8, message=_("Password must be at least 8 characters")),
+        ],
     )
     confirm_password = PasswordField(
-        "Подтвердите пароль",
-        validators=[DataRequired(), EqualTo("password")],
+        _("Confirm password"),
+        validators=[
+            DataRequired(message=_("This field is required")),
+            EqualTo("password", message=_("Passwords do not match")),
+        ],
     )
-    submit = SubmitField("Зарегистрироваться")
+    submit = SubmitField(_("Register"))
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
@@ -120,5 +139,5 @@ def refresh():
 def logout():
     resp = make_response(redirect(url_for("auth.login")))
     unset_jwt_cookies(resp)
-    flash("Вы вышли из аккаунта", "info")
+    flash(_("You have signed out"), "info")
     return resp

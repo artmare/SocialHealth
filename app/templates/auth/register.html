@@ -119,7 +119,7 @@
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.username.label }}
-                {{ form.username(placeholder="Ваше имя") }}
+                {{ form.username(placeholder=_("Your name")) }}
                 {% if form.username.errors %}
                     {% for error in form.username.errors %}<div class="error">{{ error }}</div>{% endfor %}
                 {% endif %}
@@ -133,14 +133,14 @@
             </div>
             <div class="form-group">
                 {{ form.password.label }}
-                {{ form.password(placeholder="Минимум 8 символов") }}
+                {{ form.password(placeholder=_("At least 8 characters")) }}
                 {% if form.password.errors %}
                     {% for error in form.password.errors %}<div class="error">{{ error }}</div>{% endfor %}
                 {% endif %}
             </div>
             <div class="form-group">
                 {{ form.confirm_password.label }}
-                {{ form.confirm_password(placeholder="Повторите пароль") }}
+                {{ form.confirm_password(placeholder=_("Repeat password")) }}
                 {% if form.confirm_password.errors %}
                     {% for error in form.confirm_password.errors %}<div class="error">{{ error }}</div>{% endfor %}
                 {% endif %}
