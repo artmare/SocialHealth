@@ -37,7 +37,7 @@ class Task(db.Model):
             from flask import g, has_request_context
             if has_request_context():
                 loc = getattr(g, "locale", None)
-                if loc in ("en", "ru"):
+                if loc in ("en", "ru", "uk"):
                     return loc
         except Exception:
             pass

@@ -1,17 +1,18 @@
-# Russian translations for PROJECT.
+# Ukrainian translations for SocialHealth.
 # Copyright (C) 2026 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the SocialHealth project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: SocialHealth 0.1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-05-13 22:30+0200\n"
-"PO-Revision-Date: 2026-05-13 21:11+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: ru\n"
-"Language-Team: ru <LL@li.org>\n"
+"PO-Revision-Date: 2026-05-16 00:00+0200\n"
+"Last-Translator: Codex <codex@example.com>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
@@ -21,87 +22,87 @@ msgstr ""
 
 #: app/routes/auth.py:55
 msgid "A user with this email already exists"
-msgstr "Пользователь с таким email уже существует"
+msgstr "Користувач із таким email уже існує"
 
 #: app/routes/auth.py:65
 msgid "Username is already taken"
-msgstr "Имя пользователя уже занято"
+msgstr "Ім’я користувача вже зайняте"
 
 #: app/routes/auth.py:77
 msgid "Registration successful! You can sign in now."
-msgstr "Регистрация прошла успешно! Теперь вы можете войти."
+msgstr "Реєстрація успішна! Тепер ви можете увійти."
 
 #: app/routes/auth.py:99
 msgid "Signed in successfully!"
-msgstr "Вход выполнен успешно!"
+msgstr "Вхід виконано успішно!"
 
 #: app/routes/auth.py:102
 msgid "Wrong email or password"
-msgstr "Неверный email или пароль"
+msgstr "Неправильний email або пароль"
 
 #: app/routes/dashboard.py:17
 msgid "Every tiny step is a victory"
-msgstr "Каждый маленький шаг — уже победа"
+msgstr "Кожен маленький крок — уже перемога"
 
 #: app/routes/dashboard.py:18
 msgid "Today is the best day to become a bit braver"
-msgstr "Сегодня хороший день, чтобы стать чуть смелее"
+msgstr "Сьогодні гарний день, щоб стати трохи сміливішими"
 
 #: app/routes/dashboard.py:19
 msgid "Anxiety comes and goes, but you stay"
-msgstr "Тревога приходит и уходит, а вы остаётесь"
+msgstr "Тривога приходить і минає, а ви залишаєтесь"
 
 #: app/routes/dashboard.py:20
 msgid "Breathe deeper. You are coping better than you think"
-msgstr "Дышите глубже. Вы справляетесь лучше, чем кажется"
+msgstr "Дихайте глибше. Ви справляєтеся краще, ніж здається"
 
 #: app/routes/dashboard.py:21
 msgid "Progress matters more than perfection"
-msgstr "Прогресс важнее совершенства"
+msgstr "Прогрес важливіший за досконалість"
 
 #: app/routes/profile.py:102
 msgid "Invalid reminder time format (HH:MM required)"
-msgstr "Неверный формат времени напоминания (нужно HH:MM)"
+msgstr "Неправильний формат часу нагадування (потрібно HH:MM)"
 
 #: app/routes/profile.py:109
 msgid "Settings saved"
-msgstr "Настройки сохранены"
+msgstr "Налаштування збережено"
 
 #: app/routes/profile.py:139
 msgid "Current password is incorrect"
-msgstr "Текущий пароль введён неверно"
+msgstr "Поточний пароль введено неправильно"
 
 #: app/routes/profile.py:141
 msgid "New password must be at least 8 characters"
-msgstr "Новый пароль должен быть не короче 8 символов"
+msgstr "Новий пароль має містити щонайменше 8 символів"
 
 #: app/routes/profile.py:143
 msgid "New password and confirmation do not match"
-msgstr "Новый пароль и подтверждение не совпадают"
+msgstr "Новий пароль і підтвердження не збігаються"
 
 #: app/routes/profile.py:145
 msgid "New password must differ from current"
-msgstr "Новый пароль не должен совпадать с текущим"
+msgstr "Новий пароль має відрізнятися від поточного"
 
 #: app/routes/profile.py:154
 msgid "Password changed successfully"
-msgstr "Пароль успешно изменён"
+msgstr "Пароль успішно змінено"
 
 #: app/routes/profile.py:263
 msgid "Unknown export format"
-msgstr "Неизвестный формат экспорта"
+msgstr "Невідомий формат експорту"
 
 #: app/routes/profile.py:282
 msgid "Enter the word 'УДАЛИТЬ' in uppercase to confirm"
-msgstr "Введите слово 'УДАЛИТЬ' заглавными буквами для подтверждения"
+msgstr "Введіть слово 'УДАЛИТЬ' великими літерами для підтвердження"
 
 #: app/routes/profile.py:286
 msgid "Wrong password"
-msgstr "Неверный пароль"
+msgstr "Неправильний пароль"
 
 #: app/routes/profile.py:295
 msgid "Account deleted"
-msgstr "Аккаунт удалён"
+msgstr "Акаунт видалено"
 
 #: app/templates/base.html:233 app/templates/dashboard/index.html:3
 msgid "Dashboard"
@@ -109,86 +110,84 @@ msgstr "Панель"
 
 #: app/templates/base.html:234
 msgid "Diary"
-msgstr "Дневник"
+msgstr "Щоденник"
 
 #: app/templates/base.html:235 app/templates/base.html:254
 #: app/templates/dashboard/index.html:210
 msgid "Tasks"
-msgstr "Задания"
+msgstr "Завдання"
 
 #: app/templates/base.html:236 app/templates/base.html:255
 #: app/templates/progress/index.html:3 app/templates/progress/index.html:165
 msgid "Progress"
-msgstr "Прогресс"
+msgstr "Прогрес"
 
 #: app/templates/base.html:237 app/templates/base.html:256 app/templates/tips/detail.html:3
 #: app/templates/tips/detail.html:12
 msgid "Tips"
-msgstr "Советы"
+msgstr "Поради"
 
 #: app/templates/base.html:253
 msgid "Anxiety Diary"
-msgstr "Журнал тревоги"
+msgstr "Журнал тривоги"
 
 #: app/templates/base.html:258 app/templates/profile/index.html:3
 msgid "Profile"
-msgstr "Профиль"
+msgstr "Профіль"
 
 #: app/templates/base.html:269
 msgid ""
 "SocialHealth is not a medical service. For serious symptoms, please consult a "
 "specialist."
-msgstr ""
-"SocialHealth не является медицинским сервисом. При серьёзных симптомах обратитесь к "
-"специалисту."
+msgstr "SocialHealth не є медичним сервісом. За серйозних симптомів зверніться до спеціаліста."
 
 #: app/templates/base.html:272
 msgid "Open SOS mode"
-msgstr "Открыть SOS-режим"
+msgstr "Відкрити SOS-режим"
 
 #: app/templates/auth/login.html:3 app/templates/auth/register.html:151
 msgid "Sign in"
-msgstr "Войти"
+msgstr "Увійти"
 
 #: app/templates/auth/login.html:115
 msgid "Welcome back"
-msgstr "С возвращением"
+msgstr "Раді бачити знову"
 
 #: app/templates/auth/login.html:116
 msgid "Sign in to your SocialHealth account"
-msgstr "Войдите в свой аккаунт SocialHealth"
+msgstr "Увійдіть у свій акаунт SocialHealth"
 
 #: app/templates/auth/login.html:136
 msgid "No account?"
-msgstr "Нет аккаунта?"
+msgstr "Немає акаунта?"
 
 #: app/templates/auth/login.html:136 app/templates/auth/register.html:3
 msgid "Register"
-msgstr "Зарегистрироваться"
+msgstr "Зареєструватися"
 
 #: app/templates/auth/register.html:116
 msgid "Create account"
-msgstr "Создать аккаунт"
+msgstr "Створити акаунт"
 
 #: app/templates/auth/register.html:117
 msgid "Start your journey to overcome social anxiety"
-msgstr "Начните путь к большей свободе от социальной тревожности"
+msgstr "Почніть шлях до більшої свободи від соціальної тривожності"
 
 #: app/templates/auth/register.html:151
 msgid "Already have an account?"
-msgstr "Уже есть аккаунт?"
+msgstr "Уже маєте акаунт?"
 
 #: app/templates/dashboard/index.html:184
 msgid "Hi,"
-msgstr "Привет,"
+msgstr "Вітаємо,"
 
 #: app/templates/dashboard/index.html:194
 msgid "days in a row"
-msgstr "дней подряд"
+msgstr "днів поспіль"
 
 #: app/templates/dashboard/index.html:195
 msgid "longest:"
-msgstr "лучшая серия:"
+msgstr "найкраща серія:"
 
 #: app/templates/dashboard/index.html:200 app/templates/profile/index.html:21
 msgid "XP"
@@ -197,92 +196,92 @@ msgstr "XP"
 #: app/templates/dashboard/index.html:211 app/templates/dashboard/index.html:243
 #: app/templates/tasks/task_list.html:159
 msgid "completed"
-msgstr "выполнено"
+msgstr "виконано"
 
 #: app/templates/dashboard/index.html:212
 msgid "diary entries"
-msgstr "записей в дневнике"
+msgstr "записів у щоденнику"
 
 #: app/templates/dashboard/index.html:217
 msgid "Anxiety"
-msgstr "Тревога"
+msgstr "Тривога"
 
 #: app/templates/dashboard/index.html:219
 msgid "Weekly average:"
-msgstr "Средняя за неделю:"
+msgstr "Середнє за тиждень:"
 
 #: app/templates/dashboard/index.html:228
 msgid "all-time:"
-msgstr "за всё время:"
+msgstr "за весь час:"
 
 #: app/templates/dashboard/index.html:234 app/templates/tasks/daily.html:3
 #: app/templates/tasks/daily.html:169
 msgid "Task of the day"
-msgstr "Задание дня"
+msgstr "Завдання дня"
 
 #: app/templates/dashboard/index.html:247 app/templates/tasks/complete.html:3
 msgid "Complete task"
-msgstr "Выполнение задания"
+msgstr "Виконати завдання"
 
 #: app/templates/dashboard/index.html:251
 msgid "No tasks today"
-msgstr "Сегодня заданий нет"
+msgstr "Сьогодні завдань немає"
 
 #: app/templates/dashboard/index.html:257
 msgid "Latest diary entry"
-msgstr "Последняя запись дневника"
+msgstr "Останній запис у щоденнику"
 
 #: app/templates/dashboard/index.html:261
 msgid "Anxiety level:"
-msgstr "Уровень тревоги:"
+msgstr "Рівень тривоги:"
 
 #: app/templates/dashboard/index.html:267
 msgid "No content"
-msgstr "Нет содержимого"
+msgstr "Немає вмісту"
 
 #: app/templates/dashboard/index.html:270
 msgid "Add new entry"
-msgstr "Добавить новую запись"
+msgstr "Додати новий запис"
 
 #: app/templates/dashboard/index.html:271
 msgid "Open"
-msgstr "Открыть"
+msgstr "Відкрити"
 
 #: app/templates/dashboard/index.html:273
 msgid "Create your first diary entry!"
-msgstr "Создайте первую запись в дневнике!"
+msgstr "Створіть перший запис у щоденнику!"
 
 #: app/templates/dashboard/index.html:275
 msgid "Add entry"
-msgstr "Добавить запись"
+msgstr "Додати запис"
 
 #: app/templates/dashboard/index.html:282
 msgid "Weekly anxiety"
-msgstr "Тревога за неделю"
+msgstr "Тривога за тиждень"
 
 #: app/templates/dashboard/index.html:286
 msgid "No data for the last 7 days"
-msgstr "Нет данных за последние 7 дней"
+msgstr "Немає даних за останні 7 днів"
 
 #: app/templates/diary/detail.html:3
 msgid "Entry"
-msgstr "Запись"
+msgstr "Запис"
 
 #: app/templates/diary/detail.html:145
 msgid "Entry from"
-msgstr "Запись от"
+msgstr "Запис від"
 
 #: app/templates/diary/detail.html:152
 msgid "Emotions"
-msgstr "Эмоции"
+msgstr "Емоції"
 
 #: app/templates/diary/detail.html:162 app/templates/tips/detail.html:33
 msgid "Description"
-msgstr "Описание"
+msgstr "Опис"
 
 #: app/templates/diary/detail.html:167
 msgid "AI analysis"
-msgstr "AI-анализ"
+msgstr "AI-аналіз"
 
 #: app/templates/diary/detail.html:170
 msgid "Summary"
@@ -290,47 +289,47 @@ msgstr "Резюме"
 
 #: app/templates/diary/detail.html:178
 msgid "Recommendation"
-msgstr "Рекомендация"
+msgstr "Рекомендація"
 
 #: app/templates/diary/list.html:3
 msgid "My diary"
-msgstr "Мой дневник"
+msgstr "Мій щоденник"
 
 #: app/templates/diary/list.html:160
 msgid "My emotion diary"
-msgstr "Мой дневник эмоций"
+msgstr "Мій щоденник емоцій"
 
 #: app/templates/diary/list.html:161 app/templates/diary/new.html:3
 msgid "New entry"
-msgstr "Новая запись"
+msgstr "Новий запис"
 
 #: app/templates/diary/list.html:167
 msgid "Create your first entry"
-msgstr "Создайте первую запись"
+msgstr "Створіть перший запис"
 
 #: app/templates/diary/list.html:195 app/templates/tasks/task_list.html:172
 msgid "Page"
-msgstr "Страница"
+msgstr "Сторінка"
 
 #: app/templates/diary/new.html:191
 msgid "New diary entry"
-msgstr "Новая запись в дневнике"
+msgstr "Новий запис у щоденнику"
 
 #: app/templates/diary/new.html:195 app/templates/progress/index.html:196
 msgid "Anxiety level"
-msgstr "Уровень тревоги"
+msgstr "Рівень тривоги"
 
 #: app/templates/diary/new.html:208
 msgid "Calm"
-msgstr "Спокойствие"
+msgstr "Спокій"
 
 #: app/templates/diary/new.html:209 app/templates/diary/new.html:226
 msgid "Panic"
-msgstr "Паника"
+msgstr "Паніка"
 
 #: app/templates/diary/new.html:214
 msgid "How do you feel? (multiple choice)"
-msgstr "Что вы чувствуете? (можно выбрать несколько)"
+msgstr "Що ви відчуваєте? (можна вибрати кілька)"
 
 #: app/templates/diary/new.html:216
 msgid "Fear"
@@ -338,254 +337,254 @@ msgstr "Страх"
 
 #: app/templates/diary/new.html:217
 msgid "Shame"
-msgstr "Стыд"
+msgstr "Сором"
 
 #: app/templates/diary/new.html:218
 msgid "Loneliness"
-msgstr "Одиночество"
+msgstr "Самотність"
 
 #: app/templates/diary/new.html:219
 msgid "Irritation"
-msgstr "Раздражение"
+msgstr "Роздратування"
 
 #: app/templates/diary/new.html:220
 msgid "Sadness"
-msgstr "Грусть"
+msgstr "Смуток"
 
 #: app/templates/diary/new.html:221
 msgid "Guilt"
-msgstr "Вина"
+msgstr "Провина"
 
 #: app/templates/diary/new.html:222
 msgid "Helplessness"
-msgstr "Беспомощность"
+msgstr "Безпорадність"
 
 #: app/templates/diary/new.html:223
 msgid "Tension"
-msgstr "Напряжение"
+msgstr "Напруження"
 
 #: app/templates/diary/new.html:224
 msgid "Insecurity"
-msgstr "Неуверенность"
+msgstr "Невпевненість"
 
 #: app/templates/diary/new.html:225
 msgid "Embarrassment"
-msgstr "Смущение"
+msgstr "Зніяковілість"
 
 #: app/templates/diary/new.html:227
 msgid "Depression"
-msgstr "Подавленность"
+msgstr "Пригніченість"
 
 #: app/templates/diary/new.html:232
 msgid "Describe what worries you today"
-msgstr "Опишите, что вас беспокоит сегодня"
+msgstr "Опишіть, що вас сьогодні турбує"
 
 #: app/templates/diary/new.html:234
 msgid "Describe what worries you today..."
-msgstr "Опишите, что вас беспокоит сегодня..."
+msgstr "Опишіть, що вас сьогодні турбує..."
 
 #: app/templates/diary/new.html:238
 msgid "Save entry"
-msgstr "Сохранить запись"
+msgstr "Зберегти запис"
 
 #: app/templates/profile/change_password.html:3
 #: app/templates/profile/change_password.html:12
 #: app/templates/profile/change_password.html:33 app/templates/profile/index.html:68
 msgid "Change password"
-msgstr "Сменить пароль"
+msgstr "Змінити пароль"
 
 #: app/templates/profile/change_password.html:11
 #: app/templates/profile/delete_account.html:11 app/templates/profile/settings.html:11
 msgid "← Back to profile"
-msgstr "← Назад к профилю"
+msgstr "← Назад до профілю"
 
 #: app/templates/profile/change_password.html:18
 #: app/templates/profile/delete_account.html:28
 msgid "Current password"
-msgstr "Текущий пароль"
+msgstr "Поточний пароль"
 
 #: app/templates/profile/change_password.html:23
 msgid "New password (at least 8 characters)"
-msgstr "Новый пароль (минимум 8 символов)"
+msgstr "Новий пароль (щонайменше 8 символів)"
 
 #: app/templates/profile/change_password.html:28
 msgid "Confirm new password"
-msgstr "Подтвердите новый пароль"
+msgstr "Підтвердьте новий пароль"
 
 #: app/templates/profile/change_password.html:34
 #: app/templates/profile/delete_account.html:42 app/templates/profile/settings.html:52
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Скасувати"
 
 #: app/templates/profile/delete_account.html:3 app/templates/profile/delete_account.html:12
 #: app/templates/profile/delete_account.html:41 app/templates/profile/index.html:88
 msgid "Delete account"
-msgstr "Удалить аккаунт"
+msgstr "Видалити акаунт"
 
 #: app/templates/profile/delete_account.html:16
 msgid "This action is irreversible."
-msgstr "Это действие необратимо."
+msgstr "Цю дію неможливо скасувати."
 
 #: app/templates/profile/delete_account.html:21
 msgid "export your data"
-msgstr "экспортировать данные"
+msgstr "експортувати дані"
 
 #: app/templates/profile/index.html:25
 msgid "Level"
-msgstr "Уровень"
+msgstr "Рівень"
 
 #: app/templates/profile/index.html:29
 msgid "Streak"
-msgstr "Серия"
+msgstr "Серія"
 
 #: app/templates/profile/index.html:33
 msgid "Tasks completed"
-msgstr "Выполнено заданий"
+msgstr "Виконано завдань"
 
 #: app/templates/profile/index.html:37
 msgid "Diary entries"
-msgstr "Записей в дневнике"
+msgstr "Записів у щоденнику"
 
 #: app/templates/profile/index.html:41
 msgid "Longest streak"
-msgstr "Самая длинная серия"
+msgstr "Найдовша серія"
 
 #: app/templates/profile/index.html:48
 msgid "Level progress"
-msgstr "Прогресс уровня"
+msgstr "Прогрес рівня"
 
 #: app/templates/profile/index.html:51
 msgid "to next level:"
-msgstr "до следующего:"
+msgstr "до наступного:"
 
 #: app/templates/profile/index.html:53
 msgid "max level reached"
-msgstr "максимальный уровень"
+msgstr "досягнуто максимального рівня"
 
 #: app/templates/profile/index.html:64 app/templates/profile/settings.html:3
 #: app/templates/profile/settings.html:12
 msgid "Settings"
-msgstr "Настройки"
+msgstr "Налаштування"
 
 #: app/templates/profile/index.html:65
 msgid "Theme, notifications, language, reminders"
-msgstr "Тема, уведомления, язык и напоминания"
+msgstr "Тема, сповіщення, мова й нагадування"
 
 #: app/templates/profile/index.html:69
 msgid "Update sign-in password"
-msgstr "Обновить пароль входа"
+msgstr "Оновити пароль для входу"
 
 #: app/templates/profile/index.html:75
 msgid "Export (JSON)"
-msgstr "Экспорт (JSON)"
+msgstr "Експорт (JSON)"
 
 #: app/templates/profile/index.html:76
 msgid "Download all your data"
-msgstr "Скачать все ваши данные"
+msgstr "Завантажити всі ваші дані"
 
 #: app/templates/profile/index.html:83
 msgid "Export for print (PDF)"
-msgstr "Версия для печати (PDF)"
+msgstr "Версія для друку (PDF)"
 
 #: app/templates/profile/index.html:84
 msgid "Opens print-friendly page (Ctrl+P)"
-msgstr "Откроется страница, удобная для печати (Ctrl+P)"
+msgstr "Відкриється сторінка, зручна для друку (Ctrl+P)"
 
 #: app/templates/profile/index.html:89
 msgid "Irreversibly delete all data"
-msgstr "Безвозвратное удаление всех данных"
+msgstr "Безповоротно видалити всі дані"
 
 #: app/templates/profile/settings.html:17
 msgid "Appearance"
-msgstr "Внешний вид"
+msgstr "Вигляд"
 
 #: app/templates/profile/settings.html:20
 msgid "Dark theme"
-msgstr "Тёмная тема"
+msgstr "Темна тема"
 
 #: app/templates/profile/settings.html:21
 msgid "Dimmed interface, easier on the eyes at night"
-msgstr "Приглушённый интерфейс, комфортнее для глаз вечером"
+msgstr "Приглушений інтерфейс, комфортніший для очей увечері"
 
 #: app/templates/profile/settings.html:26 app/templates/profile/settings.html:29
 msgid "Notifications"
-msgstr "Уведомления"
+msgstr "Сповіщення"
 
 #: app/templates/profile/settings.html:30
 msgid "Receive diary reminders"
-msgstr "Получать напоминания о дневнике"
+msgstr "Отримувати нагадування про щоденник"
 
 #: app/templates/profile/settings.html:36
 msgid "Daily reminder time"
-msgstr "Время ежедневного напоминания"
+msgstr "Час щоденного нагадування"
 
 #: app/templates/profile/settings.html:41
 msgid "Language"
-msgstr "Язык"
+msgstr "Мова"
 
 #: app/templates/profile/settings.html:43
 msgid "Interface language"
-msgstr "Язык интерфейса"
+msgstr "Мова інтерфейсу"
 
 #: app/templates/profile/settings.html:45
 msgid "Russian"
-msgstr "Русский"
+msgstr "Російська"
 
 #: app/templates/profile/settings.html:51
 msgid "Save"
-msgstr "Сохранить"
+msgstr "Зберегти"
 
 #: app/templates/progress/index.html:169
 msgid "This week vs last week"
-msgstr "Эта неделя и прошлая"
+msgstr "Цей тиждень і минулий"
 
 #: app/templates/progress/index.html:172
 msgid "This week"
-msgstr "Текущая неделя"
+msgstr "Цей тиждень"
 
 #: app/templates/progress/index.html:176
 msgid "Last week"
-msgstr "Прошлая неделя"
+msgstr "Минулий тиждень"
 
 #: app/templates/progress/index.html:180
 msgid "Change"
-msgstr "Изменение"
+msgstr "Зміна"
 
 #: app/templates/progress/index.html:198
 msgid "7 days"
-msgstr "7 дней"
+msgstr "7 днів"
 
 #: app/templates/progress/index.html:199
 msgid "30 days"
-msgstr "30 дней"
+msgstr "30 днів"
 
 #: app/templates/progress/index.html:200
 msgid "90 days"
-msgstr "90 дней"
+msgstr "90 днів"
 
 #: app/templates/progress/index.html:205
 msgid "No data for the selected period"
-msgstr "Нет данных за выбранный период"
+msgstr "Немає даних за вибраний період"
 
 #: app/templates/progress/index.html:210
 msgid "Tasks per week (last 8 weeks)"
-msgstr "Задания по неделям (последние 8 недель)"
+msgstr "Завдання за тижнями (останні 8 тижнів)"
 
 #: app/templates/progress/index.html:214
 msgid "No completed tasks for this period"
-msgstr "Нет выполненных заданий за этот период"
+msgstr "За цей період немає виконаних завдань"
 
 #: app/templates/progress/index.html:219
 msgid "Last 5 completed tasks"
-msgstr "Последние 5 выполненных заданий"
+msgstr "Останні 5 виконаних завдань"
 
 #: app/templates/progress/index.html:224
 msgid "Title"
-msgstr "Название"
+msgstr "Назва"
 
 #: app/templates/progress/index.html:225
 msgid "Difficulty"
-msgstr "Сложность"
+msgstr "Складність"
 
 #: app/templates/progress/index.html:226
 msgid "Date"
@@ -593,24 +592,24 @@ msgstr "Дата"
 
 #: app/templates/progress/index.html:242
 msgid "No tasks completed yet"
-msgstr "Заданий пока не выполнено"
+msgstr "Завдання ще не виконувались"
 
 #: app/templates/progress/index.html:248
 msgid "Achievements"
-msgstr "Достижения"
+msgstr "Досягнення"
 
 #: app/templates/progress/index.html:262
 msgid "Required:"
-msgstr "Требуется:"
+msgstr "Потрібно:"
 
 #: app/templates/progress/index.html:269
 msgid "Achievements not set up yet"
-msgstr "Достижения пока не настроены"
+msgstr "Досягнення ще не налаштовано"
 
 #: app/templates/sos/breathing.html:8 app/templates/sos/breathing.html:15
 #: app/templates/sos/index.html:19
 msgid "4-7-8 Breathing"
-msgstr "Дыхание 4-7-8"
+msgstr "Дихання 4-7-8"
 
 #: app/templates/sos/breathing.html:13 app/templates/sos/grounding.html:13
 #: app/templates/sos/grounding.html:73
@@ -619,15 +618,15 @@ msgstr "← Назад"
 
 #: app/templates/sos/breathing.html:16
 msgid "Follow the circle. Inhale through the nose, exhale through the mouth."
-msgstr "Следуй за кругом. Вдох носом, выдох ртом."
+msgstr "Слідкуйте за колом. Вдихайте носом, видихайте ротом."
 
 #: app/templates/sos/breathing.html:24
 msgid "Ready?"
-msgstr "Готов?"
+msgstr "Готові?"
 
 #: app/templates/sos/breathing.html:26
 msgid "Cycle 1 of ∞"
-msgstr "Цикл 1 из ∞"
+msgstr "Цикл 1 з ∞"
 
 #: app/templates/sos/breathing.html:30
 msgid "Start"
@@ -635,252 +634,246 @@ msgstr "Старт"
 
 #: app/templates/sos/breathing.html:31
 msgid "Reset"
-msgstr "Сбросить"
+msgstr "Скинути"
 
 #: app/templates/sos/breathing.html:36
 msgid "Soft beep on phase change"
-msgstr "Тихий сигнал при смене этапа"
+msgstr "Тихий сигнал під час зміни етапу"
 
 #: app/templates/sos/breathing.html:45
 msgid "Inhale"
-msgstr "Вдох"
+msgstr "Вдих"
 
 #: app/templates/sos/breathing.html:46
 msgid "Hold your breath"
-msgstr "Задержи дыхание"
+msgstr "Затримайте дихання"
 
 #: app/templates/sos/breathing.html:47
 msgid "Exhale"
-msgstr "Выдох"
+msgstr "Видих"
 
 #: app/templates/sos/breathing.html:49
 #, python-brace-format
 msgid "Cycle {n} of ∞"
-msgstr "Цикл {n} из ∞"
+msgstr "Цикл {n} з ∞"
 
 #: app/templates/sos/grounding.html:15
 msgid "5-4-3-2-1 Grounding Technique"
-msgstr "Техника заземления 5-4-3-2-1"
+msgstr "Техніка заземлення 5-4-3-2-1"
 
 #: app/templates/sos/grounding.html:16
 msgid "Name or write down:"
-msgstr "Назови или запиши:"
+msgstr "Назвіть або запишіть:"
 
 #: app/templates/sos/grounding.html:20
 msgid "Step 1 of 5"
-msgstr "Шаг 1 из 5"
+msgstr "Крок 1 з 5"
 
 #: app/templates/sos/grounding.html:29
 msgid "Great! You are here and now. 💙"
-msgstr "Отлично! Ты здесь и сейчас. 💙"
+msgstr "Чудово! Ви тут і зараз. 💙"
 
 #: app/templates/sos/grounding.html:30
 msgid "How do you feel?"
-msgstr "Как ты себя чувствуешь?"
+msgstr "Як ви почуваєтеся?"
 
 #: app/templates/sos/grounding.html:32
 msgid "Better 😊"
-msgstr "Лучше 😊"
+msgstr "Краще 😊"
 
 #: app/templates/sos/grounding.html:33
 msgid "Same 😐"
-msgstr "Так же 😐"
+msgstr "Так само 😐"
 
 #: app/templates/sos/grounding.html:34
 msgid "Need help 😟"
-msgstr "Нужна помощь 😟"
+msgstr "Потрібна допомога 😟"
 
 #: app/templates/sos/grounding.html:38
 msgid "You are not alone. Call — free and anonymous:"
-msgstr "Ты не один. Позвони — это бесплатно и анонимно:"
+msgstr "Ви не самі. Зателефонуйте — це безкоштовно й анонімно:"
 
 #: app/templates/sos/grounding.html:41
 msgid "Helpline, 24/7"
-msgstr "Линия психологической поддержки, 24/7"
+msgstr "Лінія психологічної підтримки, 24/7"
 
 #: app/templates/sos/grounding.html:46
 msgid "Back to main"
-msgstr "Вернуться на главную"
+msgstr "Повернутися на головну"
 
 #: app/templates/sos/grounding.html:57
 msgid "5 things you can SEE right now"
-msgstr "5 вещей, которые ты ВИДИШЬ прямо сейчас"
+msgstr "5 речей, які ви БАЧИТЕ просто зараз"
 
 #: app/templates/sos/grounding.html:58
 msgid "Something nearby..."
-msgstr "Что-то рядом..."
+msgstr "Щось поруч..."
 
 #: app/templates/sos/grounding.html:60
 msgid "4 sounds you can HEAR"
-msgstr "4 звука, которые ты СЛЫШИШЬ"
+msgstr "4 звуки, які ви ЧУЄТЕ"
 
 #: app/templates/sos/grounding.html:61
 msgid "Some sound..."
-msgstr "Какой-то звук..."
+msgstr "Якийсь звук..."
 
 #: app/templates/sos/grounding.html:63
 msgid "3 things you can TOUCH"
-msgstr "3 вещи, которые ты можешь ПОТРОГАТЬ"
+msgstr "3 речі, яких ви можете ТОРКНУТИСЯ"
 
 #: app/templates/sos/grounding.html:64
 msgid "A surface, fabric..."
-msgstr "Поверхность, ткань..."
+msgstr "Поверхня, тканина..."
 
 #: app/templates/sos/grounding.html:66
 msgid "2 smells you can FEEL"
-msgstr "2 запаха, которые ты ЧУВСТВУЕШЬ"
+msgstr "2 запахи, які ви ВІДЧУВАЄТЕ"
 
 #: app/templates/sos/grounding.html:67
 msgid "Some smell..."
-msgstr "Какой-то запах..."
+msgstr "Якийсь запах..."
 
 #: app/templates/sos/grounding.html:69
 msgid "1 taste you can SENSE"
-msgstr "1 вкус, который ты ОЩУЩАЕШЬ"
+msgstr "1 смак, який ви ВІДЧУВАЄТЕ"
 
 #: app/templates/sos/grounding.html:70
 msgid "Taste in mouth..."
-msgstr "Вкус во рту..."
+msgstr "Смак у роті..."
 
 #: app/templates/sos/grounding.html:72
 #, python-brace-format
 msgid "Step {i} of {n}"
-msgstr "Шаг {i} из {n}"
+msgstr "Крок {i} з {n}"
 
 #: app/templates/sos/grounding.html:74
 msgid "Skip step"
-msgstr "Пропустить шаг"
+msgstr "Пропустити крок"
 
 #: app/templates/sos/grounding.html:75
 msgid "Next →"
-msgstr "Далее →"
+msgstr "Далі →"
 
 #: app/templates/sos/grounding.html:76
 msgid "Finish"
-msgstr "Завершить"
+msgstr "Завершити"
 
 #: app/templates/sos/index.html:13
 msgid "Everything will be okay. You are safe."
-msgstr "Всё будет хорошо. Ты в безопасности."
+msgstr "Усе буде добре. Ви в безпеці."
 
 #: app/templates/sos/index.html:14
 msgid "Pick a technique that helps right now:"
-msgstr "Выбери технику, которая поможет прямо сейчас:"
+msgstr "Оберіть техніку, яка допоможе просто зараз:"
 
 #: app/templates/sos/index.html:20
 msgid "Guided breathing for fast calming"
-msgstr "Управляемое дыхание для быстрого успокоения"
+msgstr "Кероване дихання для швидкого заспокоєння"
 
 #: app/templates/sos/index.html:25
 msgid "5-4-3-2-1 Grounding"
-msgstr "Заземление 5-4-3-2-1"
+msgstr "Заземлення 5-4-3-2-1"
 
 #: app/templates/sos/index.html:26
 msgid "Come back to the present through your senses"
-msgstr "Вернись в настоящий момент через органы чувств"
+msgstr "Поверніться в теперішній момент через відчуття"
 
 #: app/templates/sos/index.html:31
 msgid "Call a specialist"
-msgstr "Позвонить специалисту"
+msgstr "Зателефонувати спеціалісту"
 
 #: app/templates/sos/index.html:32
 msgid "Helpline — free, anonymous, 24/7"
-msgstr "Психологическая помощь — бесплатно, анонимно, 24/7"
+msgstr "Психологічна допомога — безкоштовно, анонімно, 24/7"
 
 #: app/templates/sos/index.html:39
 msgid "If you or someone nearby is in danger —"
-msgstr "Если вам или кому-то рядом угрожает опасность —"
+msgstr "Якщо вам або комусь поруч загрожує небезпека —"
 
 #: app/templates/sos/index.html:40
 msgid "call 112"
-msgstr "звоните 112"
+msgstr "зателефонуйте 112"
 
 #: app/templates/sos/index.html:42
 msgid "SocialHealth is not a medical service"
-msgstr "SocialHealth не является медицинским сервисом"
+msgstr "SocialHealth не є медичним сервісом"
 
 #: app/templates/tasks/complete.html:151
 msgid "Total XP:"
-msgstr "Всего XP:"
+msgstr "Усього XP:"
 
 #: app/templates/tasks/complete.html:154
 msgid "Level up!"
-msgstr "Новый уровень!"
+msgstr "Новий рівень!"
 
 #: app/templates/tasks/task_list.html:3 app/templates/tasks/task_list.html:129
 msgid "Task history"
-msgstr "История заданий"
+msgstr "Історія завдань"
 
 #: app/templates/tasks/task_list.html:131
 msgid "Total completed:"
-msgstr "Всего выполнено:"
+msgstr "Усього виконано:"
 
 #: app/templates/tasks/task_list.html:132
 msgid "XP earned:"
-msgstr "Заработано XP:"
+msgstr "Зароблено XP:"
 
 #: app/templates/tasks/task_list.html:138
 msgid "No tasks yet. Go to the task of the day to start."
-msgstr "Пока нет заданий. Перейдите к заданию дня, чтобы начать."
+msgstr "Завдань поки немає. Перейдіть до завдання дня, щоб почати."
 
 #: app/templates/tips/detail.html:11
 msgid "Breadcrumbs"
-msgstr "Хлебные крошки"
+msgstr "Навігаційний шлях"
 
 #: app/templates/tips/detail.html:38
 msgid "When to use"
-msgstr "Когда использовать"
+msgstr "Коли використовувати"
 
 #: app/templates/tips/detail.html:43
 msgid "Step-by-step instructions"
-msgstr "Пошаговая инструкция"
+msgstr "Покрокова інструкція"
 
 #: app/templates/tips/detail.html:69
 msgid "Scientific basis"
-msgstr "Научное обоснование"
+msgstr "Наукове обґрунтування"
 
 #: app/templates/tips/detail.html:75
 msgid "← All techniques"
-msgstr "← Все техники"
+msgstr "← Усі техніки"
 
 #: app/templates/tips/detail.html:81
 msgid "Try with a timer →"
-msgstr "Попробовать с таймером →"
+msgstr "Спробувати з таймером →"
 
 #: app/templates/tips/index.html:3
 msgid "Tips & techniques"
-msgstr "Советы и техники"
+msgstr "Поради й техніки"
 
 #: app/templates/tips/index.html:12
 msgid "Techniques and tips for managing anxiety"
-msgstr "Техники и советы для управления тревогой"
+msgstr "Техніки й поради для керування тривогою"
 
 #: app/templates/tips/index.html:13
 msgid "Proven CBT methods to help you feel more confident"
-msgstr "Проверенные КПТ-методы, которые помогают чувствовать себя увереннее"
+msgstr "Перевірені КПТ-методи, що допомагають почуватися впевненіше"
 
 #: app/templates/tips/index.html:16
 msgid "Filter by category"
-msgstr "Фильтр по категориям"
+msgstr "Фільтр за категорією"
 
 #: app/templates/tips/index.html:18
 msgid "All"
-msgstr "Все"
+msgstr "Усі"
 
 #: app/templates/tips/index.html:45
 msgid "Details →"
-msgstr "Подробнее →"
+msgstr "Докладніше →"
 
 #: app/templates/tips/index.html:51
 msgid "No techniques in this category yet."
-msgstr "В этой категории пока нет техник."
+msgstr "У цій категорії поки немає технік."
 
 msgid "Ukrainian"
-msgstr "Украинский"
-
-#~ msgid "Cycle %(n)s of ∞"
-#~ msgstr "Цикл %(n)s из ∞"
-
-#~ msgid "Step %(i)s of %(n)s"
-#~ msgstr "Шаг %(i)s из %(n)s"
+msgstr "Українська"
 

@@ -43,6 +43,7 @@
             <label for="lang">{{ _("Interface language") }}</label>
             <select id="lang" name="language">
                 <option value="ru" {% if settings.language == 'ru' %}selected{% endif %}>{{ _("Russian") }}</option>
+                <option value="uk" {% if settings.language == 'uk' %}selected{% endif %}>{{ _("Ukrainian") }}</option>
                 <option value="en" {% if settings.language == 'en' %}selected{% endif %}>English</option>
             </select>
         </div>

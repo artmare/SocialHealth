@@ -1,0 +1,29 @@
+def test_uk_locale_prefix_renders_ukrainian(client):
+    body = client.get("/uk/auth/login", headers={"Accept": "text/html"}).data.decode(
+        "utf-8"
+    )
+    assert "Увійти" in body
+
+
+def test_ru_locale_uses_improved_copy(client):
+    body = client.get("/ru/auth/login", headers={"Accept": "text/html"}).data.decode(
+        "utf-8"
+    )
+    assert "Войти" in body
+
+
+def test_language_switcher_lists_ukrainian(client):
+    body = client.get("/uk/auth/register", headers={"Accept": "text/html"}).data.decode(
+        "utf-8"
+    )
+    assert 'href="/uk/auth/register"' in body
+
+
+def test_profile_settings_accepts_ukrainian(auth_client):
+    response = auth_client.post(
+        "/profile/settings",
+        data={"language": "uk", "daily_reminder_time": ""},
+        follow_redirects=False,
+    )
+    assert response.status_code == 302
+    assert response.headers["Location"].endswith("/uk/profile/settings")

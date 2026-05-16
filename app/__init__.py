@@ -1,5 +1,6 @@
 from flask import Flask, g, jsonify, redirect, request, url_for as _flask_url_for
 import flask
+import sqlalchemy as sa
 
 
 
@@ -7,7 +8,7 @@ from config import config_map
 from app.extensions import db, jwt, migrate, limiter, csrf, babel
 
 
-SUPPORTED_LOCALES = ("en", "ru")
+SUPPORTED_LOCALES = ("en", "ru", "uk")
 DEFAULT_LOCALE = "en"
 
 
@@ -64,10 +65,10 @@ def create_app(config_name="development"):
     babel.init_app(app, locale_selector=_select_locale)
 
     # ------------------------------------------------------------
-    # URL-префикс /ru/ (без префикса = EN дефолт).
+    # URL-префикс /ru/ или /uk/ (без префикса = EN дефолт).
     # На before_request снимаем префикс и помечаем locale в g.
-    # url_for оборачиваем, чтобы он автоматически добавлял /ru
-    # для русской локали.
+    # url_for оборачиваем, чтобы он автоматически добавлял /<locale>
+    # для не-EN локали.
     # ------------------------------------------------------------
     # WSGI-middleware: срезает /ru или /en префикс ДО URL-routing.
     _orig_wsgi = app.wsgi_app
@@ -98,6 +99,33 @@ def create_app(config_name="development"):
                 del g._flask_babel.babel_translations
             except AttributeError:
                 pass
+
+    @app.before_request
+    def _clear_stale_jwt_user():
+        """Handle cookies that point to a user missing from an ephemeral DB."""
+        try:
+            from flask_jwt_extended import get_jwt_identity, unset_jwt_cookies, verify_jwt_in_request
+            verify_jwt_in_request(optional=True)
+            ident = get_jwt_identity()
+            if not ident:
+                return None
+
+            from app.models import User
+            exists = db.session.scalar(
+                sa.select(sa.func.count(User.id)).where(User.id == int(ident))
+            )
+            if exists:
+                return None
+        except Exception:
+            return None
+
+        if request.path.startswith("/api/"):
+            return jsonify(error="unauthorized", reason="user no longer exists"), 401
+
+        resp = redirect(_flask_url_for("auth.login"))
+        unset_jwt_cookies(resp)
+        resp.delete_cookie("locale")
+        return resp
 
     # Безопасный url_for с автодобавлением /<locale> для не-EN.
     _orig_url_for = flask.url_for

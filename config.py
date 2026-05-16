@@ -39,7 +39,7 @@ class BaseConfig:
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
     BABEL_TRANSLATION_DIRECTORIES = "translations"
-    SUPPORTED_LOCALES = ["en", "ru"]
+    SUPPORTED_LOCALES = ["en", "ru", "uk"]
 
     XP_LEVELS = [0, 100, 250, 500, 900, 1400, 2000, 2800, 3800, 5000]
     LEVEL_TITLES_BY_LOCALE = {
@@ -50,6 +50,10 @@ class BaseConfig:
         "ru": [
             "Новичок", "Искатель", "Наблюдатель", "Смельчак", "Преодолевший",
             "Воин", "Мастер", "Герой", "Легенда", "Властелин тревоги",
+        ],
+        "uk": [
+            "Новачок", "Шукач", "Спостерігач", "Сміливець", "Той, хто долає",
+            "Воїн", "Майстер", "Герой", "Легенда", "Володар тривоги",
         ],
     }
     # Backward-compat: дефолт — EN

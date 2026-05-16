@@ -80,8 +80,9 @@ def settings():
             "on", "true", "1", "yes",
         )
 
+        from app import SUPPORTED_LOCALES
         lang = (request.form.get("language") or "").strip()
-        if lang in ("ru", "en"):
+        if lang in SUPPORTED_LOCALES:
             settings.language = lang
 
         reminder = (request.form.get("daily_reminder_time") or "").strip()
@@ -109,8 +110,8 @@ def settings():
         flash(_("Settings saved"), "success")
         # При смене языка делаем редирект на новую локаль (url_for уже учитывает g.locale,
         # но g.locale в этом запросе ещё старая). Соберём явно.
-        from app import DEFAULT_LOCALE
-        target = settings.language if settings.language in ("en", "ru") else DEFAULT_LOCALE
+        from app import DEFAULT_LOCALE, SUPPORTED_LOCALES
+        target = settings.language if settings.language in SUPPORTED_LOCALES else DEFAULT_LOCALE
         prefix = "" if target == DEFAULT_LOCALE else f"/{target}"
         resp = make_response(redirect(prefix + "/profile/settings"))
         resp.set_cookie("locale", target, max_age=60 * 60 * 24 * 365, samesite="Lax")

@@ -120,8 +120,8 @@ msgstr ""
 msgid "Progress"
 msgstr ""
 
-#: app/templates/base.html:237 app/templates/base.html:256
-#: app/templates/tips/detail.html:3 app/templates/tips/detail.html:12
+#: app/templates/base.html:237 app/templates/base.html:256 app/templates/tips/detail.html:3
+#: app/templates/tips/detail.html:12
 msgid "Tips"
 msgstr ""
 
@@ -135,8 +135,8 @@ msgstr ""
 
 #: app/templates/base.html:269
 msgid ""
-"SocialHealth is not a medical service. For serious symptoms, please "
-"consult a specialist."
+"SocialHealth is not a medical service. For serious symptoms, please consult a "
+"specialist."
 msgstr ""
 
 #: app/templates/base.html:272
@@ -191,8 +191,7 @@ msgstr ""
 msgid "XP"
 msgstr ""
 
-#: app/templates/dashboard/index.html:211
-#: app/templates/dashboard/index.html:243
+#: app/templates/dashboard/index.html:211 app/templates/dashboard/index.html:243
 #: app/templates/tasks/task_list.html:159
 msgid "completed"
 msgstr ""
@@ -388,14 +387,12 @@ msgstr ""
 
 #: app/templates/profile/change_password.html:3
 #: app/templates/profile/change_password.html:12
-#: app/templates/profile/change_password.html:33
-#: app/templates/profile/index.html:68
+#: app/templates/profile/change_password.html:33 app/templates/profile/index.html:68
 msgid "Change password"
 msgstr ""
 
 #: app/templates/profile/change_password.html:11
-#: app/templates/profile/delete_account.html:11
-#: app/templates/profile/settings.html:11
+#: app/templates/profile/delete_account.html:11 app/templates/profile/settings.html:11
 msgid "← Back to profile"
 msgstr ""
 
@@ -413,15 +410,12 @@ msgid "Confirm new password"
 msgstr ""
 
 #: app/templates/profile/change_password.html:34
-#: app/templates/profile/delete_account.html:42
-#: app/templates/profile/settings.html:52
+#: app/templates/profile/delete_account.html:42 app/templates/profile/settings.html:52
 msgid "Cancel"
 msgstr ""
 
-#: app/templates/profile/delete_account.html:3
-#: app/templates/profile/delete_account.html:12
-#: app/templates/profile/delete_account.html:41
-#: app/templates/profile/index.html:88
+#: app/templates/profile/delete_account.html:3 app/templates/profile/delete_account.html:12
+#: app/templates/profile/delete_account.html:41 app/templates/profile/index.html:88
 msgid "Delete account"
 msgstr ""
 
@@ -510,8 +504,7 @@ msgstr ""
 msgid "Dimmed interface, easier on the eyes at night"
 msgstr ""
 
-#: app/templates/profile/settings.html:26
-#: app/templates/profile/settings.html:29
+#: app/templates/profile/settings.html:26 app/templates/profile/settings.html:29
 msgid "Notifications"
 msgstr ""
 
@@ -877,6 +870,9 @@ msgstr ""
 
 #: app/templates/tips/index.html:51
 msgid "No techniques in this category yet."
+msgstr ""
+
+msgid "Ukrainian"
 msgstr ""
 
 #~ msgid "Cycle %(n)s of ∞"

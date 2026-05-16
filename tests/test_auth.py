@@ -90,6 +90,22 @@ def test_protected_route_with_token(auth_client):
     assert r.status_code == 200
 
 
+def test_stale_token_redirects_to_login(client):
+    from flask_jwt_extended import create_access_token
+
+    with client.application.app_context():
+        token = create_access_token(identity="999999")
+
+    response = client.get(
+        "/dashboard/",
+        headers={"Authorization": f"Bearer {token}", "Accept": "text/html"},
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 302
+    assert response.headers["Location"].endswith("/auth/login")
+
+
 def test_refresh_token(client, sample_user):
     client.post("/auth/login", data={
         "email": "test@test.com",

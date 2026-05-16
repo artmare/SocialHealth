@@ -18,14 +18,20 @@ CATEGORIES_BY_LOCALE = {
     },
     "ru": {
         "breathing": {"icon": "🫁", "name": "Дыхание"},
-        "cognition": {"icon": "🧠", "name": "Когниция"},
+        "cognition": {"icon": "🧠", "name": "Мышление"},
         "body":      {"icon": "🧘", "name": "Тело"},
+    },
+    "uk": {
+        "breathing": {"icon": "🫁", "name": "Дихання"},
+        "cognition": {"icon": "🧠", "name": "Мислення"},
+        "body":      {"icon": "🧘", "name": "Тіло"},
     },
 }
 
 DIFFICULTY_LABELS_BY_LOCALE = {
     "en": {"easy": "Easy", "medium": "Medium", "hard": "Hard"},
     "ru": {"easy": "Лёгкая", "medium": "Средняя", "hard": "Сложная"},
+    "uk": {"easy": "Легка", "medium": "Середня", "hard": "Складна"},
 }
 
 # Backward-compat (используется в импортах из app/routes/tips.py)
@@ -498,7 +504,7 @@ def _current_locale() -> str:
         from flask import g, has_request_context
         if has_request_context():
             loc = getattr(g, "locale", None)
-            if loc in ("en", "ru"):
+            if loc in ("en", "ru", "uk"):
                 return loc
     except Exception:
         pass
