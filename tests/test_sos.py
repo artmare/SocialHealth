@@ -18,7 +18,7 @@ def test_sos_grounding_no_auth(client):
 
 def test_sos_contains_helpline(client):
     body = client.get("/sos/").data.decode("utf-8")
-    assert "8-800-2000-122" in body or "88002000122" in body
+    assert "116 123" in body or "116123" in body
 
 
 def test_sos_contains_emergency(client):

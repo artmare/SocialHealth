@@ -23,7 +23,7 @@ class AIService:
             "Rules: never diagnose, never criticize the user. "
             "All values must be strings in English. "
             "If anxiety level is 9-10 of 10 — strongly recommend "
-            "consulting a specialist and provide the helpline 8-800-2000-122."
+            "consulting a specialist and provide the emotional support helpline 116 123."
         ),
         "ru": (
             "Ты — помощник по когнитивно-поведенческой терапии (CBT) "
@@ -37,7 +37,7 @@ class AIService:
             "Правила: никогда не ставь диагнозы, не критикуй пользователя. "
             "Все значения — строки на русском языке. "
             "Если уровень тревоги 9-10 из 10 — обязательно рекомендуй "
-            "обратиться к специалисту и укажи телефон доверия 8-800-2000-122."
+            "обратиться к специалисту и укажи номер психологической помощи 116 123."
         ),
     }
     # Backward-compat: дефолт EN
@@ -250,7 +250,7 @@ class AIService:
                 recommendation += (
                     " При таком высоком уровне тревоги рекомендуем "
                     "обратиться к квалифицированному специалисту "
-                    "или позвонить на телефон доверия 8-800-2000-122."
+                    "или позвонить на номер психологической помощи 116 123."
                 )
         else:
             summary = "Your entry reflects an anxious experience."
@@ -266,7 +266,7 @@ class AIService:
                 recommendation += (
                     " At such a high anxiety level, we recommend "
                     "consulting a qualified specialist or calling the "
-                    "helpline 8-800-2000-122."
+                    "emotional support helpline 116 123."
                 )
         return {
             "summary": summary,

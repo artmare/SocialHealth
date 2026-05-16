@@ -92,4 +92,4 @@ def test_analysis_prompt_contains_rules():
     assert "CBT" in p or "когнитив" in p.lower()
     assert "JSON" in p or "json" in p
     assert "9" in p and "10" in p
-    assert "8-800-2000-122" in p
+    assert "116 123" in p
