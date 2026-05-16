@@ -8,6 +8,8 @@ This project can run on Vercel through the Python serverless entrypoint in
 - `vercel.json` routes all requests to the Flask app.
 - `api/index.py` creates the Flask app for Vercel and prepares a temporary
   SQLite database only when no external database is configured.
+- `pyproject.toml` explicitly points Vercel at `api/index.py` so the Python
+  builder does not try to auto-detect a Flask entrypoint from root files.
 - `config.py` enables secure cookies in production and on Vercel.
 
 ## Environment variables
