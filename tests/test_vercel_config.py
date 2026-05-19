@@ -4,7 +4,13 @@ import pytest
 
 
 def _reload_config(monkeypatch, **env):
-    for key in ("VERCEL", "DATABASE_URL", "ALLOW_TMP_SQLITE"):
+    for key in (
+        "VERCEL",
+        "DATABASE_URL",
+        "POSTGRES_URL",
+        "POSTGRES_PRISMA_URL",
+        "ALLOW_TMP_SQLITE",
+    ):
         monkeypatch.delenv(key, raising=False)
     for key, value in env.items():
         monkeypatch.setenv(key, value)
@@ -24,6 +30,19 @@ def test_vercel_uses_database_url_when_set(monkeypatch):
         monkeypatch,
         VERCEL="1",
         DATABASE_URL="postgresql://user:pass@example.com:5432/socialhealth",
+    )
+
+    assert (
+        config.ProductionConfig.SQLALCHEMY_DATABASE_URI
+        == "postgresql://user:pass@example.com:5432/socialhealth"
+    )
+
+
+def test_vercel_uses_postgres_url_when_database_url_is_missing(monkeypatch):
+    config = _reload_config(
+        monkeypatch,
+        VERCEL="1",
+        POSTGRES_URL="postgres://user:pass@example.com:5432/socialhealth",
     )
 
     assert (

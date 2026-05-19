@@ -515,20 +515,15 @@ def seed(app=None):
     if app is None:
         app = create_app("development")
     with app.app_context():
-        existing = Task.query.count()
-        if existing >= 30:
-            # Обновим только title_en / description_en у имеющихся записей
-            for data in TASKS:
-                t = Task.query.filter_by(title=data["title"]).first()
-                if t:
-                    t.title_en = data.get("title_en")
-                    t.description_en = data.get("description_en")
-            db.session.commit()
-        else:
-            for data in TASKS:
+        for data in TASKS:
+            t = Task.query.filter_by(title=data["title"]).first()
+            if t:
+                for key, value in data.items():
+                    setattr(t, key, value)
+            else:
                 t = Task(**data)
                 db.session.add(t)
-            db.session.commit()
+        db.session.commit()
         total = Task.query.count()
         return total
 

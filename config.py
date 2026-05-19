@@ -15,8 +15,22 @@ def _tmp_sqlite_uri() -> str:
     return f"sqlite:///{db_path.as_posix()}"
 
 
+def _normalize_database_uri(uri: str) -> str:
+    if uri.startswith("postgres://"):
+        return "postgresql://" + uri.removeprefix("postgres://")
+    return uri
+
+
+def _database_url_from_env() -> str | None:
+    for name in ("DATABASE_URL", "POSTGRES_URL", "POSTGRES_PRISMA_URL"):
+        value = os.environ.get(name)
+        if value:
+            return _normalize_database_uri(value)
+    return None
+
+
 def _production_database_uri() -> str:
-    database_url = os.environ.get("DATABASE_URL")
+    database_url = _database_url_from_env()
     if database_url:
         return database_url
 
@@ -27,7 +41,8 @@ def _production_database_uri() -> str:
             "DATABASE_URL is required on Vercel production. "
             "SQLite in /tmp is ephemeral and will lose accounts after cold starts, "
             "redeploys, or instance replacement. Set DATABASE_URL to a hosted "
-            "Postgres database, or set ALLOW_TMP_SQLITE=true only for a disposable demo."
+            "Postgres database, connect Vercel Postgres/Neon so POSTGRES_URL is "
+            "available, or set ALLOW_TMP_SQLITE=true only for a disposable demo."
         )
 
     return "postgresql://user:password@localhost:5432/socialhealth"

@@ -24,10 +24,16 @@ ANTHROPIC_API_KEY=<your-key>
 DATABASE_URL=postgresql://...
 ```
 
+If you connect Vercel Postgres/Neon through Vercel Storage, Vercel may provide
+`POSTGRES_URL` or `POSTGRES_PRISMA_URL` instead of `DATABASE_URL`. The app
+accepts these too and normalizes `postgres://` to SQLAlchemy's
+`postgresql://`.
+
 Optional:
 
 ```text
 RATELIMIT_STORAGE_URI=memory://
+AUTO_INIT_DB=true
 ```
 
 `SECURE_COOKIES` defaults to `true` in production/Vercel. Set
@@ -55,6 +61,21 @@ ALLOW_TMP_SQLITE=true
 With `ALLOW_TMP_SQLITE=true`, the app uses SQLite in `/tmp`, runs
 `db.create_all()`, and seeds CBT tasks when the task table is empty. Do not use
 this mode for real users.
+
+## Schema initialization
+
+On Vercel, `AUTO_INIT_DB` defaults to `true`. When the serverless function cold
+starts, `api/index.py` runs:
+
+1. `db.create_all()` to create missing SQLAlchemy tables.
+2. `seed_tasks.seed(app)` if the CBT task table is incomplete.
+
+For Postgres, initialization is guarded with a PostgreSQL advisory lock so two
+cold starts do not seed tasks at the same time.
+
+This is enough for the current app schema. If the schema later changes in a way
+that requires data migrations, add Alembic/Flask-Migrate migration execution to
+the deploy workflow instead of relying only on `create_all()`.
 
 ## Deploy
 
