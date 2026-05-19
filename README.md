@@ -43,6 +43,20 @@ pytest tests/ -v
 
 Тесты используют SQLite in-memory и mock для AI — реальный API ключ не нужен.
 
+## Мультиязычность
+
+Интерфейс использует Flask-Babel. Поддерживаемые языки: `en`, `ru`, `uk`.
+Подробная инструкция по обновлению переводов находится в `I18N.md`.
+
+Основные команды:
+
+```bash
+python scripts/i18n.py extract
+python scripts/i18n.py update
+python scripts/i18n.py compile
+python scripts/i18n.py check
+```
+
 ## Деплой
 
 Автоматический через GitHub Actions при push в `main`. Workflow:

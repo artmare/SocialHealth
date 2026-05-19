@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the SocialHealth project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: SocialHealth 0.1.0\n"
@@ -1072,4 +1071,3 @@ msgstr "Пароль має містити щонайменше 8 символі
 
 msgid "Passwords do not match"
 msgstr "Паролі не збігаються"
-
