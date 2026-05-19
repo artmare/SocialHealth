@@ -20,7 +20,11 @@ app = create_app(os.environ.get("FLASK_CONFIG", "production"))
 
 def _prepare_tmp_sqlite() -> None:
     db_uri = app.config.get("SQLALCHEMY_DATABASE_URI", "")
-    if not (os.environ.get("VERCEL") and db_uri.startswith("sqlite:///")):
+    if not (
+        os.environ.get("VERCEL")
+        and os.environ.get("ALLOW_TMP_SQLITE")
+        and db_uri.startswith("sqlite:///")
+    ):
         return
 
     with app.app_context():

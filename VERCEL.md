@@ -21,12 +21,12 @@ FLASK_CONFIG=production
 SECRET_KEY=<long-random-secret>
 JWT_SECRET_KEY=<long-random-secret>
 ANTHROPIC_API_KEY=<your-key>
+DATABASE_URL=postgresql://...
 ```
 
-Recommended for real production:
+Optional:
 
 ```text
-DATABASE_URL=postgresql://...
 RATELIMIT_STORAGE_URI=memory://
 ```
 
@@ -37,19 +37,24 @@ RATELIMIT_STORAGE_URI=memory://
 
 If `DATABASE_URL` is set, the app uses that database.
 
-If `DATABASE_URL` is missing on Vercel, the app falls back to:
+`DATABASE_URL` is required on Vercel production. Use a hosted Postgres database
+such as Vercel Postgres, Neon, Supabase, Railway Postgres, or another managed
+Postgres provider.
+
+The app no longer silently uses SQLite on Vercel production because serverless
+filesystems are ephemeral. Without a persistent external database, accounts,
+diary entries, settings, and progress can disappear after cold starts, redeploys,
+or instance replacement.
+
+For a disposable demo only, you can explicitly opt into temporary SQLite:
 
 ```text
-sqlite:////tmp/socialhealth.db
+ALLOW_TMP_SQLITE=true
 ```
 
-That fallback is useful for smoke tests and demos, but `/tmp` is ephemeral in
-serverless environments. Data can disappear after cold starts, redeploys, or
-instance replacement. Use a hosted Postgres database for persistent accounts,
-diary entries, progress, and settings.
-
-For the `/tmp` SQLite fallback, `api/index.py` runs `db.create_all()` and seeds
-the CBT task list when the task table is empty.
+With `ALLOW_TMP_SQLITE=true`, the app uses SQLite in `/tmp`, runs
+`db.create_all()`, and seeds CBT tasks when the task table is empty. Do not use
+this mode for real users.
 
 ## Deploy
 
