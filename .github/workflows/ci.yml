@@ -38,11 +38,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
         run: |
+          : "${RAILWAY_TOKEN:?Missing RAILWAY_TOKEN secret}"
+          : "${RAILWAY_PROJECT_ID:?Missing RAILWAY_PROJECT_ID secret}"
+          : "${RAILWAY_SERVICE_ID:?Missing RAILWAY_SERVICE_ID secret}"
+          : "${RAILWAY_ENVIRONMENT_ID:?Missing RAILWAY_ENVIRONMENT_ID secret}"
           npm install -g @railway/cli
-          railway up --detach
+          railway up --ci --project "$RAILWAY_PROJECT_ID" --service "$RAILWAY_SERVICE_ID" --environment "$RAILWAY_ENVIRONMENT_ID"

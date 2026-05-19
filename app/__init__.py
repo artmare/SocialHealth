@@ -230,4 +230,7 @@ def create_app(config_name="development"):
     with app.app_context():
         from app import models
 
+    from app.database import prepare_database
+    prepare_database(app)
+
     return app

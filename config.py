@@ -34,15 +34,16 @@ def _production_database_uri() -> str:
     if database_url:
         return database_url
 
-    if os.environ.get("VERCEL"):
+    if os.environ.get("VERCEL") or os.environ.get("RAILWAY_ENVIRONMENT"):
         if _env_bool("ALLOW_TMP_SQLITE"):
             return _tmp_sqlite_uri()
         raise RuntimeError(
-            "DATABASE_URL is required on Vercel production. "
+            "DATABASE_URL is required in production. "
             "SQLite in /tmp is ephemeral and will lose accounts after cold starts, "
             "redeploys, or instance replacement. Set DATABASE_URL to a hosted "
-            "Postgres database, connect Vercel Postgres/Neon so POSTGRES_URL is "
-            "available, or set ALLOW_TMP_SQLITE=true only for a disposable demo."
+            "Postgres database, connect Vercel/Railway Postgres so POSTGRES_URL "
+            "or DATABASE_URL is available, or set ALLOW_TMP_SQLITE=true only "
+            "for a disposable demo."
         )
 
     return "postgresql://user:password@localhost:5432/socialhealth"
