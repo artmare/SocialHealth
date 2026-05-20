@@ -1,12 +1,13 @@
 """Тесты CBT-заданий."""
 
+import re
 from datetime import date, timedelta
 
 import pytest
 import sqlalchemy as sa
 
 from app.extensions import db
-from app.models import Task, UserTask, User
+from app.models import Achievement, Task, UserAchievement, UserTask, User
 from app.services.task_service import TaskService
 
 
@@ -118,3 +119,48 @@ def test_seed_tasks_count(db_session, sample_tasks):
     assert easy == 10
     assert medium == 10
     assert hard == 10
+
+
+def test_daily_task_completion_uses_post_form(auth_client, sample_tasks):
+    response = auth_client.get("/tasks/daily", headers={"Accept": "text/html"})
+
+    assert response.status_code == 200
+    body = response.data.decode("utf-8")
+    assert 'method="post"' in body
+    assert "/tasks/" in body and "/complete" in body
+    assert not re.search(r'<a\s+href="/tasks/\d+/complete"', body)
+
+
+def test_daily_task_can_be_completed_by_post(
+    auth_client, db_session, sample_user, sample_tasks
+):
+    task = next(t for t in sample_tasks if t.difficulty == "easy")
+
+    response = auth_client.post(
+        f"/tasks/{task.id}/complete",
+        data={"feedback": "done"},
+        headers={"Accept": "text/html"},
+    )
+
+    assert response.status_code == 200
+    user_task = db_session.execute(
+        sa.select(UserTask).where(
+            UserTask.user_id == sample_user.id,
+            UserTask.task_id == task.id,
+            UserTask.completed == True,
+        )
+    ).scalar_one()
+    assert user_task.feedback == "done"
+
+
+def test_task_completion_awards_achievements(db_session, sample_user, sample_tasks):
+    task = next(t for t in sample_tasks if t.difficulty == "easy")
+
+    TaskService.complete_task(sample_user.id, task.id)
+
+    achievements = db_session.execute(
+        sa.select(Achievement.name)
+        .join(UserAchievement)
+        .where(UserAchievement.user_id == sample_user.id)
+    ).scalars().all()
+    assert "First step" in achievements

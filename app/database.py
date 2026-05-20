@@ -13,7 +13,7 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 
 def should_prepare_database() -> bool:
-    return env_bool("AUTO_INIT_DB", default=bool(os.environ.get("VERCEL")))
+    return env_bool("AUTO_INIT_DB", default=False)
 
 
 def prepare_database(app) -> None:
@@ -28,7 +28,11 @@ def prepare_database(app) -> None:
         from app.models import Task
         import seed_tasks
 
-        db.create_all()
+        allow_schema_create = env_bool("ALLOW_SCHEMA_CREATE") or (
+            db_uri.startswith("sqlite:///") and env_bool("ALLOW_TMP_SQLITE")
+        )
+        if allow_schema_create:
+            db.create_all()
         is_postgres = db.engine.url.get_backend_name().startswith("postgres")
         if is_postgres:
             db.session.execute(text("SELECT pg_advisory_lock(73310420)"))

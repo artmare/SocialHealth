@@ -16,6 +16,8 @@ import sqlalchemy as sa
 
 from app.extensions import db
 from app.models import DailyEntry
+from app.emotions import EMOTIONS, normalize_emotions
+from app.services.achievement_service import AchievementService
 from app.services.ai_service import AIService
 
 diary_bp = Blueprint("diary", __name__, template_folder="../templates/diary")
@@ -24,7 +26,7 @@ diary_bp = Blueprint("diary", __name__, template_folder="../templates/diary")
 @diary_bp.get("/new")
 @jwt_required()
 def new():
-    return render_template("new.html")
+    return render_template("new.html", emotions=EMOTIONS)
 
 
 @diary_bp.post("/new")
@@ -37,18 +39,18 @@ def create():
         anxiety_level = int(anxiety_raw)
     except ValueError:
         flash(_("Anxiety level must be a number"), "error")
-        return render_template("new.html"), 400
+        return render_template("new.html", emotions=EMOTIONS), 400
 
     if not (1 <= anxiety_level <= 10):
         flash(_("Anxiety level must be between 1 and 10"), "error")
-        return render_template("new.html"), 400
+        return render_template("new.html", emotions=EMOTIONS), 400
 
-    emotions = request.form.getlist("emotions")
+    emotions = normalize_emotions(request.form.getlist("emotions"))
     text = request.form.get("text", "").strip()
 
     if not text:
         flash(_("Please describe your experience"), "error")
-        return render_template("new.html"), 400
+        return render_template("new.html", emotions=EMOTIONS), 400
 
     if len(text) > 2000:
         text = text[:2000]
@@ -71,6 +73,7 @@ def create():
         entry.ai_analysis = {"error": str(_("Analysis is temporarily unavailable"))}
         db.session.commit()
 
+    AchievementService.award_for_user(user_id)
     flash(_("Entry saved"), "success")
     return redirect(url_for("diary.index"))
 

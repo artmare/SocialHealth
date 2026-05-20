@@ -1074,9 +1074,11 @@ msgstr "Пароль должен быть не короче 8 символов"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
+msgid "Saving..."
+msgstr "Сохранение..."
+
 #~ msgid "Cycle %(n)s of ∞"
 #~ msgstr "Цикл %(n)s из ∞"
 
 #~ msgid "Step %(i)s of %(n)s"
 #~ msgstr "Шаг %(i)s из %(n)s"
-

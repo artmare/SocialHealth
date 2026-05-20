@@ -65,15 +65,6 @@ class AIService:
     }
     WEEKLY_REPORT_PROMPT = WEEKLY_REPORT_PROMPT_BY_LOCALE["en"]
 
-    MODERATION_PROMPT = (
-        "Ты — модератор сообщества. Проанализируй текст поста "
-        "и верни строго JSON с тремя ключами: "
-        "approved (true/false — одобрен ли пост), "
-        "reason (краткое объяснение решения), "
-        "toxicity_score (число от 0.0 до 1.0). "
-        "Запрещено: суицидальный контент, персональные данные, токсичность, угрозы."
-    )
-
     @staticmethod
     def _get_client():
         api_key = current_app.config.get("ANTHROPIC_API_KEY") or os.environ.get(
@@ -196,30 +187,6 @@ class AIService:
             return AIService._fallback_weekly_report()
 
     @staticmethod
-    def moderate_community_post(text: str) -> dict:
-        client = AIService._get_client()
-        if not client:
-            logger.warning("ANTHROPIC_API_KEY not set, returning placeholder for moderation")
-            return AIService._fallback_moderation()
-
-        try:
-            raw = AIService._call_api(
-                client, AIService.MODERATION_PROMPT, text, 200
-            )
-            parsed = AIService._extract_json(raw)
-            return {
-                "approved": bool(parsed.get("approved", True)),
-                "reason": str(parsed.get("reason", "")),
-                "toxicity_score": float(parsed.get("toxicity_score", 0.0)),
-            }
-        except json.JSONDecodeError as exc:
-            logger.error("JSON decode error in moderate_community_post: %s", exc)
-            return AIService._fallback_moderation()
-        except Exception as exc:
-            logger.error("Error in moderate_community_post: %s", exc)
-            return AIService._fallback_moderation()
-
-    @staticmethod
     def format_weekly_data(entries: list) -> str:
         lines = []
         for entry in entries:
@@ -273,7 +240,6 @@ class AIService:
             "insight": insight,
             "recommendation": recommendation,
         }
-
     @staticmethod
     def _fallback_weekly_report() -> dict:
         loc = AIService._current_locale()
@@ -295,17 +261,4 @@ class AIService:
                 "Try the 4-7-8 breathing technique every day "
                 "before leaving home."
             ),
-        }
-
-    @staticmethod
-    def _fallback_moderation() -> dict:
-        loc = AIService._current_locale()
-        if loc == "ru":
-            reason = "Ручная проверка невозможна — сервис недоступен."
-        else:
-            reason = "Manual moderation unavailable — service is offline."
-        return {
-            "approved": True,
-            "reason": reason,
-            "toxicity_score": 0.0,
         }

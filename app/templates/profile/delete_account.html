@@ -22,6 +22,7 @@
 
         <form method="post" action="{{ url_for('profile.delete_account') }}" novalidate>
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
 
             <div class="field">
                 <label for="password">{{ _("Current password") }}</label>

@@ -1069,9 +1069,11 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr ""
 
+msgid "Saving..."
+msgstr ""
+
 #~ msgid "Cycle %(n)s of ∞"
 #~ msgstr ""
 
 #~ msgid "Step %(i)s of %(n)s"
 #~ msgstr ""
-

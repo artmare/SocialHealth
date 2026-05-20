@@ -6,8 +6,8 @@ This project can run on Vercel through the Python serverless entrypoint in
 ## Files
 
 - `vercel.json` routes all requests to the Flask app.
-- `api/index.py` creates the Flask app for Vercel and prepares a temporary
-  SQLite database only when no external database is configured.
+- `api/index.py` creates the Flask app for Vercel and can seed reference data
+  after the schema exists.
 - `pyproject.toml` explicitly points Vercel at `api/index.py` so the Python
   builder does not try to auto-detect a Flask entrypoint from root files.
 - `config.py` enables secure cookies in production and on Vercel.
@@ -51,30 +51,44 @@ filesystems are ephemeral. Without a persistent external database, accounts,
 diary entries, settings, and progress can disappear after cold starts, redeploys,
 or instance replacement.
 
-For a disposable demo only, you can explicitly opt into temporary SQLite:
+For a disposable demo only, you can explicitly opt into temporary SQLite and
+schema creation:
 
 ```text
 ALLOW_TMP_SQLITE=true
+AUTO_INIT_DB=true
 ```
 
-With `ALLOW_TMP_SQLITE=true`, the app uses SQLite in `/tmp`, runs
-`db.create_all()`, and seeds CBT tasks when the task table is empty. Do not use
-this mode for real users.
+With `ALLOW_TMP_SQLITE=true`, the app uses SQLite in `/tmp`. Do not use this mode
+for real users.
 
 ## Schema initialization
 
-On Vercel, `AUTO_INIT_DB` defaults to `true`. When the serverless function cold
-starts, `api/index.py` runs:
+On Vercel, `AUTO_INIT_DB` defaults to `false`. The production schema should be
+managed with Flask-Migrate/Alembic:
 
-1. `db.create_all()` to create missing SQLAlchemy tables.
-2. `seed_tasks.seed(app)` if the CBT task table is incomplete.
+```bash
+flask db upgrade
+flask seed-tasks
+flask seed-achievements
+flask db-smoke
+```
 
-For Postgres, initialization is guarded with a PostgreSQL advisory lock so two
-cold starts do not seed tasks at the same time.
+If you intentionally enable `AUTO_INIT_DB=true`, cold starts can seed CBT tasks
+and achievements when those tables are empty. It no longer runs `db.create_all()`
+against Postgres. Emergency schema creation is available only with
+`ALLOW_SCHEMA_CREATE=true`, but migrations are the recommended production path.
 
-This is enough for the current app schema. If the schema later changes in a way
-that requires data migrations, add Alembic/Flask-Migrate migration execution to
-the deploy workflow instead of relying only on `create_all()`.
+For Postgres, seeding is guarded with a PostgreSQL advisory lock so two cold
+starts do not seed reference data at the same time.
+
+## Security notes
+
+Only keep database-related Supabase variables that the Flask app uses, such as
+`DATABASE_URL` or `POSTGRES_URL`. Remove Supabase service-role/secret keys from
+Vercel unless a backend feature explicitly needs them. If a password or
+service-role key was pasted into chat or logs, rotate it in Supabase and update
+Vercel with the new value.
 
 ## Deploy
 

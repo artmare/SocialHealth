@@ -45,12 +45,22 @@ class Task(db.Model):
 
     @property
     def localized_title(self) -> str:
+        if self._current_locale() == "uk":
+            from app.task_i18n import ukrainian_task_text
+            text = ukrainian_task_text(self.title_en)
+            if text:
+                return text[0]
         if self._current_locale() == "en" and self.title_en:
             return self.title_en
         return self.title
 
     @property
     def localized_description(self) -> str | None:
+        if self._current_locale() == "uk":
+            from app.task_i18n import ukrainian_task_text
+            text = ukrainian_task_text(self.title_en)
+            if text:
+                return text[1]
         if self._current_locale() == "en" and self.description_en:
             return self.description_en
         return self.description

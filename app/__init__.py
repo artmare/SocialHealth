@@ -56,6 +56,7 @@ def _select_locale():
 def create_app(config_name="development"):
     app = Flask(__name__)
     app.config.from_object(config_map.get(config_name, config_map["development"]))
+    app.logger.setLevel("INFO")
 
     db.init_app(app)
     jwt.init_app(app)
@@ -167,6 +168,24 @@ def create_app(config_name="development"):
         prefix = "" if target_lang == DEFAULT_LOCALE else f"/{target_lang}"
         return prefix + path + (("?" + qs) if qs else "")
 
+    @app.template_global("jwt_csrf_token")
+    def _jwt_csrf_token():
+        try:
+            from flask_jwt_extended import get_csrf_token
+            encoded = request.cookies.get(app.config["JWT_ACCESS_COOKIE_NAME"])
+            return get_csrf_token(encoded) if encoded else ""
+        except Exception:
+            return ""
+
+    @app.get("/health")
+    def health():
+        try:
+            db.session.execute(sa.text("SELECT 1"))
+            return jsonify(status="ok", database="ok"), 200
+        except Exception as exc:
+            app.logger.exception("health_check_failed")
+            return jsonify(status="error", database="error", reason=str(exc)), 503
+
     from app.routes.main import main_bp
     from app.routes.auth import auth_bp
     from app.routes.diary import diary_bp
@@ -188,6 +207,37 @@ def create_app(config_name="development"):
     app.register_blueprint(profile_bp, url_prefix="/profile")
     app.register_blueprint(tips_bp, url_prefix="/tips")
     app.register_blueprint(api_bp, url_prefix="/api")
+
+    @app.cli.command("seed-tasks")
+    def seed_tasks_command():
+        import seed_tasks
+        total = seed_tasks.seed(app)
+        print(f"Seeded tasks. Total tasks in DB: {total}")
+
+    @app.cli.command("seed-achievements")
+    def seed_achievements_command():
+        from app.services.achievement_service import seed_achievements
+        total = seed_achievements()
+        print(f"Seeded achievements. Total achievements in DB: {total}")
+
+    @app.cli.command("cleanup-test-users")
+    def cleanup_test_users_command():
+        from app.models import User
+        users = db.session.execute(
+            sa.select(User).where(User.email.like("codex-test-%@example.com"))
+        ).scalars().all()
+        for user in users:
+            db.session.delete(user)
+        db.session.commit()
+        print(f"Deleted test users: {len(users)}")
+
+    @app.cli.command("db-smoke")
+    def db_smoke_command():
+        from app.models import Task, User
+        db.session.execute(sa.text("SELECT 1"))
+        task_count = db.session.scalar(sa.select(sa.func.count(Task.id))) or 0
+        user_count = db.session.scalar(sa.select(sa.func.count(User.id))) or 0
+        print(f"database=ok tasks={task_count} users={user_count}")
 
     def _auth_failure(reason):
         # /api/* → всегда 401 JSON.

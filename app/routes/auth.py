@@ -14,7 +14,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 import sqlalchemy as sa
 
-from app.extensions import db, csrf
+from app.extensions import db, csrf, limiter
 from app.models import User, UserSettings
 
 auth_bp = Blueprint("auth", __name__, template_folder="../templates")
@@ -61,6 +61,7 @@ class RegisterForm(FlaskForm):
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
+@limiter.limit("10 per hour", methods=["POST"])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -100,6 +101,8 @@ def register():
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
+@limiter.limit("5 per minute", methods=["POST"])
+@limiter.limit("30 per hour", methods=["POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -126,6 +129,7 @@ def login():
 @auth_bp.post("/refresh")
 @jwt_required(refresh=True)
 @csrf.exempt
+@limiter.limit("30 per minute")
 def refresh():
     user_id = get_jwt_identity()
     access_token = create_access_token(identity=user_id)

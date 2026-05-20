@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from app import create_app
 from app.extensions import db
 from app.models import Task
+from app.services.achievement_service import seed_achievements
 
 
 TASKS = [
@@ -524,6 +525,7 @@ def seed(app=None):
                 t = Task(**data)
                 db.session.add(t)
         db.session.commit()
+        seed_achievements()
         total = Task.query.count()
         return total
 

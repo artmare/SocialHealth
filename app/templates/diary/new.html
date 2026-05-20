@@ -191,6 +191,7 @@
         <h1>{{ _("New diary entry") }}</h1>
         <form method="POST" action="{{ url_for('diary.create') }}" id="entryForm">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
             <div class="form-section">
                 <label>{{ _("Anxiety level") }}</label>
                 <div class="slider-row">
@@ -213,18 +214,9 @@
             <div class="form-section">
                 <label>{{ _("How do you feel? (multiple choice)") }}</label>
                 <div class="emotion-grid">
-                    <button type="button" class="emotion-btn" data-value="{{ _("Fear") }}">{{ _("Fear") }}</button>
-                    <button type="button" class="emotion-btn" data-value="{{ _("Shame") }}">{{ _("Shame") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Loneliness">{{ _("Loneliness") }}</button>
-                    <button type="button" class="emotion-btn" data-value="{{ _("Irritation") }}">{{ _("Irritation") }}</button>
-                    <button type="button" class="emotion-btn" data-value="{{ _("Sadness") }}">{{ _("Sadness") }}</button>
-                    <button type="button" class="emotion-btn" data-value="{{ _("Guilt") }}">{{ _("Guilt") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Helplessness">{{ _("Helplessness") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Tension">{{ _("Tension") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Insecurity">{{ _("Insecurity") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Embarrassment">{{ _("Embarrassment") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Panic">{{ _("Panic") }}</button>
-                    <button type="button" class="emotion-btn" data-value="Depression">{{ _("Depression") }}</button>
+                    {% for key, label in emotions %}
+                        <button type="button" class="emotion-btn" data-value="{{ key }}">{{ label }}</button>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -304,7 +296,7 @@
     const submitBtn = document.getElementById('submitBtn');
     form.addEventListener('submit', () => {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Сохранение...';
+        submitBtn.textContent = {{ _("Saving...") | tojson }};
     });
 })();
 </script>

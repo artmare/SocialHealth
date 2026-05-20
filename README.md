@@ -30,8 +30,10 @@ python -m venv venv
 source venv/bin/activate    # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env        # и заполните переменные
-flask db upgrade            # миграции (или python -c "from app import create_app; from app.extensions import db; app=create_app('development'); ctx=app.app_context(); ctx.push(); db.create_all()")
-python seed_tasks.py        # 30 CBT-заданий
+flask db upgrade            # apply Alembic migrations
+flask seed-tasks            # seed 30 CBT tasks
+flask seed-achievements     # seed default achievements
+flask db-smoke              # quick DB connectivity check
 flask run
 ```
 

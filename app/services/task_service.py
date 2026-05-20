@@ -4,6 +4,7 @@ import sqlalchemy as sa
 
 from app.extensions import db
 from app.models import Task, UserTask, User, DailyEntry
+from app.services.achievement_service import AchievementService
 
 
 class TaskService:
@@ -122,6 +123,7 @@ class TaskService:
             user.last_activity_date = today
 
             db.session.commit()
+            AchievementService.award_for_user(user_id)
         else:
             if feedback and not ut.feedback:
                 ut.feedback = feedback

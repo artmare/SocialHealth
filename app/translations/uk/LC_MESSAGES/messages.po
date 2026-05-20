@@ -1071,3 +1071,6 @@ msgstr "Пароль має містити щонайменше 8 символі
 
 msgid "Passwords do not match"
 msgstr "Паролі не збігаються"
+
+msgid "Saving..."
+msgstr "Збереження..."

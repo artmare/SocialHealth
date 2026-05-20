@@ -48,6 +48,21 @@ def _production_database_uri() -> str:
     return "postgresql://user:password@localhost:5432/socialhealth"
 
 
+def _is_production_runtime() -> bool:
+    return os.environ.get("FLASK_CONFIG") == "production" or (
+        os.environ.get("VERCEL_ENV") == "production"
+    )
+
+
+def _required_secret(name: str) -> str:
+    value = os.environ.get(name)
+    if value:
+        return value
+    if not _is_production_runtime():
+        return f"dev-{name.lower().replace('_', '-')}"
+    raise RuntimeError(f"{name} is required in production.")
+
+
 class BaseConfig:
     SECRET_KEY = os.environ.get(
         "SECRET_KEY", "dev-secret-key-change-before-production"
@@ -63,6 +78,9 @@ class BaseConfig:
     JWT_COOKIE_SECURE = _env_bool("SECURE_COOKIES")
     JWT_COOKIE_SAMESITE = "Lax"
     JWT_COOKIE_CSRF_PROTECT = False
+    JWT_CSRF_CHECK_FORM = False
+    JWT_ACCESS_CSRF_FIELD_NAME = "jwt_csrf_token"
+    JWT_REFRESH_CSRF_FIELD_NAME = "jwt_refresh_csrf_token"
     SESSION_COOKIE_SECURE = _env_bool("SECURE_COOKIES")
     SESSION_COOKIE_SAMESITE = "Lax"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -113,12 +131,16 @@ class DevelopmentConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
+    SECRET_KEY = _required_secret("SECRET_KEY")
+    JWT_SECRET_KEY = _required_secret("JWT_SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = _production_database_uri()
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_pre_ping": True,
         "pool_recycle": 300,
     }
     JWT_COOKIE_SECURE = _env_bool("SECURE_COOKIES", default=True)
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_CSRF_CHECK_FORM = True
     SESSION_COOKIE_SECURE = _env_bool("SECURE_COOKIES", default=True)
     RATELIMIT_STORAGE_URI = os.environ.get(
         "RATELIMIT_STORAGE_URI", "memory://"

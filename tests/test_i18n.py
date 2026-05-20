@@ -27,3 +27,11 @@ def test_profile_settings_accepts_ukrainian(auth_client):
     )
     assert response.status_code == 302
     assert response.headers["Location"].endswith("/uk/profile/settings")
+
+
+def test_all_seed_tasks_have_ukrainian_text():
+    from app.task_i18n import UK_TASK_TEXT
+    from seed_tasks import TASKS
+
+    titles = {task["title_en"] for task in TASKS}
+    assert titles <= set(UK_TASK_TEXT)

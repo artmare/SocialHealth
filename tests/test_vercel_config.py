@@ -6,10 +6,14 @@ import pytest
 def _reload_config(monkeypatch, **env):
     for key in (
         "VERCEL",
+        "VERCEL_ENV",
+        "FLASK_CONFIG",
         "DATABASE_URL",
         "POSTGRES_URL",
         "POSTGRES_PRISMA_URL",
         "ALLOW_TMP_SQLITE",
+        "SECRET_KEY",
+        "JWT_SECRET_KEY",
     ):
         monkeypatch.delenv(key, raising=False)
     for key, value in env.items():
@@ -59,3 +63,12 @@ def test_tmp_sqlite_requires_explicit_opt_in(monkeypatch):
     )
 
     assert config.ProductionConfig.SQLALCHEMY_DATABASE_URI.startswith("sqlite:///")
+
+
+def test_production_requires_explicit_secrets(monkeypatch):
+    with pytest.raises(RuntimeError, match="SECRET_KEY is required"):
+        _reload_config(
+            monkeypatch,
+            FLASK_CONFIG="production",
+            DATABASE_URL="postgresql://user:pass@example.com:5432/socialhealth",
+        )

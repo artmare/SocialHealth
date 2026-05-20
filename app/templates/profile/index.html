@@ -70,6 +70,7 @@
         </a>
         <form action="{{ url_for('profile.export_data') }}" method="post" class="action" style="text-align:left;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
             <input type="hidden" name="format" value="json">
             <button type="submit" style="all:unset; cursor:pointer; display:block; width:100%;">
                 <div class="name">⬇️ {{ _("Export (JSON)") }}</div>
@@ -78,6 +79,7 @@
         </form>
         <form action="{{ url_for('profile.export_data') }}" method="post" target="_blank" class="action" style="text-align:left;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
             <input type="hidden" name="format" value="pdf">
             <button type="submit" style="all:unset; cursor:pointer; display:block; width:100%;">
                 <div class="name">🖨 {{ _("Export for print (PDF)") }}</div>

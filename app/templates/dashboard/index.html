@@ -248,6 +248,7 @@
             {% else %}
                 <form action="{{ url_for('tasks.complete', task_id=daily_task.id) }}" method="post" style="margin-top: 4px;">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
                     <button type="submit" class="btn">{{ _("Complete task") }}</button>
                 </form>
             {% endif %}

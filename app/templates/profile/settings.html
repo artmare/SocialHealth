@@ -13,6 +13,7 @@
 
     <form method="post" action="{{ url_for('profile.settings') }}" class="card" novalidate>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
 
         <h2>{{ _("Appearance") }}</h2>
         <label class="toggle">

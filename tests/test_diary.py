@@ -117,3 +117,24 @@ def test_entry_isolation(client, db_session, sample_user, second_user):
     })
     r = client.get("/diary/", headers={"Accept": "text/html"})
     assert "OTHER_PRIVATE_TEXT" not in r.data.decode("utf-8")
+
+
+@patch("app.routes.diary.AIService.analyze_entry")
+def test_emotions_are_stored_as_canonical_keys(
+    mock_ai, auth_client, db_session, sample_user
+):
+    mock_ai.return_value = {"summary": "ok", "insight": "x", "recommendation": "y"}
+
+    auth_client.post(
+        "/diary/new",
+        data={
+            "anxiety_level": "4",
+            "text": "test",
+            "emotions": ["fear", "Fear", "loneliness"],
+        },
+    )
+
+    entry = db_session.execute(
+        sa.select(DailyEntry).where(DailyEntry.user_id == sample_user.id)
+    ).scalar_one()
+    assert entry.emotions == ["fear", "loneliness"]
