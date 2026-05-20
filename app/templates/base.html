@@ -44,6 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lunar.css') }}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
     {% block styles %}{% endblock %}
 </head>
 <body>
@@ -51,23 +52,23 @@
         {% if not is_public %}
             <aside class="sidebar">
                 <a href="{{ url_for('dashboard.index') }}" class="brand" aria-label="SocialHealth">
-                    <span class="brand-mark">*</span>
+                    <span class="brand-mark"><i data-lucide="sparkles"></i></span>
                     <span class="brand-name">SocialHealth</span>
                 </a>
 
                 <nav class="sidebar-section" aria-label="{{ _('Workspace') }}">
                     <div class="eyebrow">{{ _("Workspace") }}</div>
-                    <a class="nav-item {% if active_root == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard.index') }}"><span class="nav-icon">H</span>{{ _("Dashboard") }}</a>
-                    <a class="nav-item {% if active_root == 'diary' %}active{% endif %}" href="{{ url_for('diary.index') }}"><span class="nav-icon">D</span>{{ _("Diary") }}</a>
-                    <a class="nav-item {% if active_root == 'tasks' %}active{% endif %}" href="{{ url_for('tasks.index') }}"><span class="nav-icon">T</span>{{ _("Tasks") }}</a>
-                    <a class="nav-item {% if active_root == 'progress' %}active{% endif %}" href="{{ url_for('progress.index') }}"><span class="nav-icon">P</span>{{ _("Progress") }}</a>
-                    <a class="nav-item {% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span class="nav-icon">?</span>{{ _("Techniques") }}</a>
-                    <a class="nav-item {% if active_root == 'profile' %}active{% endif %}" href="{{ url_for('profile.index') }}"><span class="nav-icon">U</span>{{ _("Profile") }}</a>
+                    <a class="nav-item {% if active_root == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard.index') }}"><span class="nav-icon"><i data-lucide="layout-dashboard"></i></span>{{ _("Dashboard") }}</a>
+                    <a class="nav-item {% if active_root == 'diary' %}active{% endif %}" href="{{ url_for('diary.index') }}"><span class="nav-icon"><i data-lucide="book-heart"></i></span>{{ _("Diary") }}</a>
+                    <a class="nav-item {% if active_root == 'tasks' %}active{% endif %}" href="{{ url_for('tasks.index') }}"><span class="nav-icon"><i data-lucide="check-square"></i></span>{{ _("Tasks") }}</a>
+                    <a class="nav-item {% if active_root == 'progress' %}active{% endif %}" href="{{ url_for('progress.index') }}"><span class="nav-icon"><i data-lucide="trending-up"></i></span>{{ _("Progress") }}</a>
+                    <a class="nav-item {% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span class="nav-icon"><i data-lucide="lightbulb"></i></span>{{ _("Techniques") }}</a>
+                    <a class="nav-item {% if active_root == 'profile' %}active{% endif %}" href="{{ url_for('profile.index') }}"><span class="nav-icon"><i data-lucide="user-round"></i></span>{{ _("Profile") }}</a>
                 </nav>
 
                 <nav class="sidebar-section" aria-label="{{ _('Urgent') }}">
                     <div class="eyebrow">{{ _("Urgent") }}</div>
-                    <a class="nav-item sos {% if active_root == 'sos' %}active{% endif %}" href="{{ url_for('sos.index') }}"><span class="nav-icon">!</span>SOS</a>
+                    <a class="nav-item sos {% if active_root == 'sos' %}active{% endif %}" href="{{ url_for('sos.index') }}"><span class="nav-icon"><i data-lucide="life-buoy"></i></span>SOS</a>
                 </nav>
 
                 <div class="sidebar-card">
@@ -84,21 +85,28 @@
                             <div><span>{{ nav_user.xp }} XP</span><span>{{ 100 - (nav_user.xp % 100) }} {{ _("to next") }}</span></div>
                         </div>
                     {% endif %}
-                    <button type="button" class="theme-toggle" data-theme-toggle>{{ _("Toggle theme") }}</button>
+                    <button type="button" class="theme-toggle" data-theme-toggle>
+                        <i data-lucide="sun" class="theme-icon theme-icon-sun"></i>
+                        <i data-lucide="moon" class="theme-icon theme-icon-moon"></i>
+                        <span>{{ _("Toggle theme") }}</span>
+                    </button>
                     <form method="post" action="{{ url_for('auth.logout') }}">
-                        <button type="submit" class="signout-link">{{ _("Sign out") }}</button>
+                        <button type="submit" class="signout-link"><i data-lucide="log-out"></i>{{ _("Sign out") }}</button>
                     </form>
                 </div>
             </aside>
 
             <header class="mobile-topbar">
                 <a href="{{ url_for('dashboard.index') }}" class="brand">
-                    <span class="brand-mark">*</span>
+                    <span class="brand-mark"><i data-lucide="sparkles"></i></span>
                     <span class="brand-name">SocialHealth</span>
                 </a>
                 <div class="mobile-actions">
                     <a href="{{ url_for('sos.index') }}" class="mobile-sos">SOS</a>
-                    <button type="button" class="theme-toggle" data-theme-toggle aria-label="{{ _('Toggle theme') }}">Theme</button>
+                    <button type="button" class="mobile-icon-button" data-theme-toggle aria-label="{{ _('Toggle theme') }}">
+                        <i data-lucide="sun" class="theme-icon theme-icon-sun"></i>
+                        <i data-lucide="moon" class="theme-icon theme-icon-moon"></i>
+                    </button>
                 </div>
             </header>
         {% endif %}
@@ -111,11 +119,11 @@
 
         {% if not is_public %}
             <nav class="mobile-tabbar" aria-label="{{ _('Workspace') }}">
-                <a class="{% if active_root == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard.index') }}"><span>H</span>{{ _("Dashboard") }}</a>
-                <a class="{% if active_root == 'diary' %}active{% endif %}" href="{{ url_for('diary.index') }}"><span>D</span>{{ _("Diary") }}</a>
-                <a class="{% if active_root == 'tasks' %}active{% endif %}" href="{{ url_for('tasks.index') }}"><span>T</span>{{ _("Tasks") }}</a>
-                <a class="{% if active_root == 'progress' %}active{% endif %}" href="{{ url_for('progress.index') }}"><span>P</span>{{ _("Progress") }}</a>
-                <a class="{% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span>?</span>{{ _("Techniques") }}</a>
+                <a class="{% if active_root == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard.index') }}"><i data-lucide="layout-dashboard"></i>{{ _("Dashboard") }}</a>
+                <a class="{% if active_root == 'diary' %}active{% endif %}" href="{{ url_for('diary.index') }}"><i data-lucide="book-heart"></i>{{ _("Diary") }}</a>
+                <a class="{% if active_root == 'tasks' %}active{% endif %}" href="{{ url_for('tasks.index') }}"><i data-lucide="check-square"></i>{{ _("Tasks") }}</a>
+                <a class="{% if active_root == 'progress' %}active{% endif %}" href="{{ url_for('progress.index') }}"><i data-lucide="trending-up"></i>{{ _("Progress") }}</a>
+                <a class="{% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><i data-lucide="lightbulb"></i>{{ _("Techniques") }}</a>
             </nav>
         {% endif %}
     </div>
@@ -175,6 +183,14 @@
                 const pct = Math.max(0, Math.min(100, parseFloat(bar.dataset.sidebarXp) || 0));
                 bar.style.width = pct + "%";
             });
+
+            const renderIcons = () => {
+                if (window.lucide) {
+                    window.lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
+                }
+            };
+            renderIcons();
+            window.addEventListener("load", renderIcons, { once: true });
         })();
     </script>
 

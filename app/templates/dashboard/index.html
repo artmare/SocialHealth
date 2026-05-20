@@ -12,25 +12,25 @@
 
     <section class="dashboard-stats">
         <article class="dash-stat dash-stat-accent">
-            <div class="dash-stat-head"><span class="dash-icon">S</span><span class="eyebrow">{{ _("Streak") }}</span></div>
+            <div class="dash-stat-head"><span class="dash-icon"><i data-lucide="flame"></i></span><span class="eyebrow">{{ _("Streak") }}</span></div>
             <strong>{{ stats.streak }}</strong>
             <small>{{ _("longest") }} {{ user.longest_streak }}</small>
         </article>
 
         <article class="dash-stat">
-            <div class="dash-stat-head"><span class="dash-icon">L</span><span class="eyebrow">{{ _("Level") }}</span></div>
+            <div class="dash-stat-head"><span class="dash-icon"><i data-lucide="trophy"></i></span><span class="eyebrow">{{ _("Level") }}</span></div>
             <strong>{{ _("Lvl") }} {{ stats.level }}</strong>
             <small>{{ stats.level_title }} · {{ stats.xp }} XP</small>
         </article>
 
         <article class="dash-stat">
-            <div class="dash-stat-head"><span class="dash-icon">T</span><span class="eyebrow">{{ _("Tasks") }}</span></div>
+            <div class="dash-stat-head"><span class="dash-icon"><i data-lucide="check-circle-2"></i></span><span class="eyebrow">{{ _("Tasks") }}</span></div>
             <strong>{{ stats.total_tasks_completed }}</strong>
             <small>{{ _("completed") }}</small>
         </article>
 
         <article class="dash-stat">
-            <div class="dash-stat-head"><span class="dash-icon">A</span><span class="eyebrow">{{ _("Anxiety (7d)") }}</span></div>
+            <div class="dash-stat-head"><span class="dash-icon"><i data-lucide="activity"></i></span><span class="eyebrow">{{ _("Anxiety (7d)") }}</span></div>
             <strong>{% if stats.avg_anxiety_week %}{{ stats.avg_anxiety_week }}/10{% else %}—{% endif %}</strong>
             <small>{% if stats.avg_anxiety_week %}{{ _("all-time") }} {{ stats.avg_anxiety }}{% else %}{{ _("no data yet") }}{% endif %}</small>
         </article>
@@ -56,10 +56,10 @@
                         <form action="{{ url_for('tasks.complete', task_id=daily_task.id) }}" method="post">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
-                            <button type="submit" class="dash-primary">{{ _("Complete") }} · +{{ daily_task.xp_reward }} XP</button>
+                            <button type="submit" class="dash-primary">{{ _("Complete") }} · +{{ daily_task.xp_reward }} XP <i data-lucide="sparkles"></i></button>
                         </form>
                     {% endif %}
-                    <a href="{{ url_for('tasks.index') }}">{{ _("View history") }} ↗</a>
+                    <a href="{{ url_for('tasks.index') }}">{{ _("View history") }} <i data-lucide="arrow-up-right"></i></a>
                 </div>
             {% else %}
                 <p>{{ _("No tasks today") }}</p>
@@ -87,7 +87,7 @@
                     <div class="eyebrow">{{ _("Last 7 days") }}</div>
                     <h3>{{ _("Weekly anxiety") }}</h3>
                 </div>
-                <a href="{{ url_for('progress.index') }}">{{ _("Full progress") }} ↗</a>
+                <a href="{{ url_for('progress.index') }}">{{ _("Full progress") }} <i data-lucide="arrow-up-right"></i></a>
             </div>
             <div class="dash-chart-empty">{{ _("No data for the last 7 days") }}</div>
         </article>
@@ -95,7 +95,7 @@
         <article class="dash-panel dash-diary-panel">
             <div class="dash-panel-heading">
                 <div class="eyebrow">{{ _("Diary") }}</div>
-                <a href="{{ url_for('diary.index') }}">{{ _("All") }} ↗</a>
+                <a href="{{ url_for('diary.index') }}">{{ _("All") }} <i data-lucide="arrow-up-right"></i></a>
             </div>
             {% if last_entry %}
                 <div class="dash-entry-date">{{ last_entry.date.strftime('%d %b') }} · {{ _("Anxiety") }} {{ last_entry.anxiety_level }}/10</div>
