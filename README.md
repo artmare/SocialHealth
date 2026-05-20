@@ -19,7 +19,7 @@
 - **Frontend:** HTML5 / CSS3 / Vanilla JS / Chart.js
 - **Auth:** JWT (Flask-JWT-Extended)
 - **DB:** SQLite (dev) / PostgreSQL (prod)
-- **Deploy:** Railway + GitHub Actions
+- **Deploy:** Vercel
 
 ## Установка
 
@@ -62,12 +62,9 @@ python scripts/i18n.py check
 Автоматический через GitHub Actions при push в `main`. Workflow:
 
 1. **test** — устанавливает зависимости и прогоняет `pytest`
-2. **deploy** — `railway up --detach` (нужен secret `RAILWAY_TOKEN`)
 
-`Procfile`:
-```
-web: gunicorn "app:create_app()" --workers 3 --timeout 120 --access-logfile -
-```
+Production deploy runs on Vercel. See `VERCEL.md` for the required environment
+variables and database setup.
 
 ## Структура
 

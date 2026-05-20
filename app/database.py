@@ -13,10 +13,7 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 
 def should_prepare_database() -> bool:
-    managed_runtime = bool(
-        os.environ.get("VERCEL") or os.environ.get("RAILWAY_ENVIRONMENT")
-    )
-    return env_bool("AUTO_INIT_DB", default=managed_runtime)
+    return env_bool("AUTO_INIT_DB", default=bool(os.environ.get("VERCEL")))
 
 
 def prepare_database(app) -> None:

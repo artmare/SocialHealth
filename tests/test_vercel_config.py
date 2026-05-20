@@ -6,7 +6,6 @@ import pytest
 def _reload_config(monkeypatch, **env):
     for key in (
         "VERCEL",
-        "RAILWAY_ENVIRONMENT",
         "DATABASE_URL",
         "POSTGRES_URL",
         "POSTGRES_PRISMA_URL",
@@ -24,11 +23,6 @@ def _reload_config(monkeypatch, **env):
 def test_vercel_requires_persistent_database(monkeypatch):
     with pytest.raises(RuntimeError, match="DATABASE_URL is required"):
         _reload_config(monkeypatch, VERCEL="1")
-
-
-def test_railway_requires_persistent_database(monkeypatch):
-    with pytest.raises(RuntimeError, match="DATABASE_URL is required"):
-        _reload_config(monkeypatch, RAILWAY_ENVIRONMENT="production")
 
 
 def test_vercel_uses_database_url_when_set(monkeypatch):

@@ -44,8 +44,7 @@ AUTO_INIT_DB=true
 If `DATABASE_URL` is set, the app uses that database.
 
 `DATABASE_URL` is required on Vercel production. Use a hosted Postgres database
-such as Vercel Postgres, Neon, Supabase, Railway Postgres, or another managed
-Postgres provider.
+such as Vercel Postgres, Neon, Supabase, or another managed Postgres provider.
 
 The app no longer silently uses SQLite on Vercel production because serverless
 filesystems are ephemeral. Without a persistent external database, accounts,

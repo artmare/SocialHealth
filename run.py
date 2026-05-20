@@ -8,7 +8,7 @@ from app import create_app
 config_name = (
     os.environ.get("FLASK_CONFIG")
     or os.environ.get("FLASK_ENV")
-    or ("production" if os.environ.get("RAILWAY_ENVIRONMENT") else "development")
+    or "development"
 )
 app = create_app(config_name)
 
