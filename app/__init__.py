@@ -10,14 +10,14 @@ from app.extensions import db, jwt, migrate, limiter, csrf, babel
 
 SUPPORTED_LOCALES = ("en", "ru", "uk")
 DEFAULT_LOCALE = "en"
+LANG_COOKIE = "sh-lang"
 
 
 def _select_locale():
     """Какой язык активен для текущего запроса."""
-    # Сначала смотрим environ — middleware всегда выставляет 'socialhealth.locale'
-    # ДО любых before_request hooks.
+    # Explicit legacy URL prefix wins for backward-compatible links like /ru/auth/login.
     try:
-        env_loc = request.environ.get("socialhealth.locale")
+        env_loc = request.environ.get("socialhealth.path_locale")
         if env_loc in SUPPORTED_LOCALES:
             return env_loc
     except Exception:
@@ -26,8 +26,9 @@ def _select_locale():
     forced = getattr(g, "locale", None)
     if forced in SUPPORTED_LOCALES:
         return forced
-    # Из cookie
-    c = request.cookies.get("locale") if request else None
+    # Same client-side preference model as lunar-luxe-vision: localStorage key
+    # "sh-lang", mirrored into a cookie so Flask-Babel can render server HTML.
+    c = (request.cookies.get(LANG_COOKIE) or request.cookies.get("locale")) if request else None
     if c in SUPPORTED_LOCALES:
         return c
     # Authenticated → UserSettings.language
@@ -66,29 +67,25 @@ def create_app(config_name="development"):
     babel.init_app(app, locale_selector=_select_locale)
 
     # ------------------------------------------------------------
-    # URL-префикс /ru/ или /uk/ (без префикса = EN дефолт).
-    # На before_request снимаем префикс и помечаем locale в g.
-    # url_for оборачиваем, чтобы он автоматически добавлял /<locale>
-    # для не-EN локали.
+    # Legacy URL-prefix support. New canonical URLs do not include the locale;
+    # the selected language is stored in localStorage("sh-lang") and cookies.
     # ------------------------------------------------------------
     # WSGI-middleware: срезает /ru или /en префикс ДО URL-routing.
     _orig_wsgi = app.wsgi_app
     def _locale_prefix_middleware(environ, start_response):
         path = environ.get("PATH_INFO", "")
-        detected = DEFAULT_LOCALE
         for code in SUPPORTED_LOCALES:
             if path == f"/{code}" or path.startswith(f"/{code}/"):
-                detected = code
                 rest = path[len(f"/{code}"):] or "/"
                 environ["PATH_INFO"] = rest
+                environ["socialhealth.path_locale"] = code
                 break
-        environ["socialhealth.locale"] = detected
         return _orig_wsgi(environ, start_response)
     app.wsgi_app = _locale_prefix_middleware
 
     @app.before_request
-    def _copy_locale_from_environ():
-        g.locale = request.environ.get("socialhealth.locale", DEFAULT_LOCALE)
+    def _copy_locale_to_request_context():
+        g.locale = _select_locale()
         # Сбрасываем babel-кэш, чтобы Flask-Babel переспросил locale_selector
         # на текущем запросе (важно когда test_client использует один процесс).
         if hasattr(g, "_flask_babel"):
@@ -128,24 +125,13 @@ def create_app(config_name="development"):
         resp.delete_cookie("locale")
         return resp
 
-    # Безопасный url_for с автодобавлением /<locale> для не-EN.
+    # Keep a tiny compatibility wrapper so old template calls with _lang do not
+    # break, but stop injecting language prefixes into generated URLs.
     _orig_url_for = flask.url_for
 
     def _url_for_with_locale(endpoint, **values):
-        # Кто-то явно указал _lang → используем его (для переключателя языка)
-        lang = values.pop("_lang", None) or getattr(g, "locale", DEFAULT_LOCALE)
-        if lang not in SUPPORTED_LOCALES:
-            lang = DEFAULT_LOCALE
-        url = _orig_url_for(endpoint, **values)
-        # static-файлы и абсолютные внешние ссылки без изменений
-        if endpoint == "static" or url.startswith(("http://", "https://", "tel:", "mailto:")):
-            return url
-        if lang == DEFAULT_LOCALE:
-            return url
-        # url начинается с / (относительный)
-        if url.startswith("/"):
-            return f"/{lang}{url}"
-        return url
+        values.pop("_lang", None)
+        return _orig_url_for(endpoint, **values)
 
     # Подменяем url_for и в Flask, и в Jinja-окружении
     flask.url_for = _url_for_with_locale
@@ -160,13 +146,41 @@ def create_app(config_name="development"):
 
     @app.template_global("switch_locale_url")
     def _switch_locale_url(target_lang):
-        """URL текущей страницы в другой локали."""
-        # request.full_path уже без префикса (срезали в before_request),
-        # поэтому собираем заново
+        """Persist another locale and return to the current page."""
         path = request.environ.get("PATH_INFO", "/")
         qs = request.query_string.decode("utf-8", errors="replace")
-        prefix = "" if target_lang == DEFAULT_LOCALE else f"/{target_lang}"
-        return prefix + path + (("?" + qs) if qs else "")
+        next_url = path + (("?" + qs) if qs else "")
+        return _orig_url_for("set_language", lang=target_lang, next=next_url)
+
+    @app.get("/set-language/<lang>")
+    def set_language(lang):
+        if lang not in SUPPORTED_LOCALES:
+            lang = DEFAULT_LOCALE
+        next_url = request.args.get("next") or _orig_url_for("dashboard.index")
+        if not next_url.startswith("/"):
+            next_url = _orig_url_for("dashboard.index")
+
+        resp = redirect(next_url)
+        max_age = 60 * 60 * 24 * 365
+        resp.set_cookie(LANG_COOKIE, lang, max_age=max_age, samesite="Lax")
+        resp.set_cookie("locale", lang, max_age=max_age, samesite="Lax")
+
+        try:
+            from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
+            verify_jwt_in_request(optional=True)
+            ident = get_jwt_identity()
+            if ident:
+                from app.models import UserSettings
+                settings = db.session.execute(
+                    sa.select(UserSettings).where(UserSettings.user_id == int(ident))
+                ).scalar_one_or_none()
+                if settings:
+                    settings.language = lang
+                    db.session.commit()
+        except Exception:
+            db.session.rollback()
+
+        return resp
 
     @app.template_global("jwt_csrf_token")
     def _jwt_csrf_token():

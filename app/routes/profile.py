@@ -108,13 +108,12 @@ def settings():
 
         db.session.commit()
         flash(_("Settings saved"), "success")
-        # При смене языка делаем редирект на новую локаль (url_for уже учитывает g.locale,
-        # но g.locale в этом запросе ещё старая). Соберём явно.
-        from app import DEFAULT_LOCALE, SUPPORTED_LOCALES
+        from app import DEFAULT_LOCALE, LANG_COOKIE, SUPPORTED_LOCALES
         target = settings.language if settings.language in SUPPORTED_LOCALES else DEFAULT_LOCALE
-        prefix = "" if target == DEFAULT_LOCALE else f"/{target}"
-        resp = make_response(redirect(prefix + "/profile/settings"))
-        resp.set_cookie("locale", target, max_age=60 * 60 * 24 * 365, samesite="Lax")
+        resp = make_response(redirect(url_for("profile.settings")))
+        max_age = 60 * 60 * 24 * 365
+        resp.set_cookie(LANG_COOKIE, target, max_age=max_age, samesite="Lax")
+        resp.set_cookie("locale", target, max_age=max_age, samesite="Lax")
         return resp
 
     return render_template("profile/settings.html", settings=settings)

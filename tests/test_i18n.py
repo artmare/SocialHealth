@@ -16,7 +16,8 @@ def test_language_switcher_lists_ukrainian(client):
     body = client.get("/uk/auth/register", headers={"Accept": "text/html"}).data.decode(
         "utf-8"
     )
-    assert 'href="/uk/auth/register"' in body
+    assert 'data-lang="uk"' in body
+    assert 'href="/set-language/uk?next=/auth/register"' in body
 
 
 def test_profile_settings_accepts_ukrainian(auth_client):
@@ -26,7 +27,8 @@ def test_profile_settings_accepts_ukrainian(auth_client):
         follow_redirects=False,
     )
     assert response.status_code == 302
-    assert response.headers["Location"].endswith("/uk/profile/settings")
+    assert response.headers["Location"].endswith("/profile/settings")
+    assert "sh-lang=uk" in response.headers.get("Set-Cookie", "")
 
 
 def test_all_seed_tasks_have_ukrainian_text():
