@@ -16,9 +16,8 @@
             const themeKey = "sh-theme";
             const cookie = (name) => document.cookie.split("; ").find((row) => row.startsWith(name + "="))?.split("=")[1];
             const setHtmlTheme = () => {
-                const theme = localStorage.getItem(themeKey);
-                const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-                document.documentElement.classList.toggle("dark", theme ? theme === "dark" : systemDark);
+                const theme = localStorage.getItem(themeKey) || "dark";
+                document.documentElement.classList.toggle("dark", theme === "dark");
             };
             try {
                 setHtmlTheme();
@@ -43,8 +42,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lunar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lunar.css') }}">
     {% block styles %}{% endblock %}
 </head>
 <body>
@@ -62,7 +61,7 @@
                     <a class="nav-item {% if active_root == 'diary' %}active{% endif %}" href="{{ url_for('diary.index') }}"><span class="nav-icon">D</span>{{ _("Diary") }}</a>
                     <a class="nav-item {% if active_root == 'tasks' %}active{% endif %}" href="{{ url_for('tasks.index') }}"><span class="nav-icon">T</span>{{ _("Tasks") }}</a>
                     <a class="nav-item {% if active_root == 'progress' %}active{% endif %}" href="{{ url_for('progress.index') }}"><span class="nav-icon">P</span>{{ _("Progress") }}</a>
-                    <a class="nav-item {% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span class="nav-icon">?</span>{{ _("Tips") }}</a>
+                    <a class="nav-item {% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span class="nav-icon">?</span>{{ _("Techniques") }}</a>
                     <a class="nav-item {% if active_root == 'profile' %}active{% endif %}" href="{{ url_for('profile.index') }}"><span class="nav-icon">U</span>{{ _("Profile") }}</a>
                 </nav>
 
@@ -72,11 +71,19 @@
                 </nav>
 
                 <div class="sidebar-card">
-                    <div class="lang-switcher" aria-label="{{ _('Interface language') }}">
-                        {% for code in supported_locales %}
-                            <a href="{{ switch_locale_url(code) }}" data-lang="{{ code }}" class="js-lang-link {% if current_locale == code %}active{% endif %}">{{ code }}</a>
-                        {% endfor %}
-                    </div>
+                    {% if nav_user %}
+                        <div class="sidebar-user">
+                            <div class="sidebar-avatar">{{ (nav_user.username or nav_user.email or '?')[:1]|upper }}</div>
+                            <div class="sidebar-user-main">
+                                <div class="sidebar-user-name">{{ nav_user.username or nav_user.email }}</div>
+                                <div class="sidebar-user-meta">{{ _("Level") }} {{ nav_user.level }}</div>
+                            </div>
+                        </div>
+                        <div class="sidebar-xp">
+                            <div class="sidebar-xp-bar"><span data-sidebar-xp="{{ nav_user.xp % 100 }}"></span></div>
+                            <div><span>{{ nav_user.xp }} XP</span><span>{{ 100 - (nav_user.xp % 100) }} {{ _("to next") }}</span></div>
+                        </div>
+                    {% endif %}
                     <button type="button" class="theme-toggle" data-theme-toggle>{{ _("Toggle theme") }}</button>
                     <form method="post" action="{{ url_for('auth.logout') }}">
                         <button type="submit" class="signout-link">{{ _("Sign out") }}</button>
@@ -94,12 +101,6 @@
                     <button type="button" class="theme-toggle" data-theme-toggle aria-label="{{ _('Toggle theme') }}">Theme</button>
                 </div>
             </header>
-        {% else %}
-            <div class="public-lang lang-switcher" style="position:fixed; top:16px; right:16px; z-index:50; width:150px;">
-                {% for code in supported_locales %}
-                    <a href="{{ switch_locale_url(code) }}" data-lang="{{ code }}" class="js-lang-link {% if current_locale == code %}active{% endif %}">{{ code }}</a>
-                {% endfor %}
-            </div>
         {% endif %}
 
         <main class="main">
@@ -114,7 +115,7 @@
                 <a class="{% if active_root == 'diary' %}active{% endif %}" href="{{ url_for('diary.index') }}"><span>D</span>{{ _("Diary") }}</a>
                 <a class="{% if active_root == 'tasks' %}active{% endif %}" href="{{ url_for('tasks.index') }}"><span>T</span>{{ _("Tasks") }}</a>
                 <a class="{% if active_root == 'progress' %}active{% endif %}" href="{{ url_for('progress.index') }}"><span>P</span>{{ _("Progress") }}</a>
-                <a class="{% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span>?</span>{{ _("Tips") }}</a>
+                <a class="{% if active_root == 'tips' %}active{% endif %}" href="{{ url_for('tips.index') }}"><span>?</span>{{ _("Techniques") }}</a>
             </nav>
         {% endif %}
     </div>
@@ -129,9 +130,11 @@
         {% endwith %}
     </div>
 
-    <footer class="footer">
-        {{ _("SocialHealth is not a medical service. For serious symptoms, please consult a specialist.") }}
-    </footer>
+    {% if not is_public %}
+        <footer class="footer">
+            {{ _("SocialHealth is not a medical service. For serious symptoms, please consult a specialist.") }}
+        </footer>
+    {% endif %}
 
     <script>
         (function () {
@@ -167,6 +170,11 @@
                     setCookie("locale", languageSelect.value);
                 });
             }
+
+            document.querySelectorAll("[data-sidebar-xp]").forEach((bar) => {
+                const pct = Math.max(0, Math.min(100, parseFloat(bar.dataset.sidebarXp) || 0));
+                bar.style.width = pct + "%";
+            });
         })();
     </script>
 

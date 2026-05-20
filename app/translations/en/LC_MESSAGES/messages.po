@@ -1077,3 +1077,104 @@ msgstr ""
 
 #~ msgid "Step %(i)s of %(n)s"
 #~ msgstr ""
+msgid "Workspace"
+msgstr "Workspace"
+
+msgid "Urgent"
+msgstr "Urgent"
+
+msgid "Toggle theme"
+msgstr "Toggle theme"
+
+msgid "Sign out"
+msgstr "Sign out"
+
+msgid "Companion for social anxiety"
+msgstr "Companion for social anxiety"
+
+msgid "Small acts."
+msgstr "Small acts."
+
+msgid "Bigger world."
+msgstr "Bigger world."
+
+msgid "One micro-exposure a day. A diary that doesn't judge. Techniques that actually calm your nervous system. Built for the long quiet practice."
+msgstr "One micro-exposure a day. A diary that doesn't judge. Techniques that actually calm your nervous system. Built for the long quiet practice."
+
+msgid "Trusted by people who'd rather skip the small talk"
+msgstr "Trusted by people who'd rather skip the small talk"
+
+msgid "Continue where you left off."
+msgstr "Continue where you left off."
+
+msgid "Forgot?"
+msgstr "Forgot?"
+
+msgid "New here?"
+msgstr "New here?"
+
+msgid "Create an account"
+msgstr "Create an account"
+
+msgid "Begin"
+msgstr "Begin"
+
+msgid "Quiet practice."
+msgstr "Quiet practice."
+
+msgid "Real change."
+msgstr "Real change."
+
+msgid "One micro-exposure task every day"
+msgstr "One micro-exposure task every day"
+
+msgid "Private CBT-style diary"
+msgstr "Private CBT-style diary"
+
+msgid "Breathing & grounding for crisis moments"
+msgstr "Breathing & grounding for crisis moments"
+
+msgid "Streaks, XP, and a level you actually earn"
+msgstr "Streaks, XP, and a level you actually earn"
+
+msgid "No medical advice. A daily companion."
+msgstr "No medical advice. A daily companion."
+
+msgid "Start your journey"
+msgstr "Start your journey"
+
+msgid "Takes less than a minute."
+msgstr "Takes less than a minute."
+
+msgid "Techniques"
+msgstr "Techniques"
+
+msgid "Breathe deeper. You're coping better than you think."
+msgstr "Breathe deeper. You're coping better than you think."
+
+msgid "Lvl"
+msgstr "Lvl"
+
+msgid "Anxiety (7d)"
+msgstr "Anxiety (7d)"
+
+msgid "all-time"
+msgstr "all-time"
+
+msgid "no data yet"
+msgstr "no data yet"
+
+msgid "Done for today"
+msgstr "Done for today"
+
+msgid "to next"
+msgstr "to next"
+
+msgid "Last 7 days"
+msgstr "Last 7 days"
+
+msgid "Full progress"
+msgstr "Full progress"
+
+msgid "Untitled entry"
+msgstr "Untitled entry"

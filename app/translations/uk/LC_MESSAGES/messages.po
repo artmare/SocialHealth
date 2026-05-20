@@ -1074,3 +1074,92 @@ msgstr "Паролі не збігаються"
 
 msgid "Saving..."
 msgstr "Збереження..."
+msgid "Companion for social anxiety"
+msgstr "Компаньйон при соціальній тривозі"
+
+msgid "Small acts."
+msgstr "Маленькі кроки."
+
+msgid "Bigger world."
+msgstr "Більший світ."
+
+msgid "One micro-exposure a day. A diary that doesn't judge. Techniques that actually calm your nervous system. Built for the long quiet practice."
+msgstr "Одна мікро-практика на день. Щоденник без осуду. Техніки, які справді заспокоюють нервову систему. Створено для довгої тихої роботи."
+
+msgid "Trusted by people who'd rather skip the small talk"
+msgstr "Для тих, хто радше пропустив би small talk"
+
+msgid "Continue where you left off."
+msgstr "Продовжуйте з того місця, де зупинилися."
+
+msgid "Forgot?"
+msgstr "Забули?"
+
+msgid "New here?"
+msgstr "Вперше тут?"
+
+msgid "Create an account"
+msgstr "Створити акаунт"
+
+msgid "Begin"
+msgstr "Почати"
+
+msgid "Quiet practice."
+msgstr "Тиха практика."
+
+msgid "Real change."
+msgstr "Справжні зміни."
+
+msgid "One micro-exposure task every day"
+msgstr "Одне мікро-завдання щодня"
+
+msgid "Private CBT-style diary"
+msgstr "Особистий КПТ-щоденник"
+
+msgid "Breathing & grounding for crisis moments"
+msgstr "Дихання та заземлення для кризових моментів"
+
+msgid "Streaks, XP, and a level you actually earn"
+msgstr "Серії, XP і рівень, який справді зароблено"
+
+msgid "No medical advice. A daily companion."
+msgstr "Не медична порада. Щоденний компаньйон."
+
+msgid "Start your journey"
+msgstr "Почніть свій шлях"
+
+msgid "Takes less than a minute."
+msgstr "Займе менше хвилини."
+
+msgid "Techniques"
+msgstr "Техніки"
+
+msgid "Breathe deeper. You're coping better than you think."
+msgstr "Дихайте глибше. Ви справляєтеся краще, ніж здається."
+
+msgid "Lvl"
+msgstr "Рів."
+
+msgid "Anxiety (7d)"
+msgstr "Тривога (7 дн.)"
+
+msgid "all-time"
+msgstr "за весь час"
+
+msgid "no data yet"
+msgstr "поки немає даних"
+
+msgid "Done for today"
+msgstr "Готово на сьогодні"
+
+msgid "to next"
+msgstr "до наступного"
+
+msgid "Last 7 days"
+msgstr "Останні 7 днів"
+
+msgid "Full progress"
+msgstr "Увесь прогрес"
+
+msgid "Untitled entry"
+msgstr "Запис без назви"

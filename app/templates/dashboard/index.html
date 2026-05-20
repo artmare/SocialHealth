@@ -2,350 +2,118 @@
 
 {% block title %}{{ _("Dashboard") }} — SocialHealth{% endblock %}
 
-{% block styles %}
-<style>
-    :root {
-        --primary: #4A90D9;
-        --accent2: #7C3AED;
-        --ok: #10B981;
-        --bad: #EF4444;
-    }
-
-    .dash-wrapper { max-width: 1100px; margin: 0 auto; padding: 20px; }
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(14px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .anim { animation: fadeInUp 0.5s ease both; }
-    .anim-1 { animation-delay: 0.05s; }
-    .anim-2 { animation-delay: 0.15s; }
-    .anim-3 { animation-delay: 0.25s; }
-    .anim-4 { animation-delay: 0.35s; }
-    .anim-5 { animation-delay: 0.45s; }
-
-    /* Block 1 — greeting */
-    .greeting {
-        margin-bottom: 24px;
-    }
-    .greeting h1 {
-        font-size: 1.6rem;
-        font-weight: 700;
-        margin-bottom: 4px;
-    }
-    .greeting .date {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
-    .greeting .motivation {
-        margin-top: 8px;
-        font-size: 0.95rem;
-        color: var(--accent-light);
-        font-style: italic;
-    }
-
-    /* Block 2 — stat cards */
-    .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        margin-bottom: 24px;
-    }
-
-    @media (max-width: 768px) {
-        .cards-grid { grid-template-columns: 1fr; }
-    }
-
-    .card {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    }
-
-    .card .icon { font-size: 1.5rem; margin-bottom: 6px; }
-    .card .card-label {
-        color: var(--text-muted);
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-    }
-    .card .card-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-top: 4px;
-    }
-    .card .card-sub {
-        color: var(--text-muted);
-        font-size: 0.82rem;
-        margin-top: 6px;
-    }
-
-    .xp-bar {
-        margin-top: 10px;
-        height: 8px;
-        background: rgba(255,255,255,0.08);
-        border-radius: 999px;
-        overflow: hidden;
-    }
-    .xp-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--primary), var(--accent2));
-        transition: width 0.6s ease;
-    }
-
-    .trend-arrow {
-        font-weight: 700;
-        margin-left: 4px;
-    }
-    .trend-improving { color: var(--ok); }
-    .trend-worsening { color: var(--bad); }
-    .trend-stable    { color: var(--text-muted); }
-
-    /* Block 3 — daily task */
-    .panel {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    }
-    .panel h2 { font-size: 1.1rem; margin-bottom: 12px; }
-
-    .task-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; }
-    .task-desc  { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px; }
-
-    .badge {
-        display: inline-block;
-        padding: 3px 10px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-right: 6px;
-    }
-    .badge.easy   { background: rgba(16,185,129,0.18); color: var(--ok); }
-    .badge.medium { background: rgba(245,158,11,0.18); color: var(--warning); }
-    .badge.hard   { background: rgba(239,68,68,0.18); color: var(--bad); }
-    .badge.xp     { background: rgba(124,58,237,0.2); color: var(--accent-light); }
-
-    .btn {
-        display: inline-block;
-        padding: 10px 18px;
-        background: linear-gradient(135deg, var(--primary), var(--accent2));
-        color: white;
-        border-radius: 10px;
-        text-decoration: none;
-        border: none;
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 8px;
-        transition: filter 0.2s, transform 0.2s;
-    }
-    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    .btn.ghost { background: rgba(255,255,255,0.08); }
-
-    .done-mark { color: var(--ok); font-weight: 600; margin-top: 10px; }
-
-    /* Block 4 — last entry */
-    .entry-meta {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 8px;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-        margin-bottom: 8px;
-    }
-    .anxiety-num { color: var(--accent-light); font-weight: 700; }
-    .summary {
-        color: var(--text);
-        font-size: 0.92rem;
-        line-height: 1.5;
-    }
-    .empty { color: var(--text-muted); text-align: center; padding: 12px 0; }
-
-    /* Block 5 — mini chart */
-    .mini-chart-wrap {
-        position: relative;
-        height: 180px;
-        width: 100%;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="dash-wrapper">
-    {# Block 1 — greeting #}
-    <section class="greeting anim anim-1">
-        <h1>{{ _("Hi,") }} {{ display_name }}! 👋</h1>
-        <div class="date">{{ today.strftime('%d %B %Y') }}</div>
-        <div class="motivation">{{ motivation }}</div>
+<div class="dashboard-page">
+    <header class="dashboard-header">
+        <div class="eyebrow">{{ today.strftime('%A, %B %d, %Y') }}</div>
+        <h1>{{ _("Hi,") }} {{ display_name }}.</h1>
+        <p>{{ _("Breathe deeper. You're coping better than you think.") }}</p>
+    </header>
+
+    <section class="dashboard-stats">
+        <article class="dash-stat dash-stat-accent">
+            <div class="dash-stat-head"><span class="dash-icon">S</span><span class="eyebrow">{{ _("Streak") }}</span></div>
+            <strong>{{ stats.streak }}</strong>
+            <small>{{ _("longest") }} {{ user.longest_streak }}</small>
+        </article>
+
+        <article class="dash-stat">
+            <div class="dash-stat-head"><span class="dash-icon">L</span><span class="eyebrow">{{ _("Level") }}</span></div>
+            <strong>{{ _("Lvl") }} {{ stats.level }}</strong>
+            <small>{{ stats.level_title }} · {{ stats.xp }} XP</small>
+        </article>
+
+        <article class="dash-stat">
+            <div class="dash-stat-head"><span class="dash-icon">T</span><span class="eyebrow">{{ _("Tasks") }}</span></div>
+            <strong>{{ stats.total_tasks_completed }}</strong>
+            <small>{{ _("completed") }}</small>
+        </article>
+
+        <article class="dash-stat">
+            <div class="dash-stat-head"><span class="dash-icon">A</span><span class="eyebrow">{{ _("Anxiety (7d)") }}</span></div>
+            <strong>{% if stats.avg_anxiety_week %}{{ stats.avg_anxiety_week }}/10{% else %}—{% endif %}</strong>
+            <small>{% if stats.avg_anxiety_week %}{{ _("all-time") }} {{ stats.avg_anxiety }}{% else %}{{ _("no data yet") }}{% endif %}</small>
+        </article>
     </section>
 
-    {# Block 2 — 4 stat cards #}
-    <section class="cards-grid">
-        <div class="card anim anim-2">
-            <div class="icon">🔥</div>
-            <div class="card-label">{{ _("Streak") }}</div>
-            <div class="card-value">{{ stats.streak }} {{ _("days in a row") }}</div>
-            <div class="card-sub">{{ _("longest:") }} {{ user.longest_streak }}</div>
-        </div>
-
-        <div class="card anim anim-2">
-            <div class="icon">⭐️</div>
-            <div class="card-label">{{ _("XP") }}</div>
-            <div class="card-value">{{ stats.xp }} XP · {{ _("Level") }} {{ stats.level }}</div>
-            <div class="card-sub">{{ stats.level_title }}{% if stats.xp_to_next_level > 0 %} · {{ _("to next level:") }} {{ stats.xp_to_next_level }} XP{% else %} · {{ _("max level reached") }}{% endif %}</div>
-            <div class="xp-bar">
-                <div class="xp-fill" data-pct="{{ stats.xp_progress_pct }}"></div>
-            </div>
-        </div>
-
-        <div class="card anim anim-3">
-            <div class="icon">✅</div>
-            <div class="card-label">{{ _("Tasks") }}</div>
-            <div class="card-value">{{ stats.total_tasks_completed }} {{ _("completed") }}</div>
-            <div class="card-sub">{{ stats.total_entries }} {{ _("diary entries") }}</div>
-        </div>
-
-        <div class="card anim anim-3">
-            <div class="icon">📊</div>
-            <div class="card-label">{{ _("Anxiety") }}</div>
-            <div class="card-value">
-                {{ _("Weekly average:") }} {{ stats.avg_anxiety_week }}/10
-                {% if comparison.trend == 'improving' %}
-                    <span class="trend-arrow trend-improving">↓</span>
-                {% elif comparison.trend == 'worsening' %}
-                    <span class="trend-arrow trend-worsening">↑</span>
-                {% else %}
-                    <span class="trend-arrow trend-stable">→</span>
+    <section class="dashboard-grid dashboard-grid-main">
+        <article class="dash-panel dash-task-panel">
+            <div class="dash-panel-glow"></div>
+            <div class="dash-panel-top">
+                <div class="eyebrow">{{ _("Task of the day") }}</div>
+                {% if daily_task %}
+                    <span class="dash-badge {{ daily_task.difficulty }}">{{ daily_task.difficulty }}</span>
                 {% endif %}
             </div>
-            <div class="card-sub">{{ _("all-time:") }} {{ stats.avg_anxiety }}/10</div>
-        </div>
-    </section>
 
-    {# Block 3 — daily task #}
-    <section class="panel anim anim-4">
-        <h2>{{ _("Task of the day") }}</h2>
-        {% if daily_task %}
-            <div class="task-title">{{ daily_task.localized_title }}</div>
-            <div class="task-desc">{{ daily_task.localized_description }}</div>
-            <div>
-                <span class="badge {{ daily_task.difficulty }}">
-                    {% if daily_task.difficulty == 'easy' %}{{ _("Easy") }}{%
-                    elif daily_task.difficulty == 'medium' %}{{ _("Medium") }}{%
-                    else %}{{ _("Hard") }}{% endif %}
-                </span>
-                <span class="badge xp">+{{ daily_task.xp_reward }} XP</span>
-            </div>
-            {% if today_completed %}
-                <div class="done-mark">{{ _("Task completed!") }} ✓</div>
+            {% if daily_task %}
+                <h2>{{ daily_task.localized_title }}</h2>
+                <p>{{ daily_task.localized_description }}</p>
+                <div class="dash-actions">
+                    {% if today_completed %}
+                        <div class="dash-done">{{ _("Done for today") }}</div>
+                    {% else %}
+                        <form action="{{ url_for('tasks.complete', task_id=daily_task.id) }}" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
+                            <button type="submit" class="dash-primary">{{ _("Complete") }} · +{{ daily_task.xp_reward }} XP</button>
+                        </form>
+                    {% endif %}
+                    <a href="{{ url_for('tasks.index') }}">{{ _("View history") }} ↗</a>
+                </div>
             {% else %}
-                <form action="{{ url_for('tasks.complete', task_id=daily_task.id) }}" method="post" style="margin-top: 4px;">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="jwt_csrf_token" value="{{ jwt_csrf_token() }}">
-                    <button type="submit" class="btn">{{ _("Complete task") }}</button>
-                </form>
+                <p>{{ _("No tasks today") }}</p>
             {% endif %}
-        {% else %}
-            <div class="empty">{{ _("No tasks today") }}</div>
-        {% endif %}
+        </article>
+
+        <article class="dash-panel dash-progress-panel">
+            <div class="eyebrow">{{ _("Progress") }}</div>
+            <h2>{{ _("Level") }} {{ stats.level }}</h2>
+            <p>{{ stats.level_title }}</p>
+            <div class="dash-progress-bottom">
+                <div class="dash-progress-labels">
+                    <span>{{ stats.xp % 100 }} XP</span>
+                    <span>{{ stats.xp_to_next_level }} {{ _("to next") }}</span>
+                </div>
+                <div class="dash-progress-track"><span data-pct="{{ stats.xp_progress_pct }}"></span></div>
+            </div>
+        </article>
     </section>
 
-    {# Block 4 — last diary entry #}
-    <section class="panel anim anim-4">
-        <h2>{{ _("Latest diary entry") }}</h2>
-        {% if last_entry %}
-            <div class="entry-meta">
-                <span>{{ last_entry.date.strftime('%d %B %Y') }}</span>
-                <span>{{ _("Anxiety level:") }} <span class="anxiety-num">{{ last_entry.anxiety_level }}/10</span></span>
+    <section class="dashboard-grid dashboard-grid-lower">
+        <article class="dash-panel dash-week-panel">
+            <div class="dash-panel-heading">
+                <div>
+                    <div class="eyebrow">{{ _("Last 7 days") }}</div>
+                    <h3>{{ _("Weekly anxiety") }}</h3>
+                </div>
+                <a href="{{ url_for('progress.index') }}">{{ _("Full progress") }} ↗</a>
             </div>
-            <div class="summary">
-                {% if last_entry.text %}
-                    {{ last_entry.text[:200] }}{% if last_entry.text|length > 200 %}…{% endif %}
-                {% else %}
-                    <span class="empty">{{ _("No content") }}</span>
-                {% endif %}
-            </div>
-            <a href="{{ url_for('diary.new') }}" class="btn">{{ _("Add new entry") }}</a>
-            <a href="{{ url_for('diary.detail', entry_id=last_entry.id) }}" class="btn ghost">{{ _("Open") }}</a>
-        {% else %}
-            <div class="empty">{{ _("Create your first diary entry!") }}</div>
-            <div style="text-align:center;">
-                <a href="{{ url_for('diary.new') }}" class="btn">{{ _("Add entry") }}</a>
-            </div>
-        {% endif %}
-    </section>
+            <div class="dash-chart-empty">{{ _("No data for the last 7 days") }}</div>
+        </article>
 
-    {# Block 5 — mini anxiety chart #}
-    <section class="panel anim anim-5">
-        <h2>{{ _("Weekly anxiety") }}</h2>
-        <div class="mini-chart-wrap">
-            <canvas id="miniAnxietyChart"></canvas>
-        </div>
-        <div id="miniAnxietyEmpty" class="empty" style="display:none;">{{ _("No data for the last 7 days") }}</div>
+        <article class="dash-panel dash-diary-panel">
+            <div class="dash-panel-heading">
+                <div class="eyebrow">{{ _("Diary") }}</div>
+                <a href="{{ url_for('diary.index') }}">{{ _("All") }} ↗</a>
+            </div>
+            {% if last_entry %}
+                <div class="dash-entry-date">{{ last_entry.date.strftime('%d %b') }} · {{ _("Anxiety") }} {{ last_entry.anxiety_level }}/10</div>
+                <h3>{{ last_entry.text[:60] if last_entry.text else _("Untitled entry") }}</h3>
+            {% else %}
+                <div class="dash-empty-diary">
+                    <p>{{ _("No entries yet") }}</p>
+                    <a href="{{ url_for('diary.new') }}">{{ _("Add entry") }}</a>
+                </div>
+            {% endif %}
+        </article>
     </section>
 </div>
 
 <script>
-    document.querySelectorAll('.xp-fill[data-pct]').forEach(el => {
+    document.querySelectorAll('[data-pct]').forEach((el) => {
         const pct = Math.max(0, Math.min(100, parseFloat(el.dataset.pct) || 0));
         el.style.width = pct + '%';
     });
-
-    async function fetchJSON(url) {
-        const r = await fetch(url, {
-            credentials: 'same-origin',
-            headers: { 'Accept': 'application/json' },
-        });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-    }
-
-    (async function loadMiniChart() {
-        try {
-            const data = await fetchJSON('/api/stats/anxiety?days=7');
-            const canvas = document.getElementById('miniAnxietyChart');
-            const empty = document.getElementById('miniAnxietyEmpty');
-
-            if (!data.length) {
-                canvas.style.display = 'none';
-                empty.style.display = 'block';
-                return;
-            }
-
-            new Chart(canvas, {
-                type: 'line',
-                data: {
-                    labels: data.map(d => d.date.slice(5)),
-                    datasets: [{
-                        data: data.map(d => d.anxiety_level),
-                        borderColor: '#7C3AED',
-                        backgroundColor: 'rgba(124,58,237,0.2)',
-                        fill: true,
-                        tension: 0.35,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#a78bfa',
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { min: 0, max: 10, ticks: { color: '#94a3b8', stepSize: 2 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                        x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
-                    },
-                },
-            });
-        } catch (e) {
-            console.error('mini chart load failed', e);
-        }
-    })();
 </script>
 {% endblock %}

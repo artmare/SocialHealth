@@ -16,8 +16,8 @@ def test_language_switcher_lists_ukrainian(client):
     body = client.get("/uk/auth/register", headers={"Accept": "text/html"}).data.decode(
         "utf-8"
     )
-    assert 'data-lang="uk"' in body
-    assert 'href="/set-language/uk?next=/auth/register"' in body
+    assert 'const storageKey = "sh-lang"' in body
+    assert '<html lang="uk"' in body
 
 
 def test_profile_settings_accepts_ukrainian(auth_client):

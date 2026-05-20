@@ -139,9 +139,20 @@ def create_app(config_name="development"):
 
     @app.context_processor
     def _inject_locale():
+        nav_user = None
+        try:
+            from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
+            verify_jwt_in_request(optional=True)
+            ident = get_jwt_identity()
+            if ident:
+                from app.models import User
+                nav_user = db.session.get(User, int(ident))
+        except Exception:
+            nav_user = None
         return {
             "current_locale": getattr(g, "locale", DEFAULT_LOCALE),
             "supported_locales": list(SUPPORTED_LOCALES),
+            "nav_user": nav_user,
         }
 
     @app.template_global("switch_locale_url")

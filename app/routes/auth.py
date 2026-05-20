@@ -118,7 +118,6 @@ def login():
             resp = make_response(redirect(url_for("dashboard.index")))
             set_access_cookies(resp, access_token)
             set_refresh_cookies(resp, refresh_token)
-            flash(_("Signed in successfully!"), "success")
             return resp
         else:
             flash(_("Wrong email or password"), "error")
